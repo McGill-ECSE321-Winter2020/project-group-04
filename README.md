@@ -10,4 +10,4 @@ Users will also be able to make voluntary donations to the Pet Shelter.
 ## List of Deliverable Reports
 
 View our <br/>
-[Deliverable 1 Report](https://github.com/McGill-ECSE321-Winter2020/project-group-04/wiki/Deliverable-1-Report)
+[Deliverable 1 Report](https://github.com/McGill-ECSE321-Winter2020/project-group-04/wiki)
