@@ -7,6 +7,18 @@ Users will also be able to make voluntary donations to the Pet Shelter.
 
 #### For more details, please visit our [wiki page](https://github.com/McGill-ECSE321-Winter2020/project-group-04/wiki) where you can view all our work, including deliverable reports, project guidelines and meeting minutes.
 
+___
+
+## Team Members
+
+| Name | Member Role | Individual Effort Del. I |
+|:----:|:-----------:|:------------------------:|
+|Ousmane Baricisse | role 1| ? |
+|Jessie Tang | role 2 | ? |
+|Garrett Kinman | role 3 | ? |
+|Edem Nuviadenu | role 4 | ? |
+|Jose Antonio Jijon | role 5 | ? |
+
 ## List of Deliverable Reports
 
 View our <br/>
