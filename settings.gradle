@@ -8,3 +8,5 @@
  */
 
 rootProject.name = 'project-group-04'
+
+include 'PetAdoptionSystem-Backend'
