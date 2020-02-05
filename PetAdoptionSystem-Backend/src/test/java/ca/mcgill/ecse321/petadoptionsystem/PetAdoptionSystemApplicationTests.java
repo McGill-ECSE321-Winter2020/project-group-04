@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @SpringBootApplication
-public class PetAdoptionSystemTests {
+public class PetAdoptionSystemApplicationTests {
        	public static void main(String[] args) {
-		SpringApplication.run(PetAdoptionSystemTests.class, args);
+		SpringApplication.run(PetAdoptionSystemApplicationTests.class, args);
        	}
 
 	@RequestMapping("/")
