@@ -23,7 +23,7 @@ ___
 
 [Deliverable 1 Report](https://github.com/McGill-ECSE321-Winter2020/project-group-04/wiki/Deliverable-1-Report)
 
-# Roles and Hours invested by integrant
+### Roles and Hours invested by integrant
 
 | Name | Role | Amount of hours |
 |:----:|:-----------:|:------------------------:|
