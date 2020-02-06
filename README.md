@@ -19,6 +19,8 @@ ___
 |Edem Nuviadenu | role 4 | ? |
 |Jose Antonio Jijon | role 5 | ? |
 
+___
+
 ## Deliverable Reports
 
 [Deliverable 1 Report](https://github.com/McGill-ECSE321-Winter2020/project-group-04/wiki/Deliverable-1-Report)
