@@ -11,7 +11,7 @@ ___
 
 ## Team Members
 
-| Name | Member Role | Individual Effort Del. I |
+| Name | Major | Year|
 |:----:|:-----------:|:------------------------:|
 |Ousmane Baricisse | role 1| ? |
 |Jessie Tang | role 2 | ? |
@@ -22,3 +22,13 @@ ___
 ## Deliverable Reports
 
 [Deliverable 1 Report](https://github.com/McGill-ECSE321-Winter2020/project-group-04/wiki/Deliverable-1-Report)
+
+# Roles and Hours invested by integrant
+
+| Name | Role | Amount of hours |
+|:----:|:-----------:|:------------------------:|
+|Ousmane Baricisse | role 1| ? |
+|Jessie Tang | role 2 | ? |
+|Garrett Kinman | role 3 | ? |
+|Edem Nuviadenu | role 4 | ? |
+|Jose Antonio Jijon | role 5 | ? |
