@@ -5,16 +5,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RestController
-@SpringBootApplication
-public class PetAdoptionSystemApplicationTests {
-       	public static void main(String[] args) {
-		SpringApplication.run(PetAdoptionSystemApplicationTests.class, args);
-       	}
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-	@RequestMapping("/")
-	public String greeting(){
-		return "Hello world!";
+@SpringBootTest
+public class PetAdoptionSystemApplicationTests {
+	@Test
+	void contextLoad(){
+		
 	}
-	    
 }
