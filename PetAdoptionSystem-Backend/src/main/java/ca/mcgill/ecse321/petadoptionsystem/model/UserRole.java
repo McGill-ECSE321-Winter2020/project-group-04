@@ -19,14 +19,14 @@ public abstract class UserRole{
       this.petProfile = petProfiles;
    }
    
-   private User user;
+   private Account user;
    
    @OneToOne(optional=false)
-   public User getUser() {
+   public Account getUser() {
       return this.user;
    }
    
-   public void setUser(User user) {
+   public void setUser(Account user) {
       this.user = user;
    }
    

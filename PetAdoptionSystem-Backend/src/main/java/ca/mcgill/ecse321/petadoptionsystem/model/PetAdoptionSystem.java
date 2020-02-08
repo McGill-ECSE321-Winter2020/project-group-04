@@ -8,14 +8,14 @@ import javax.persistence.Id;
 
 @Entity
 public class PetAdoptionSystem{
-   private Set<User> user;
+   private Set<Account> user;
    
    @OneToMany(mappedBy="petAdoptionSystem" , cascade={CascadeType.ALL})
-   public Set<User> getUser() {
+   public Set<Account> getUser() {
       return this.user;
    }
    
-   public void setUser(Set<User> users) {
+   public void setUser(Set<Account> users) {
       this.user = users;
    }
    

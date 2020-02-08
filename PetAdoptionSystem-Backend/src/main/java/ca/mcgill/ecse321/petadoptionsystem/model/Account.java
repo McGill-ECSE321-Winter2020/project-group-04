@@ -3,9 +3,10 @@ package ca.mcgill.ecse321.petadoptionsystem.model;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Id;
 
 @Entity
-public class User{
+public class Account{
    private PetAdoptionSystem petAdoptionSystem;
    
    @ManyToOne(optional=false)
@@ -33,15 +34,16 @@ public class User{
 public void setUsername(String value) {
     this.username = value;
 }
+@Id
 public String getUsername() {
     return this.username;
 }
 private String passwordHash;
 
-public void setPasswordHash(String value) {
+private void setPasswordHash(String value) {
     this.passwordHash = value;
 }
-public String getPasswordHash() {
+private String getPasswordHash() {
     return this.passwordHash;
 }
 private String email;
