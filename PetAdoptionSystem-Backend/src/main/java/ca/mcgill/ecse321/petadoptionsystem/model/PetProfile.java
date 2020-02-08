@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.OneToMany;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.sql.Date;
 import java.sql.Time;
@@ -56,6 +57,7 @@ private PetType petType;
 public void setPetType(PetType value) {
     this.petType = value;
 }
+@Enumerated
 public PetType getPetType() {
     return this.petType;
 }
