@@ -1,0 +1,57 @@
+package ca.mcgill.ecse321.petadoptionsystem.model;
+
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Id;
+
+@Entity
+public class User{
+   private PetAdoptionSystem petAdoptionSystem;
+   
+   @ManyToOne(optional=false)
+   public PetAdoptionSystem getPetAdoptionSystem() {
+      return this.petAdoptionSystem;
+   }
+   
+   public void setPetAdoptionSystem(PetAdoptionSystem petAdoptionSystem) {
+      this.petAdoptionSystem = petAdoptionSystem;
+   }
+   
+   private UserRole userRole;
+   
+   @OneToOne(mappedBy="user" , optional=false)
+   public UserRole getUserRole() {
+      return this.userRole;
+   }
+   
+   public void setUserRole(UserRole userRole) {
+      this.userRole = userRole;
+   }
+   
+   private String username;
+
+public void setUsername(String value) {
+    this.username = value;
+}
+@Id
+public String getUsername() {
+    return this.username;
+}
+private String passwordHash;
+
+private void setPasswordHash(String value) {
+    this.passwordHash = value;
+}
+private String getPasswordHash() {
+    return this.passwordHash;
+}
+private String email;
+
+public void setEmail(String value) {
+    this.email = value;
+}
+public String getEmail() {
+    return this.email;
+}
+}
