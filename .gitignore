@@ -6,9 +6,7 @@ build/
 
 .idea/
 *~
-  
 
-
-
+.vscode/
 # Ignore bin files
 bin/
