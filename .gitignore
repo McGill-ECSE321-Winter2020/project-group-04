@@ -6,3 +6,6 @@ build/
 
 .idea/
 *~
+
+# Ignore bin files
+bin/
