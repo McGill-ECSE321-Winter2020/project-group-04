@@ -11,4 +11,4 @@ build/
 # Ignore bin files
 bin/
 
-.setings/
+.setings
