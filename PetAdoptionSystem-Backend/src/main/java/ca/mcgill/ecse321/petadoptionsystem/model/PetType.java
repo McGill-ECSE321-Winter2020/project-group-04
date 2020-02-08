@@ -12,7 +12,5 @@ public enum PetType{
 	SMALL_MAMMAL,
 	LARGE_MAMMAL,
 	AMPHIBIAN,
-	OTHER;
-   public int id;
-   
+	OTHER
 }
