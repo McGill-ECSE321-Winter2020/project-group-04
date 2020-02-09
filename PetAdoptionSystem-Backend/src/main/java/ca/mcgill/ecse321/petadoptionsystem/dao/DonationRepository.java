@@ -9,6 +9,6 @@ import ca.mcgill.ecse321.petadoptionsystem.model.Donation;
 @Repository
 public interface DonationRepository extends CrudRepository<Donation, Integer> {
 
-	Donation findDonationById(int id);
+	Donation findDonationByUsername(int id);
 
 }
