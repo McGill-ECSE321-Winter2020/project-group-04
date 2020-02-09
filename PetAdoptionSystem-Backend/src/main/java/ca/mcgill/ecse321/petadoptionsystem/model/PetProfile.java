@@ -1,9 +1,10 @@
 package ca.mcgill.ecse321.petadoptionsystem.model;
 
-import org.graalvm.compiler.graph.spi.Canonicalizable;
-
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.util.Set;
 import java.sql.Date;
 import java.sql.Time;
