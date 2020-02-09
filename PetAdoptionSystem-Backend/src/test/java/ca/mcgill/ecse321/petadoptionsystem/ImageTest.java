@@ -53,46 +53,52 @@ public class ImageTest {
 
 
     @AfterEach
-    public void clearDataBase() {
-        imageRepository.deleteAll();
-        imageRepository.flush();
-        donationRepository.deleteAll();
-        adoptionApplicationRepository.deleteAll();
-        /*petProfileRepository.deleteAll();
-        /*regularUserRepository.deleteAll();
-        adminRepository.deleteAll();
-        accountRepository.deleteAll();
-        petAdoptionSystemRepository.deleteAll();*/
+    public void clearDataBase(){
+        // imageRepository.deleteAll();
+        // petProfileRepository.deleteAll();
+        // regularUserRepository.deleteAll();
+        // accountRepository.deleteAll();
+        // petAdoptionSystemRepository.deleteAll();
+       
     }
 
     @Test
-    public void testPersistAndLoadImage() {
-        PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
-        petAdoptionSystemRepository.save(pas);
+    public void testPersistAndLoadImage(){
+         PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
+         petAdoptionSystemRepository.save(pas);
+        
+         Account act = TestingUtility.initAccount("test", "ODHD", pas);
+       
+         accountRepository.save(act);
+         act = null;
+         act = accountRepository.findAccountByUsername("test");
 
-        Account act = TestingUtility.initAccount("test", "ODHD", pas);
+         RegularUser regUser = TestingUtility.initRegularUser(1234, act, pas);
+         regularUserRepository.save(regUser);
 
-        accountRepository.save(act);
+         regUser = null;
+         regUser = regularUserRepository.findRegularUserById(1234);
 
-        RegularUser regUser = TestingUtility.initRegularUser(1234, act, pas);
-        regularUserRepository.save(regUser);
+         PetProfile petProf = TestingUtility.initPetProfile(4321, regUser, pas);
+        
+         petProfileRepository.save(petProf);
+        
+         petProf = null;
+         petProf = petProfileRepository.findPetProfileById(4321);
 
-        PetProfile petProf = TestingUtility.initPetProfile(4321, regUser, pas);
+         Image img = TestingUtility.initImage(1023, petProf);
+        
+         img.setDescription("I am trying");
+         imageRepository.save(img);
 
-        petProfileRepository.save(petProf);
+         img = null;
+         img = imageRepository.findImageById(1023);
 
-        Image img = TestingUtility.initImage(1023, petProf);
+         assertNotNull(img);
 
-        img.setDescription("I am trying");
-        imageRepository.save(img);
-
-        img = null;
-        img = imageRepository.findImageById(1023);
-
-        assertNotNull(img);
-
-        assertEquals(1023, img.getId());
-
+         //System.out.println(act.getUsername());
+         assertEquals(1023, img.getId());
     }
+
 
 }
