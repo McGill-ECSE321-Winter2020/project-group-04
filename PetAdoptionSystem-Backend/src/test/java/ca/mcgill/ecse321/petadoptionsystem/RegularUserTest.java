@@ -25,9 +25,9 @@ public class RegularUserTest {
 
     @AfterEach
     public void clearDataBase(){
-        //regularUserRepository.deleteAll();
-        //accountRepository.deleteAll();
-        //petAdoptionSystemRepository.deleteAll();
+        regularUserRepository.deleteAll();
+        accountRepository.deleteAll();
+        petAdoptionSystemRepository.deleteAll();
     }
 
     @Test

@@ -8,12 +8,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.sql.Date;
 import java.sql.Time;
+import javax.persistence.CascadeType;
 
 @Entity
 public class PetProfile{
    private UserRole poster;
    
-   @ManyToOne(optional=false)
+   @ManyToOne(optional=false, cascade = CascadeType.REMOVE)
    public UserRole getPoster() {
       return this.poster;
    }
