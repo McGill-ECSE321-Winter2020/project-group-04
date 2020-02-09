@@ -38,18 +38,18 @@ public float getAmount() {
 }
 private Date date;
 
-private void setDate(Date value) {
+public void setDate(Date value) {
     this.date = value;
 }
-private Date getDate() {
+public Date getDate() {
     return this.date;
 }
 private Time time;
 
-private void setTime(Time value) {
+public void setTime(Time value) {
     this.time = value;
 }
-private Time getTime() {
+public Time getTime() {
     return this.time;
 }
 }
