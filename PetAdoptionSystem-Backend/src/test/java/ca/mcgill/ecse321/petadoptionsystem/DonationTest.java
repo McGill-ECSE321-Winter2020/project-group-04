@@ -6,10 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
-import ca.mcgill.ecse321.petadoptionsystem.dao.AdoptionApplicationRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.DonationRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetAdoptionSystemRepository;
-import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.Donation;
@@ -34,8 +32,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class DonationTest {
     @Autowired
-    private AdoptionApplicationRepository adoptionRepository; 
-    @Autowired
     private PetAdoptionSystemRepository petAdoptionRepository;
     @Autowired
     private AccountRepository accountRepository;
@@ -54,7 +50,6 @@ public class DonationTest {
     public void clearDatabase(){
 
         donationRepository.deleteAll();
-        adoptionRepository.deleteAll();
         regularUserRepository.deleteAll();
         accountRepository.deleteAll();
         petAdoptionRepository.deleteAll();    
@@ -88,7 +83,6 @@ public class DonationTest {
         assertEquals(id3, donation.getId());
         assertEquals(date, donation.getDate());
         assertEquals(postTime, donation.getTime());
-        assertEquals("500", donation.getAmount());
 
     }
    
