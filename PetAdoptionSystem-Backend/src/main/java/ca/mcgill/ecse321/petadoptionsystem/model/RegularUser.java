@@ -19,8 +19,8 @@ public class RegularUser extends UserRole{
    }
    
    private Set<AdoptionApplication> application;
-   
-   @OneToMany(mappedBy="applicant", cascade = CascadeType.REMOVE )
+
+   @OneToMany(mappedBy="applicant", cascade = CascadeType.REMOVE)
    public Set<AdoptionApplication> getApplication() {
       return this.application;
    }

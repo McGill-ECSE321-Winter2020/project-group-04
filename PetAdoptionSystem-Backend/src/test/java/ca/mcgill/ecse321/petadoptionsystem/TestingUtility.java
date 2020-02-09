@@ -13,38 +13,33 @@ class TestingUtility {
 
     public static Account initAccount(String username, String email, PetAdoptionSystem pas){
         Account act = new Account();
-        
+
         act.setUsername(username);
         act.setEmail(email);
         act.setPetAdoptionSystem(pas);
-        
+
         return act;
     }
-   
-    /**
-     * 
-     * @param pkey
-     * @param username
-     * @param petAdoptionSystemID
-     * @return
-     */
 
     public static Admin initAdmin(int pkey, Account act, PetAdoptionSystem pas){
         Admin admin = new Admin();
-        admin.setUser(act);
         admin.setId(pkey);
+        admin.setUser(act);
+        act.setUserRole(admin);
+
         return admin;
     }
 
     public static RegularUser initRegularUser(int pkey, Account act, PetAdoptionSystem pas){
         RegularUser user = new RegularUser();
-        user.setUser(act);
         user.setId(pkey);
+        user.setUser(act);
+        act.setUserRole(user);
+
         return user;
     }
 
     public static PetProfile initPetProfile(int pkey, RegularUser regUser, PetAdoptionSystem pas){
-       
         PetProfile petProf = new PetProfile();
         petProf.setId(pkey);
         petProf.setPoster(regUser);
@@ -52,10 +47,10 @@ class TestingUtility {
         return petProf;
     }
 
-   
+
     public static AdoptionApplication initAdoptionApplication(int pkey, RegularUser regUser, PetProfile petProf){
         AdoptionApplication ada = new AdoptionApplication();
-       
+
         ada.setApplicant(regUser);
         ada.setId(pkey);
         ada.setPetProfile(petProf);
@@ -64,7 +59,7 @@ class TestingUtility {
     }
 
     public static Donation initDonation(int pkey, RegularUser regUser) {
-        
+
         Donation don = new Donation();
         don.setId(pkey);
         don.setUser(regUser);
@@ -81,5 +76,5 @@ class TestingUtility {
         return img;
 
     }
-    
+
 }

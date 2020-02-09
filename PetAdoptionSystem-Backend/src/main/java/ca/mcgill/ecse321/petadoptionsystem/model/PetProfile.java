@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.Set;
 import java.sql.Date;
 import java.sql.Time;
+import javax.persistence.CascadeType;
 
 @Entity
 public class PetProfile{
@@ -22,8 +23,8 @@ public class PetProfile{
    }
    
    public Set<Image> image;
-   
-   @OneToMany(mappedBy="petProfile", cascade = CascadeType.REMOVE )
+
+   @OneToMany(mappedBy="petProfile", cascade = CascadeType.REMOVE)
    public Set<Image> getImage() {
       return this.image;
    }
@@ -33,8 +34,8 @@ public class PetProfile{
    }
    
    public Set<AdoptionApplication> application;
-   
-   @OneToMany(mappedBy="petProfile", cascade = CascadeType.REMOVE )
+
+   @OneToMany(mappedBy="petProfile", cascade = CascadeType.REMOVE)
    public Set<AdoptionApplication> getApplication() {
       return this.application;
    }
