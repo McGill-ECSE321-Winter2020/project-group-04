@@ -7,7 +7,12 @@ import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 
 public interface AdoptionApplicationRepository extends CrudRepository<AdoptionApplication, Integer> {
 
-	AdoptionApplication findAdoptionByAdopter(RegularUser petAdopter);
+	AdoptionApplication findAdoptionById(int id5);
+
+
+	// AdoptionApplication findAdoptionByRegularUserId(int id3);
+
+	// AdoptionApplication findAdoptionByAdopter(RegularUser petAdopter);
 
 	
 }
