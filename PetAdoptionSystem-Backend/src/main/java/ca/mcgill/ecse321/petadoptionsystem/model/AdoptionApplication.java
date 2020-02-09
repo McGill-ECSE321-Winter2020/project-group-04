@@ -49,7 +49,7 @@ public int getId() {
 }
 private Date postDate;
 
-private void setPostDate(Date value) {
+public void setPostDate(Date value) {
     this.postDate = value;
 }
 private Date getPostDate() {
@@ -57,7 +57,7 @@ private Date getPostDate() {
 }
 private Time postTime;
 
-private void setPostTime(Time value) {
+public void setPostTime(Time value) {
     this.postTime = value;
 }
 private Time getPostTime() {
