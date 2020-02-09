@@ -10,7 +10,7 @@ import javax.persistence.Id;
 public class PetAdoptionSystem {
    private Set<Account> user;
 
-   @OneToMany(mappedBy = "petAdoptionSystem", cascade =CascadeType.REMOVE)
+   @OneToMany(mappedBy = "petAdoptionSystem", cascade = { CascadeType.ALL })
    public Set<Account> getUser() {
       return this.user;
    }
