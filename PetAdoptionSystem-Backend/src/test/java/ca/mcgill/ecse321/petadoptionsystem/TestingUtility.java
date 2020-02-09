@@ -23,15 +23,18 @@ class TestingUtility {
 
     public static Admin initAdmin(int pkey, Account act, PetAdoptionSystem pas){
         Admin admin = new Admin();
-        admin.setUser(act);
         admin.setId(pkey);
+        admin.setUser(act);
+        act.setUserRole(admin);
+
         return admin;
     }
 
     public static RegularUser initRegularUser(int pkey, Account act, PetAdoptionSystem pas){
         RegularUser user = new RegularUser();
-        user.setUser(act);
         user.setId(pkey);
+        user.setUser(act);
+
         return user;
     }
 

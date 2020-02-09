@@ -28,14 +28,12 @@ public class AccountTest {
 
     @Test
     public void testPersistAndLoadAccount(){
-        int sysId = 123;
-        PetAdoptionSystem system = TestingUtility.initPetAdoptionSystem(sysId);
+        PetAdoptionSystem system = TestingUtility.initPetAdoptionSystem(123);
         petAdoptionSystemRepository.save(system);
 
         String username = "JohnDoe361";
         String email = "johndoe1955@gmail.com";
         Account account = TestingUtility.initAccount(username, email, system);
-
         accountRepository.save(account);
 
         //test Account not null
@@ -44,6 +42,7 @@ public class AccountTest {
         //test Account data persistence
         account = null;
         account = accountRepository.findAccountByUsername(username);
+        assertEquals(username, account.getUsername());
         assertEquals(email, account.getEmail());
 
     }
