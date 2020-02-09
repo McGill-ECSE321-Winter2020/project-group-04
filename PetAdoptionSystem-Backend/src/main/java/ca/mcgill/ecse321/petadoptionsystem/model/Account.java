@@ -20,7 +20,7 @@ public class Account{
    
    private UserRole userRole;
    
-   @OneToOne(mappedBy="user" , optional=false)
+   @OneToOne(mappedBy="user")
    public UserRole getUserRole() {
       return this.userRole;
    }

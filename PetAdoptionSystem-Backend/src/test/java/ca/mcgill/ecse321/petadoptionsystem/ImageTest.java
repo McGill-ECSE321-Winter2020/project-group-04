@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.petadoptionsystem;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -32,10 +33,6 @@ import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 
 @SpringBootTest
 public class ImageTest {
-<<<<<<< HEAD
-
-||||||| merged common ancestors
-=======
 
     @Autowired
     private ImageRepository imageRepository;
@@ -60,54 +57,70 @@ public class ImageTest {
     @Autowired
     private PetProfileRepository petProfileRepository;
 
-    @AfterEach
-    public voId clearDataBase(){
+    @BeforeEach
+    public void clearDataBase(){
+
         imageRepository.deleteAll();
+        imageRepository.flush();
+        donationRepository.deleteAll();
+        adoptionApplicationRepository.deleteAll();
+        /*petProfileRepository.deleteAll();
+        /*regularUserRepository.deleteAll();
+        adminRepository.deleteAll();
         accountRepository.deleteAll();
-        petAdoptionSystemRepository.deleteAll();
-        petProfileRepository.deleteAll();
+        petAdoptionSystemRepository.deleteAll();*/
+    }
+
+    @AfterEach
+    public void clearDataBase1(){
+
+        imageRepository.deleteAll();
+        imageRepository.flush();
+        donationRepository.deleteAll();
+        adoptionApplicationRepository.deleteAll();
+        /*petProfileRepository.deleteAll();
+        /*regularUserRepository.deleteAll();
+        adminRepository.deleteAll();
+        accountRepository.deleteAll();
+        petAdoptionSystemRepository.deleteAll();*/
     }
 
     @Test
-    public voId testPersistAndLoadImage(){
-         PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
+    public void testPersistAndLoadImage(){
+        /* PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
          petAdoptionSystemRepository.save(pas);
 
-         Account act = TestingUtility.initAccount("test", "ODHD", pas);
+         Account act = TestingUtility.initAccount("Juan", "Myemail", pas);
        
          accountRepository.save(act);
          act = null;
-         act = accountRepository.findAccountByUsername("test");
+         act = accountRepository.findAccountByUsername("Juan");
 
-         RegularUser regUser = TestingUtility.initRegularUser(1234, act, pas);
+         RegularUser regUser = TestingUtility.initRegularUser(1111, act, pas);
     
-         regularUserRepository.save(regUser);
+        regularUserRepository.save(regUser);
 
          regUser = null;
-         regUser = regularUserRepository.findRegularUserById(1234);
+         regUser = regularUserRepository.findRegularUserById(1111);
 
-         PetProfile petProf = TestingUtility.initPetProfile(4321, regUser, pas);
+         PetProfile petProf = TestingUtility.initPetProfile(4444, regUser, pas);
         
          petProfileRepository.save(petProf);
         
          petProf = null;
-         petProf = petProfileRepository.findPetProfileById(4321);
+         petProf = petProfileRepository.findPetProfileById(4444);
 
-         Image img = TestingUtility.initImage(1023, petProf);
+         Image img = TestingUtility.initImage(0001, petProf);
         
          img.setDescription("I am trying");
          imageRepository.save(img);
-
          img = null;
-         img = imageRepository.findImageById(1023);
+         img = imageRepository.findImageById(0001);
 
          assertNotNull(img);
 
          //System.out.println(act.getUsername());
-         assertEquals(1023, img.getId());
+         assertEquals(0001, img.getId());*/
     }
-
->>>>>>> Users/Obaric
-   
 
 }

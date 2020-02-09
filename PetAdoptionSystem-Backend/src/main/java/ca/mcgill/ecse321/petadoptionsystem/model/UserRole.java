@@ -7,7 +7,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Id;
 
 @Entity
-public abstract class UserRole{
+   public abstract class UserRole{
    private Set<PetProfile> petProfile;
    
    @OneToMany(mappedBy="poster" )

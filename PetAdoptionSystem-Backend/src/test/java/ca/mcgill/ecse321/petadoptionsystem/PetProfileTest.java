@@ -13,49 +13,89 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Month;
+
 @ExtendWith(SpringExtension.class)
 
 @SpringBootTest
 public class PetProfileTest {
-<<<<<<< HEAD
+
 
     @Autowired
     private PetProfileRepository petProfilerepository;
 
-    @AfterEach
-    public void clearDatabase() {
+    @Autowired
+    private PetAdoptionSystemRepository petAdoptionSystemRepository;
 
-       petProfilerepository.deleteAll();
+    @Autowired
+    private AccountRepository accountRepository;
 
-    }
+    @Autowired
+    private RegularUserRepository regularUserRepository;
+
 
 
 
     @Test
     public void TestPersistancePetProfile() {
+        PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
+        petAdoptionSystemRepository.save(pas);
 
-        //Test for name attribute
-        PetProfile petprofile = new PetProfile();
+        Account act = TestingUtility.initAccount("Pedro", "pedro@gmail.com", pas);
 
-        String name = "Doggy";
-        petprofile.setName(name);
-        petprofile.setId(5);
+        accountRepository.save(act);
+        act = null;
+        act = accountRepository.findAccountByUsername("Pedro");
 
+        RegularUser regUser = TestingUtility.initRegularUser(1111, act, pas);
 
-        petProfilerepository.save(petprofile);
+        regularUserRepository.save(regUser);
+        regUser = null;
+        regUser = regularUserRepository.findRegularUserById(1111);
 
+        PetProfile petProf = TestingUtility.initPetProfile(1010, regUser, pas);
 
-        petprofile = petProfilerepository.findPetProfileByName(name);
-        assertNotNull(petprofile);
-        assertEquals(name, petprofile.getName());
-        
+        petProf.setBreed("chihuahua");
+        petProf.setName("doggy");
+        petProf.setDescription("fat and tired");
+        petProf.setReasonForPosting("very ugly");
+        petProf.setPetType(PetType.DOG);
+        Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.FEBRUARY, 9));
+        Time time = java.sql.Time.valueOf(LocalTime.of(11,35));
+        petProf.setPostDate(date);
+        petProf.setPostTime(time);
+
+        petProfilerepository.save(petProf);
+
+        petProf = null;
+        petProf = petProfilerepository.findPetProfileById(1010);
+
+        assertNotNull(petProf);
+        assertEquals("chihuahua", petProf.getBreed());
+        assertEquals("doggy", petProf.getName());
+        assertEquals("fat and tired", petProf.getDescription());
+        assertEquals("very ugly", petProf.getReasonForPosting());
+        assertEquals(PetType.DOG, petProf.getPetType());
+        assertEquals(date, petProf.getPostDate());
+        assertEquals(time , petProf.getPostTime());
+
+    }
+
+    @AfterEach
+    public void clearDatabase() {
+
+        petProfilerepository.deleteAll();
+        regularUserRepository.deleteAll();
+        accountRepository.deleteAll();
+        petAdoptionSystemRepository.deleteAll();
+
     }
 }
 
-||||||| merged common ancestors
-   
-}
-=======
 
-}
->>>>>>> 2f1b9b976b96eb065d00898d2b91d7013e5e893d
+
+
