@@ -56,13 +56,12 @@ public class AdoptionApplicationTest {
 
     @AfterEach
     public void clearDatabase(){
-        
+
         adoptionRepository.deleteAll();
         petProfileRepository.deleteAll();
         regularUserRepository.deleteAll();
         accountRepository.deleteAll();
-        petAdoptionRepository.deleteAll();
-        
+        petAdoptionRepository.deleteAll();    
 
     }
 
@@ -99,14 +98,8 @@ public class AdoptionApplicationTest {
 
         assertNotNull(adoptApp);
         assertEquals(id5, adoptApp.getId());
-
-        // assertEquals("joe",adoptApp.getApplicant().getUser().getUsername());
-        // assertEquals(petAdopter.getName(), adoptApp.getApplicant());
-        // assertEquals(id1, pas.getId());
-        // assertEquals("user1", petOwnerAcc.getUsername());
-        // assertEquals("user2", petAdopterAcc.getUsername());
-        // assertEquals(id2, petOwner.getId());
-            
+        assertEquals(date, adoptApp.getPostDate());
+        assertEquals(postTime, adoptApp.getPostTime());           
 
     }
 }
