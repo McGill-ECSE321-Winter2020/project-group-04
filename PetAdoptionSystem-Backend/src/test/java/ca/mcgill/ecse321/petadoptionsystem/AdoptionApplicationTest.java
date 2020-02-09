@@ -70,34 +70,21 @@ public class AdoptionApplicationTest {
 
         PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(id1);
         petAdoptionRepository.save(pas);
-        pas = null;
-        pas = petAdoptionRepository.findPetAdoptionSystemById(id1);
 
         Account petOwnerAcc = TestingUtility.initAccount("billy","billy@gmail.com" , pas);
         accountRepository.save(petOwnerAcc);
-        petOwnerAcc = null;
-        petOwnerAcc = accountRepository.findAccountByUsername("billy");
 
         Account petAdopterAcc = TestingUtility.initAccount("joe","joe@gmail.com" , pas);//works to this point
         accountRepository.save(petAdopterAcc);
-        petAdopterAcc = null;
-        petAdopterAcc = accountRepository.findAccountByUsername("joe");
         
         RegularUser petOwner = TestingUtility.initRegularUser(id2, petOwnerAcc, pas); //user who posts a pet up for adoption
         regularUserRepository.save(petOwner);
-        petOwner = null;
-        petOwner = regularUserRepository.findRegularUserById(id2);
         
         RegularUser petAdopter = TestingUtility.initRegularUser(id3, petAdopterAcc, pas);// user who is adopting pet
         regularUserRepository.save(petAdopter);
-        petAdopter = null;
-        petAdopter = regularUserRepository.findRegularUserById(id3);
 
         PetProfile petProf = TestingUtility.initPetProfile(id4, petOwner, pas);
         petProfileRepository.save(petProf);
-        petProf = null;
-        petProf = petProfileRepository.findPetProfileById(id4);
-
 
 
         AdoptionApplication adoptApp = TestingUtility.initAdoptionApplication(id5, petAdopter, petProf);
@@ -112,14 +99,13 @@ public class AdoptionApplicationTest {
         assertNotNull(adoptApp);
         assertEquals(id5, adoptApp.getId());
 
+        // assertEquals("joe",adoptApp.getApplicant().getUser().getUsername());
         // assertEquals(petAdopter.getName(), adoptApp.getApplicant());
         // assertEquals(id1, pas.getId());
         // assertEquals("user1", petOwnerAcc.getUsername());
         // assertEquals("user2", petAdopterAcc.getUsername());
         // assertEquals(id2, petOwner.getId());
-        
-        
-        
+            
 
     }
 }
