@@ -8,14 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController
 @SpringBootApplication
 public class PetAdoptionSystemApplication {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(PetAdoptionSystemApplication.class, args);
 	}
 
-	@RequestMapping("/")
-	public String greeting(){
-		return "Hello World";
-	}
+	
 
 }

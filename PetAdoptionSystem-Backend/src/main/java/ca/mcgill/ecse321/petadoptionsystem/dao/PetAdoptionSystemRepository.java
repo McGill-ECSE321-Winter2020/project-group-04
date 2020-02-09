@@ -7,7 +7,6 @@ import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
 
 
 public interface PetAdoptionSystemRepository extends CrudRepository<PetAdoptionSystem, Integer> {
-
     PetAdoptionSystem findPetAdoptionSystemById(int id);
 
 }

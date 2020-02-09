@@ -34,6 +34,7 @@ class TestingUtility {
         RegularUser user = new RegularUser();
         user.setId(pkey);
         user.setUser(act);
+        act.setUserRole(user);
 
         return user;
     }
