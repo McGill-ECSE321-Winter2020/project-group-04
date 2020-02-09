@@ -14,35 +14,35 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class AccountTest {
-//    @Autowired
-//    private AccountRepository accountRepository;
-//
-//    @AfterEach
-//    public void clearDataBase(){
-//        accountRepository.deleteAll();
-//    }
-//
-//    @Test
-//    public void testPersistAndLoadRegistration(){
-//
-//        Account account = new Account();
-//        String userName = "JohnDoe361";
-//        String email = "johndoe1955@gmail.com";
-//        //int idea = 1111;
-//        //String passwordHash = "868345C2BF61B5BA913D578B674838CB08A3575B"; //greenFurryPuppies123, SHA1
-//
-//        account.setUsername(userName);
-//        account.setEmail(email);
-//        //account.setPetAdoptionSystem();
-//        //account.setPasswordHash(passwordHash);
-//        accountRepository.save(account);
-//    }
+    @Autowired
+    private AccountRepository accountRepository;
 
-//    @Test
-//    public void testLoadPetAdoptionSystemId(){
-//        Account account = new Account();
-//        account.getPetAdoptionSystem();
-//        accountRepository.save(account);
-//    }
+    @AfterEach
+    public void clearDataBase(){
+        accountRepository.deleteAll();
+    }
+
+    @Test
+    public void testPersistAndLoadRegistration(){
+
+        Account account = new Account();
+        String userName = "JohnDoe361";
+        String email = "johndoe1955@gmail.com";
+        //int idea = 1111;
+        //String passwordHash = "868345C2BF61B5BA913D578B674838CB08A3575B"; //greenFurryPuppies123, SHA1
+
+        account.setUsername(userName);
+        account.setEmail(email);
+        //account.setPetAdoptionSystem();
+        //account.setPasswordHash(passwordHash);
+        accountRepository.save(account);
+    }
+
+    @Test
+    public void testLoadPetAdoptionSystemId(){
+        Account account = new Account();
+        account.getPetAdoptionSystem();
+        accountRepository.save(account);
+    }
    
 }
