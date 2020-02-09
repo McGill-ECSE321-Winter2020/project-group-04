@@ -34,9 +34,9 @@ public class PetProfile{
       this.image = images;
    }
    
-   public Set<AdoptionApplication> application;
-
-   @OneToMany(mappedBy="petProfile", cascade = CascadeType.REMOVE)
+   private Set<AdoptionApplication> application;
+   
+   @OneToMany(mappedBy="petProfile", cascade=CascadeType.REMOVE )
    public Set<AdoptionApplication> getApplication() {
       return this.application;
    }

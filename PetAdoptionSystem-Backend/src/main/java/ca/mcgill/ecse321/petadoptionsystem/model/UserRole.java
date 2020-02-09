@@ -9,7 +9,7 @@ import java.util.Set;
    public abstract class UserRole{
    private Set<PetProfile> petProfile;
    
-   @OneToMany(mappedBy="poster", cascade = CascadeType.REMOVE)
+   @OneToMany(mappedBy="poster", cascade=CascadeType.REMOVE)
    public Set<PetProfile> getPetProfile() {
       return this.petProfile;
    }
