@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class PetProfileTest {
+<<<<<<< HEAD
 
     @Autowired
     private PetProfileRepository petProfilerepository;
@@ -51,3 +52,10 @@ public class PetProfileTest {
     }
 }
 
+||||||| merged common ancestors
+   
+}
+=======
+
+}
+>>>>>>> 2f1b9b976b96eb065d00898d2b91d7013e5e893d

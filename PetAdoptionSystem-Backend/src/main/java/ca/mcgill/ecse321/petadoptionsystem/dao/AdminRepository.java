@@ -7,6 +7,6 @@ import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 
 public interface AdminRepository extends CrudRepository<Admin, Integer> {
 
-	Admin findAdminByUsername(int id);
+	Admin findAdminById(int id);
 
 }

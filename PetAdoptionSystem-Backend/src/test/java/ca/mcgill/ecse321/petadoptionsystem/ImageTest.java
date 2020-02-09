@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AdminRepository;
@@ -26,6 +27,8 @@ import ca.mcgill.ecse321.petadoptionsystem.model.Image;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
+
+
 
 @SpringBootTest
 public class ImageTest {
@@ -58,7 +61,7 @@ public class ImageTest {
     private PetProfileRepository petProfileRepository;
 
     @AfterEach
-    public void clearDataBase(){
+    public voId clearDataBase(){
         imageRepository.deleteAll();
         accountRepository.deleteAll();
         petAdoptionSystemRepository.deleteAll();
@@ -66,42 +69,42 @@ public class ImageTest {
     }
 
     @Test
-    public void testPersistAndLoadImage(){
-        PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
-        petAdoptionSystemRepository.save(pas);
+    public voId testPersistAndLoadImage(){
+         PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
+         petAdoptionSystemRepository.save(pas);
 
-        Account act = TestingUtility.initAccount("test", "ODHD", pas);
+         Account act = TestingUtility.initAccount("test", "ODHD", pas);
        
-        accountRepository.save(act);
-        act = null;
-        act = accountRepository.findAccountByUsername("test");
+         accountRepository.save(act);
+         act = null;
+         act = accountRepository.findAccountByUsername("test");
 
-        RegularUser regUser = TestingUtility.initRegularUser(1234, act, pas);
+         RegularUser regUser = TestingUtility.initRegularUser(1234, act, pas);
     
-        regularUserRepository.save(regUser);
+         regularUserRepository.save(regUser);
 
-        regUser = null;
-        regUser = regularUserRepository.findRegularUserByID(1234);
+         regUser = null;
+         regUser = regularUserRepository.findRegularUserById(1234);
 
-        PetProfile petProf = TestingUtility.initPetProfile(4321, regUser, pas);
+         PetProfile petProf = TestingUtility.initPetProfile(4321, regUser, pas);
         
-        petProfileRepository.save(petProf);
+         petProfileRepository.save(petProf);
         
-        petProf = null;
-        petProf = petProfileRepository.findPetProfileByID(4321);
+         petProf = null;
+         petProf = petProfileRepository.findPetProfileById(4321);
 
-        Image img = TestingUtility.initImage(1023, petProf);
+         Image img = TestingUtility.initImage(1023, petProf);
         
-        img.setDescription("I am trying");
-        imageRepository.save(img);
+         img.setDescription("I am trying");
+         imageRepository.save(img);
 
-        img = null;
-        img = imageRepository.findImageById(1023);
+         img = null;
+         img = imageRepository.findImageById(1023);
 
-        assertNotNull(img);
+         assertNotNull(img);
 
-        //System.out.println(act.getUsername());
-        assertEquals(1023, img.getId());
+         //System.out.println(act.getUsername());
+         assertEquals(1023, img.getId());
     }
 
 >>>>>>> Users/Obaric
