@@ -65,7 +65,7 @@ public class ImageTest {
     }
 
     @Test
-    public voId testPersistAndLoadImage(){
+    public void testPersistAndLoadImage(){
          PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
          petAdoptionSystemRepository.save(pas);
 
