@@ -1,16 +1,13 @@
 package ca.mcgill.ecse321.petadoptionsystem.model;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Set;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Id;
 
 @Entity
 public abstract class UserRole{
    private Set<PetProfile> petProfile;
    
-   @OneToMany(mappedBy="poster" )
+   @OneToMany(mappedBy="poster", cascade = CascadeType.REMOVE)
    public Set<PetProfile> getPetProfile() {
       return this.petProfile;
    }

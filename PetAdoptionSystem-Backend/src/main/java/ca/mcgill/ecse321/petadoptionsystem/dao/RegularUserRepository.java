@@ -7,6 +7,5 @@ import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 
 
 public interface RegularUserRepository extends CrudRepository<RegularUser, Integer> {
-
-	RegularUser findRegularUserById(int i);
+    RegularUser findRegularUserById(int id);
 }

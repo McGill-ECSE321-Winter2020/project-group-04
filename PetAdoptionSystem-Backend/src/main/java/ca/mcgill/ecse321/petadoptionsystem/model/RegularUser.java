@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.petadoptionsystem.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.util.Set;
 import javax.persistence.OneToMany;
@@ -8,7 +9,7 @@ import javax.persistence.OneToMany;
 public class RegularUser extends UserRole{
    private Set<Donation> donation;
    
-   @OneToMany(mappedBy="user" )
+   @OneToMany(mappedBy="user", cascade = CascadeType.REMOVE)
    public Set<Donation> getDonation() {
       return this.donation;
    }
@@ -19,7 +20,7 @@ public class RegularUser extends UserRole{
    
    private Set<AdoptionApplication> application;
    
-   @OneToMany(mappedBy="applicant" )
+   @OneToMany(mappedBy="applicant", cascade = CascadeType.REMOVE)
    public Set<AdoptionApplication> getApplication() {
       return this.application;
    }
