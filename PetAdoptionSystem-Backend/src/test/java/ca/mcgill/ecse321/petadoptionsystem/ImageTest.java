@@ -3,20 +3,13 @@ package ca.mcgill.ecse321.petadoptionsystem;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.List;
-
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AdminRepository;
@@ -71,38 +64,35 @@ public class ImageTest {
         accountRepository.deleteAll();
         petAdoptionSystemRepository.deleteAll();*/
     }
-    
 
     @Test
-    public void testPersistAndLoadImage(){
-         PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
-         petAdoptionSystemRepository.save(pas);
-        
-         Account act = TestingUtility.initAccount("test", "ODHD", pas);
-       
-         accountRepository.save(act);
+    public void testPersistAndLoadImage() {
+        PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
+        petAdoptionSystemRepository.save(pas);
 
-         RegularUser regUser = TestingUtility.initRegularUser(1234, act, pas);
-         regularUserRepository.save(regUser);
+        Account act = TestingUtility.initAccount("test", "ODHD", pas);
 
-         PetProfile petProf = TestingUtility.initPetProfile(4321, regUser, pas);
-        
-         petProfileRepository.save(petProf);
+        accountRepository.save(act);
 
-         Image img = TestingUtility.initImage(1023, petProf);
-        
-         img.setDescription("I am trying");
-         imageRepository.save(img);
+        RegularUser regUser = TestingUtility.initRegularUser(1234, act, pas);
+        regularUserRepository.save(regUser);
 
-         img = null;
-         img = imageRepository.findImageById(1023);
+        PetProfile petProf = TestingUtility.initPetProfile(4321, regUser, pas);
 
-         assertNotNull(img);
+        petProfileRepository.save(petProf);
 
-         assertEquals(1023, img.getId());
+        Image img = TestingUtility.initImage(1023, petProf);
 
-        
+        img.setDescription("I am trying");
+        imageRepository.save(img);
+
+        img = null;
+        img = imageRepository.findImageById(1023);
+
+        assertNotNull(img);
+
+        assertEquals(1023, img.getId());
+
     }
-
 
 }

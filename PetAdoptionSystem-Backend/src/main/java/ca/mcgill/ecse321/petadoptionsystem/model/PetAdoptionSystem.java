@@ -7,25 +7,26 @@ import javax.persistence.OneToMany;
 import javax.persistence.Id;
 
 @Entity
-public class PetAdoptionSystem{
+public class PetAdoptionSystem {
    private Set<Account> user;
-   
-   @OneToMany(mappedBy="petAdoptionSystem" , cascade = CascadeType.REMOVE)
+
+   @OneToMany(mappedBy = "petAdoptionSystem", cascade = { CascadeType.ALL })
    public Set<Account> getUser() {
       return this.user;
    }
-   
+
    public void setUser(Set<Account> users) {
       this.user = users;
    }
-   
+
    private int id;
 
-public void setId(int value) {
-    this.id = value;
-}
-@Id
-public int getId() {
-    return this.id;
-}
+   public void setId(int value) {
+      this.id = value;
+   }
+
+   @Id
+   public int getId() {
+      return this.id;
+   }
 }
