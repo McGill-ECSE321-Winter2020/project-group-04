@@ -29,8 +29,6 @@ import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 
-
-
 @SpringBootTest
 public class ImageTest {
 
@@ -42,7 +40,7 @@ public class ImageTest {
     @Autowired
     private AccountRepository accountRepository;
 
-    @Autowired 
+    @Autowired
     private RegularUserRepository regularUserRepository;
 
     @Autowired
@@ -59,8 +57,7 @@ public class ImageTest {
 
 
     @AfterEach
-    public void clearDataBase(){
-
+    public void clearDataBase() {
         imageRepository.deleteAll();
         imageRepository.flush();
         donationRepository.deleteAll();
