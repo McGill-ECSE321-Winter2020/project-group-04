@@ -23,8 +23,8 @@ public class PetProfile{
       this.poster = poster;
    }
    
-   public Set<Image> image;
-
+   private Set<Image> image;
+   
    @OneToMany(mappedBy="petProfile", cascade = CascadeType.REMOVE)
    public Set<Image> getImage() {
       return this.image;

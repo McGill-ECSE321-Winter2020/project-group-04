@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -54,13 +57,20 @@ public class ImageTest {
 
     @AfterEach
     public void clearDataBase(){
-        // imageRepository.deleteAll();
-        // petProfileRepository.deleteAll();
-        // regularUserRepository.deleteAll();
-        // accountRepository.deleteAll();
-        // petAdoptionSystemRepository.deleteAll();
+        
+        imageRepository.deleteAll();
+        
+        petProfileRepository.deleteAll();
+      
+        regularUserRepository.deleteAll();
+        adminRepository.deleteAll();
+        donationRepository.deleteAll();
+        accountRepository.deleteAll();
+        petAdoptionSystemRepository.deleteAll();
+        
        
     }
+    
 
     @Test
     public void testPersistAndLoadImage(){
@@ -70,21 +80,13 @@ public class ImageTest {
          Account act = TestingUtility.initAccount("test", "ODHD", pas);
        
          accountRepository.save(act);
-         act = null;
-         act = accountRepository.findAccountByUsername("test");
 
          RegularUser regUser = TestingUtility.initRegularUser(1234, act, pas);
          regularUserRepository.save(regUser);
 
-         regUser = null;
-         regUser = regularUserRepository.findRegularUserById(1234);
-
          PetProfile petProf = TestingUtility.initPetProfile(4321, regUser, pas);
         
          petProfileRepository.save(petProf);
-        
-         petProf = null;
-         petProf = petProfileRepository.findPetProfileById(4321);
 
          Image img = TestingUtility.initImage(1023, petProf);
         
@@ -96,8 +98,9 @@ public class ImageTest {
 
          assertNotNull(img);
 
-         //System.out.println(act.getUsername());
          assertEquals(1023, img.getId());
+
+        
     }
 
 
