@@ -8,8 +8,8 @@ import java.util.Set;
 @Entity
 public abstract class UserRole {
    private Set<PetProfile> petProfile;
-
-   @OneToMany(mappedBy = "poster", cascade = CascadeType.REMOVE)
+   
+   @OneToMany(mappedBy="poster", cascade=CascadeType.REMOVE)
    public Set<PetProfile> getPetProfile() {
       return this.petProfile;
    }
