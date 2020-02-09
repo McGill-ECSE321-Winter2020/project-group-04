@@ -56,11 +56,12 @@ public class AdoptionApplicationTest {
 
     @AfterEach
     public void clearDatabase(){
-        // adoptionRepository.deleteAll();
-        // petProfileRepository.deleteAll();
-        // regularUserRepository.deleteAll();
-        // accountRepository.deleteAll();
-        // petAdoptionRepository.deleteAll();
+        
+        adoptionRepository.deleteAll();
+        petProfileRepository.deleteAll();
+        regularUserRepository.deleteAll();
+        accountRepository.deleteAll();
+        petAdoptionRepository.deleteAll();
         
 
     }
