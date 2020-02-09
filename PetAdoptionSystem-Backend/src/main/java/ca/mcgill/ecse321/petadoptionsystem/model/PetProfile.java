@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 import java.util.Set;
 import java.sql.Date;
 import java.sql.Time;
-import javax.persistence.CascadeType;
+
 
 @Entity
 public class PetProfile{
