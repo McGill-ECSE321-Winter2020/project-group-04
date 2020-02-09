@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.petadoptionsystem.model;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import java.util.Set;
 
 @Entity
