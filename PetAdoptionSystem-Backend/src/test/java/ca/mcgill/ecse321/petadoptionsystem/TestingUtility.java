@@ -39,7 +39,6 @@ class TestingUtility {
     }
 
     public static PetProfile initPetProfile(int pkey, RegularUser regUser, PetAdoptionSystem pas){
-
         PetProfile petProf = new PetProfile();
         petProf.setId(pkey);
         petProf.setPoster(regUser);

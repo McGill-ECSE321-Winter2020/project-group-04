@@ -14,7 +14,7 @@ import javax.persistence.CascadeType;
 public class PetProfile{
    private UserRole poster;
    
-   @ManyToOne(optional=false, cascade = CascadeType.REMOVE)
+   @ManyToOne(optional=false)
    public UserRole getPoster() {
       return this.poster;
    }
@@ -25,7 +25,7 @@ public class PetProfile{
    
    private Set<Image> image;
    
-   @OneToMany(mappedBy="petProfile" )
+   @OneToMany(mappedBy="petProfile", cascade = CascadeType.REMOVE)
    public Set<Image> getImage() {
       return this.image;
    }
@@ -36,7 +36,7 @@ public class PetProfile{
    
    private Set<AdoptionApplication> application;
    
-   @OneToMany(mappedBy="petProfile" )
+   @OneToMany(mappedBy="petProfile", cascade = CascadeType.REMOVE)
    public Set<AdoptionApplication> getApplication() {
       return this.application;
    }
