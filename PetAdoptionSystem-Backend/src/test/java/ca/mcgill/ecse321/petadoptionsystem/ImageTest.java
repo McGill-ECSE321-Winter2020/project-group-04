@@ -77,26 +77,17 @@ public class ImageTest {
     public void testPersistAndLoadImage(){
          PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
          petAdoptionSystemRepository.save(pas);
-
+        
          Account act = TestingUtility.initAccount("test", "ODHD", pas);
        
          accountRepository.save(act);
-         act = null;
-         act = accountRepository.findAccountByUsername("test");
 
          RegularUser regUser = TestingUtility.initRegularUser(1234, act, pas);
-    
          regularUserRepository.save(regUser);
-
-         regUser = null;
-         regUser = regularUserRepository.findRegularUserById(1234);
 
          PetProfile petProf = TestingUtility.initPetProfile(4321, regUser, pas);
         
          petProfileRepository.save(petProf);
-        
-         petProf = null;
-         petProf = petProfileRepository.findPetProfileById(4321);
 
          Image img = TestingUtility.initImage(1023, petProf);
         
@@ -108,8 +99,10 @@ public class ImageTest {
 
          assertNotNull(img);
 
-         //System.out.println(act.getUsername());
          assertEquals(1023, img.getId());
+
+        
     }
+
 
 }
