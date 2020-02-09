@@ -9,4 +9,8 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
 
 	
 
+	Account findAccountByUsername(String string);
+
+	
+
 }
