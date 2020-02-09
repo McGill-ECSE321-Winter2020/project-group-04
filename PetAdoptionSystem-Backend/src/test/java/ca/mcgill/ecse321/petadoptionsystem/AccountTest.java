@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 public class AccountTest {
+
     @Autowired
     private PetAdoptionSystemRepository petAdoptionSystemRepository;
     @Autowired

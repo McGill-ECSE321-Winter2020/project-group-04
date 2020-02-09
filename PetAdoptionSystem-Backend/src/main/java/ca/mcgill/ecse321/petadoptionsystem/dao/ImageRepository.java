@@ -10,6 +10,6 @@ public interface ImageRepository extends CrudRepository<Image, Integer> {
 
 	Image findImageById(int i);
 
-	
+	void flush();
 
 }

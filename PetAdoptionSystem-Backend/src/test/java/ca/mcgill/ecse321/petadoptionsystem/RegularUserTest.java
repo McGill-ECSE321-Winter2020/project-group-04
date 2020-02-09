@@ -14,40 +14,58 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+
 @SpringBootTest
 public class RegularUserTest {
+
     @Autowired
     private PetAdoptionSystemRepository petAdoptionSystemRepository;
+
     @Autowired
     private AccountRepository accountRepository;
+
     @Autowired
     private RegularUserRepository regularUserRepository;
 
+
+    @Test
+    public void testPersistAndLoadImage() {
+        PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
+        petAdoptionSystemRepository.save(pas);
+
+        Account act = TestingUtility.initAccount("Juan", "Myemail", pas);
+
+        accountRepository.save(act);
+        act = null;
+        act = accountRepository.findAccountByUsername("Juan");
+
+        RegularUser regUser = TestingUtility.initRegularUser(1111, act, pas);
+
+        regUser.setName("Juanito");
+        regUser.setHomeDescription("house");
+        regUser.setPhoneNumber(514);
+
+        regularUserRepository.save(regUser);
+
+        regUser = null;
+        regUser = regularUserRepository.findRegularUserById(1111);
+
+
+        assertNotNull(regUser);
+
+        assertEquals("Juanito", regUser.getName());
+        assertEquals("house", regUser.getHomeDescription());
+        assertEquals(514, regUser.getPhoneNumber());
+        assertEquals(1111, regUser.getId());
+
+    }
+
     @AfterEach
-    public void clearDataBase(){
+    public void DeleteDataBase() {
+
         regularUserRepository.deleteAll();
         accountRepository.deleteAll();
         petAdoptionSystemRepository.deleteAll();
-    }
 
-    @Test
-    public void persistAndLoadRegularUser(){
-        PetAdoptionSystem system = TestingUtility.initPetAdoptionSystem(123);
-        petAdoptionSystemRepository.save(system);
-
-        Account account = TestingUtility.initAccount("JohnDoe361", "johndoe1955@gmail.com", system);
-        accountRepository.save(account);
-
-        RegularUser regUsr = new RegularUser();
-        regUsr.setId(789);
-        regUsr.setUser(account);
-        account.setUserRole(regUsr);
-        regularUserRepository.save(regUsr);
-
-        assertNotNull(regUsr);
-
-        regUsr = null;
-        regUsr = regularUserRepository.findRegularUserById(789);
-        assertEquals(789, regUsr.getId());
     }
 }

@@ -1,18 +1,17 @@
 package ca.mcgill.ecse321.petadoptionsystem.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import org.graalvm.compiler.graph.spi.Canonicalizable;
+
+
+import javax.persistence.*;
 import java.util.Set;
-import javax.persistence.OneToMany;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
 import java.sql.Date;
 import java.sql.Time;
 import javax.persistence.CascadeType;
 
 @Entity
 public class PetProfile{
-   private UserRole poster;
+   public UserRole poster;
    
    @ManyToOne(optional=false)
    public UserRole getPoster() {
@@ -23,8 +22,8 @@ public class PetProfile{
       this.poster = poster;
    }
    
-   private Set<Image> image;
-   
+   public Set<Image> image;
+
    @OneToMany(mappedBy="petProfile", cascade = CascadeType.REMOVE)
    public Set<Image> getImage() {
       return this.image;
@@ -34,8 +33,8 @@ public class PetProfile{
       this.image = images;
    }
    
-   private Set<AdoptionApplication> application;
-   
+   public Set<AdoptionApplication> application;
+
    @OneToMany(mappedBy="petProfile", cascade = CascadeType.REMOVE)
    public Set<AdoptionApplication> getApplication() {
       return this.application;
@@ -45,7 +44,7 @@ public class PetProfile{
       this.application = applications;
    }
    
-   private String name;
+   public String name;
 
 public void setName(String value) {
     this.name = value;
@@ -53,16 +52,17 @@ public void setName(String value) {
 public String getName() {
     return this.name;
 }
-private PetType petType;
+public PetType petType;
 
 public void setPetType(PetType value) {
     this.petType = value;
 }
+
 @Enumerated
 public PetType getPetType() {
     return this.petType;
 }
-private String breed;
+public String breed;
 
 public void setBreed(String value) {
     this.breed = value;
@@ -70,7 +70,7 @@ public void setBreed(String value) {
 public String getBreed() {
     return this.breed;
 }
-private String description;
+public String description;
 
 public void setDescription(String value) {
     this.description = value;
@@ -78,16 +78,17 @@ public void setDescription(String value) {
 public String getDescription() {
     return this.description;
 }
-private int id;
+public int id;
 
 public void setId(int value) {
     this.id = value;
 }
+
 @Id
 public int getId() {
     return this.id;
 }
-private String reasonForPosting;
+public String reasonForPosting;
 
 public void setReasonForPosting(String value) {
     this.reasonForPosting = value;
@@ -95,20 +96,22 @@ public void setReasonForPosting(String value) {
 public String getReasonForPosting() {
     return this.reasonForPosting;
 }
-private Date postDate;
+public Date postDate;
 
-private void setPostDate(Date value) {
+public void setPostDate(Date value) {
     this.postDate = value;
 }
-private Date getPostDate() {
+public Date getPostDate() {
     return this.postDate;
 }
-private Time postTime;
+public Time postTime;
 
-private void setPostTime(Time value) {
+public void setPostTime(Time value) {
     this.postTime = value;
 }
-private Time getPostTime() {
+public Time getPostTime() {
     return this.postTime;
 }
+
+
 }

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public abstract class UserRole{
+   public abstract class UserRole{
    private Set<PetProfile> petProfile;
    
    @OneToMany(mappedBy="poster", cascade = CascadeType.REMOVE)

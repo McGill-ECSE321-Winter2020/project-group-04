@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.petadoptionsystem;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -56,13 +57,58 @@ public class ImageTest {
     @Autowired
     private PetProfileRepository petProfileRepository;
 
+
     @AfterEach
     public void clearDataBase(){
+
         imageRepository.deleteAll();
+        imageRepository.flush();
+        donationRepository.deleteAll();
+        adoptionApplicationRepository.deleteAll();
+        /*petProfileRepository.deleteAll();
+        /*regularUserRepository.deleteAll();
+        adminRepository.deleteAll();
         accountRepository.deleteAll();
-        petAdoptionSystemRepository.deleteAll();
-        petProfileRepository.deleteAll();
+        petAdoptionSystemRepository.deleteAll();*/
     }
 
+    @Test
+    public void testPersistAndLoadImage(){
+         PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
+         petAdoptionSystemRepository.save(pas);
+
+         Account act = TestingUtility.initAccount("test", "ODHD", pas);
+       
+         accountRepository.save(act);
+         act = null;
+         act = accountRepository.findAccountByUsername("test");
+
+         RegularUser regUser = TestingUtility.initRegularUser(1234, act, pas);
+    
+         regularUserRepository.save(regUser);
+
+         regUser = null;
+         regUser = regularUserRepository.findRegularUserById(1234);
+
+         PetProfile petProf = TestingUtility.initPetProfile(4321, regUser, pas);
+        
+         petProfileRepository.save(petProf);
+        
+         petProf = null;
+         petProf = petProfileRepository.findPetProfileById(4321);
+
+         Image img = TestingUtility.initImage(1023, petProf);
+        
+         img.setDescription("I am trying");
+         imageRepository.save(img);
+
+         img = null;
+         img = imageRepository.findImageById(1023);
+
+         assertNotNull(img);
+
+         //System.out.println(act.getUsername());
+         assertEquals(1023, img.getId());
+    }
 
 }

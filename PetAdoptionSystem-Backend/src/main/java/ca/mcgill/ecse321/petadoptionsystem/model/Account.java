@@ -17,7 +17,7 @@ public class Account{
    
    private UserRole userRole;
 
-   @OneToOne(mappedBy="user")
+   @OneToOne(mappedBy="user", cascade = CascadeType.REMOVE)
    public UserRole getUserRole() { return this.userRole; }
    public void setUserRole(UserRole userRole) {
       this.userRole = userRole;
