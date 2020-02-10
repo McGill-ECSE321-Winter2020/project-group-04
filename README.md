@@ -13,11 +13,11 @@ ___
 
 | Name              | Major                  | Year |
 |:-----------------:|:----------------------:|:----:|
-|Ousmane Baricisse  | Software Engineering   | ?    |
+|Ousmane Baricisse  | Software Engineering   | U3   |
 |Jessie Tang        | Electrical Engineering | U2   |
 |Garrett Kinman     | Computer Engineering   | U2   |
-|Edem Nuviadenu     | Computer Engineering   | U2    |
-|Jose Antonio Jijon | Mechanical Engineering | U4    |
+|Edem Nuviadenu     | Computer Engineering   | U2   |
+|Jose Antonio Jijon | Mechanical Engineering | U4   |
 
 ___
 
@@ -27,12 +27,12 @@ ___
 
 ### Roles and Hours invested by integrant for Deliverable 1
 
-| Name              | Role                                 | Amount of hours |
-|:-----------------:|:------------------------------------:|:---------------:|
-|Ousmane Baricisse  | Spring/Spring boot with Gradle, Tests      | 22              |
-|Jessie Tang        | Use case diagram & Heroku database, Tests   | 21              |
-|Garrett Kinman     | UML code generation & wiki/report editing   | 19              |
-|Edem Nuviadenu     | CRUD repositories & Travis CI, Tests      | 24              |
-|Jose Antonio Jijon | Spring-based backend, Tests             | 22              |
+| Name              | Role                                       | Amount of hours |
+|:-----------------:|:------------------------------------------:|:---------------:|
+|Ousmane Baricisse  | Spring/Spring boot with Gradle, Tests      | 24              |
+|Jessie Tang        | Use case diagram & Heroku database, Tests  | 23              |
+|Garrett Kinman     | UML code generation & wiki/report editing  | 20              |
+|Edem Nuviadenu     | CRUD repositories & Travis CI, Tests       | 24              |
+|Jose Antonio Jijon | Spring-based backend, Tests                | 23              |
 
 *Note:* Everyone participated in project management and persistence testing.
