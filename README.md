@@ -17,7 +17,7 @@ ___
 |Jessie Tang        | Electrical Engineering | U2   |
 |Garrett Kinman     | Computer Engineering   | U2   |
 |Edem Nuviadenu     | Computer Engineering   | U2    |
-|Jose Antonio Jijon | Mechanical Engineering | ?    |
+|Jose Antonio Jijon | Mechanical Engineering | U4    |
 
 ___
 
@@ -29,10 +29,10 @@ ___
 
 | Name              | Role                                 | Amount of hours |
 |:-----------------:|:------------------------------------:|:---------------:|
-|Ousmane Baricisse  | Spring/Spring boot with Gradle       | 22              |
-|Jessie Tang        | Use case diagram & Heroku database   | 21              |
-|Garrett Kinman     | UML code generation & wiki editing   | 19              |
-|Edem Nuviadenu     | CRUD repositories & Travis CI        | 24              |
-|Jose Antonio Jijon | Spring-based backend                 | 22              |
+|Ousmane Baricisse  | Spring/Spring boot with Gradle, Tests      | 22              |
+|Jessie Tang        | Use case diagram & Heroku database, Tests   | 21              |
+|Garrett Kinman     | UML code generation & wiki/report editing   | 19              |
+|Edem Nuviadenu     | CRUD repositories & Travis CI, Tests      | 24              |
+|Jose Antonio Jijon | Spring-based backend, Tests             | 22              |
 
 *Note:* Everyone participated in project management and persistence testing.
