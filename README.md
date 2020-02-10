@@ -34,3 +34,5 @@ ___
 |Garrett Kinman     | UML code generation & wiki editing   | 19              |
 |Edem Nuviadenu     | CRUD repositories & Travis CI        | 24              |
 |Jose Antonio Jijon | Spring-based backend                 | 22              |
+
+*Note:* Everyone participated in project management and persistence testing.
