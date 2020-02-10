@@ -35,6 +35,7 @@ public class AccountTest {
         String username = "JohnDoe361";
         String email = "johndoe1955@gmail.com";
         Account account = TestingUtility.initAccount(username, email, system);
+        account.setPasswordHash("pass1");
         accountRepository.save(account);
 
         //test Account not null
@@ -45,6 +46,7 @@ public class AccountTest {
         account = accountRepository.findAccountByUsername(username);
         assertEquals(username, account.getUsername());
         assertEquals(email, account.getEmail());
+        assertEquals("pass1", account.getPasswordHash());
 
     }
 

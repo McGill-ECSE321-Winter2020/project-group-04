@@ -39,11 +39,11 @@ public class Account {
 
     private String passwordHash;
 
-    private void setPasswordHash(String value) {
+    public void setPasswordHash(String value) {
         this.passwordHash = value;
     }
 
-    private String getPasswordHash() {
+    public String getPasswordHash() {
         return this.passwordHash;
     }
 

@@ -3,7 +3,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AdminRepository;
-import ca.mcgill.ecse321.petadoptionsystem.dao.AdoptionApplicationRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.DonationRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.ImageRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetAdoptionSystemRepository;
@@ -35,9 +34,6 @@ public class PetAdoptionSystemTests {
     private AdminRepository adminRepository;
 
     @Autowired
-    private AdoptionApplicationRepository adoptionApplicationRepository;
-
-    @Autowired
     private DonationRepository donationRepository;
 
     @Autowired
@@ -45,7 +41,6 @@ public class PetAdoptionSystemTests {
 
     @AfterEach
     public void clearDataBase() {
-        // petAdoptionSystemRepository.deleteAll();
         imageRepository.deleteAll();
 
         petProfileRepository.deleteAll();

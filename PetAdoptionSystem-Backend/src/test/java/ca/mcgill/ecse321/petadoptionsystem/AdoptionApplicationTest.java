@@ -1,13 +1,9 @@
 package ca.mcgill.ecse321.petadoptionsystem;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AdoptionApplicationRepository;
-import ca.mcgill.ecse321.petadoptionsystem.dao.DonationRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetAdoptionSystemRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
@@ -17,7 +13,6 @@ import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -75,13 +70,13 @@ public class AdoptionApplicationTest {
         Account petOwnerAcc = TestingUtility.initAccount("billy","billy@gmail.com" , pas);
         accountRepository.save(petOwnerAcc);
 
-        Account petAdopterAcc = TestingUtility.initAccount("joe","joe@gmail.com" , pas);//works to this point
+        Account petAdopterAcc = TestingUtility.initAccount("joe","joe@gmail.com" , pas);
         accountRepository.save(petAdopterAcc);
-        
-        RegularUser petOwner = TestingUtility.initRegularUser(id2, petOwnerAcc, pas); //user who posts a pet up for adoption
+        //user who posts a pet up for adoption
+        RegularUser petOwner = TestingUtility.initRegularUser(id2, petOwnerAcc, pas); 
         regularUserRepository.save(petOwner);
-        
-        RegularUser petAdopter = TestingUtility.initRegularUser(id3, petAdopterAcc, pas);// user who is adopting pet
+        // user who is adopting pet
+        RegularUser petAdopter = TestingUtility.initRegularUser(id3, petAdopterAcc, pas);
         regularUserRepository.save(petAdopter);
 
         PetProfile petProf = TestingUtility.initPetProfile(id4, petOwner, pas);
