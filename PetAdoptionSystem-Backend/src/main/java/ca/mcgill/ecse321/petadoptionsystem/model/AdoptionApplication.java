@@ -7,60 +7,68 @@ import java.sql.Date;
 import java.sql.Time;
 
 @Entity
-public class AdoptionApplication{
-   private PetProfile petProfile;
-   
-   @ManyToOne(optional=false)
-   public PetProfile getPetProfile() {
-      return this.petProfile;
-   }
-   
-   public void setPetProfile(PetProfile petProfile) {
-      this.petProfile = petProfile;
-   }
-   
-   private RegularUser applicant;
-   
-   @ManyToOne(optional=false)
-   public RegularUser getApplicant() {
-      return this.applicant;
-   }
-   
-   public void setApplicant(RegularUser applicant) {
-      this.applicant = applicant;
-   }
-   
-   private boolean isApproved;
+public class AdoptionApplication {
+    private PetProfile petProfile;
 
-public void setIsApproved(boolean value) {
-    this.isApproved = value;
-}
-public boolean isIsApproved() {
-    return this.isApproved;
-}
-private int id;
+    @ManyToOne(optional = false)
+    public PetProfile getPetProfile() {
+        return this.petProfile;
+    }
 
-public void setId(int value) {
-    this.id = value;
-}
-@Id
-public int getId() {
-    return this.id;
-}
-private Date postDate;
+    public void setPostDate(Date value) {
+        this.postDate = value;
+    }
 
-public void setPostDate(Date value) {
-    this.postDate = value;
-}
-public Date getPostDate() {
-    return this.postDate;
-}
-private Time postTime;
+    public Date getPostDate() {
+        return this.postDate;
+    }
 
-public void setPostTime(Time value) {
-    this.postTime = value;
-}
-public Time getPostTime() {
-    return this.postTime;
-}
+    private Time postTime;
+
+    public void setPostTime(Time value) {
+        this.postTime = value;
+    }
+
+    public Time getPostTime() {
+        return this.postTime;
+    }
+
+    public void setPetProfile(PetProfile petProfile) {
+        this.petProfile = petProfile;
+    }
+
+    private RegularUser applicant;
+
+    @ManyToOne(optional = false)
+    public RegularUser getApplicant() {
+        return this.applicant;
+    }
+
+    public void setApplicant(RegularUser applicant) {
+        this.applicant = applicant;
+    }
+
+    private boolean isApproved;
+
+    public void setIsApproved(boolean value) {
+        this.isApproved = value;
+    }
+
+    public boolean isIsApproved() {
+        return this.isApproved;
+    }
+
+    private int id;
+
+    public void setId(int value) {
+        this.id = value;
+    }
+
+    @Id
+    public int getId() {
+        return this.id;
+    }
+
+    private Date postDate;
+
 }
