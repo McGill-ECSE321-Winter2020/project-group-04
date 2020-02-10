@@ -11,13 +11,13 @@ ___
 
 ## Team Members
 
-| Name | Major | Year|
-|:----:|:-----------:|:------------------------:|
-|Ousmane Baricisse | role 1| ? |
-|Jessie Tang | role 2 | ? |
-|Garrett Kinman | role 3 | ? |
-|Edem Nuviadenu | role 4 | ? |
-|Jose Antonio Jijon | role 5 | ? |
+| Name              | Major                  | Year |
+|:-----------------:|:----------------------:|:----:|
+|Ousmane Baricisse  | Software Engineering   | ?    |
+|Jessie Tang        | Electrical Engineering | ?    |
+|Garrett Kinman     | Computer Engineering   | U2   |
+|Edem Nuviadenu     | Computer Engineering   | ?    |
+|Jose Antonio Jijon | Mechanical Engineering | ?    |
 
 ___
 
@@ -27,10 +27,10 @@ ___
 
 ### Roles and Hours invested by integrant
 
-| Name | Role | Amount of hours |
-|:----:|:-----------:|:------------------------:|
-|Ousmane Baricisse | role 1| ? |
-|Jessie Tang | role 2 | ? |
-|Garrett Kinman | role 3 | ? |
-|Edem Nuviadenu | role 4 | ? |
-|Jose Antonio Jijon | role 5 | ? |
+| Name              | Role                                 | Amount of hours |
+|:-----------------:|:------------------------------------:|:---------------:|
+|Ousmane Baricisse  | Spring/Spring boot with Gradle       | 9+              |
+|Jessie Tang        | Use case diagram & Heroku database   | 9+              |
+|Garrett Kinman     | UML code generation & wiki editing   | 18              |
+|Edem Nuviadenu     | CRUD repositories & Travis CI        | 9+              |
+|Jose Antonio Jijon | Spring-based backend                 | 9+              |
