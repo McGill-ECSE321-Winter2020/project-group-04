@@ -77,7 +77,7 @@ public class DonationTest {
 
         donation = null;
 
-        donation = donationRepository.findDonatitonById(id3);
+        donation = donationRepository.findDonationById(id3);
 
         assertNotNull(donation);
         assertEquals(id3, donation.getId());
