@@ -16,7 +16,7 @@ ___
 |Ousmane Baricisse  | Software Engineering   | ?    |
 |Jessie Tang        | Electrical Engineering | U2   |
 |Garrett Kinman     | Computer Engineering   | U2   |
-|Edem Nuviadenu     | Computer Engineering   | ?    |
+|Edem Nuviadenu     | Computer Engineering   | U2    |
 |Jose Antonio Jijon | Mechanical Engineering | ?    |
 
 ___
