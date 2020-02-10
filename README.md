@@ -29,8 +29,8 @@ ___
 
 | Name              | Role                                 | Amount of hours |
 |:-----------------:|:------------------------------------:|:---------------:|
-|Ousmane Baricisse  | Spring/Spring boot with Gradle       | 9+              |
-|Jessie Tang        | Use case diagram & Heroku database   | 9+              |
-|Garrett Kinman     | UML code generation & wiki editing   | 18              |
-|Edem Nuviadenu     | CRUD repositories & Travis CI        | 9+              |
-|Jose Antonio Jijon | Spring-based backend                 | 9+              |
+|Ousmane Baricisse  | Spring/Spring boot with Gradle       | 22              |
+|Jessie Tang        | Use case diagram & Heroku database   | 21              |
+|Garrett Kinman     | UML code generation & wiki editing   | 19              |
+|Edem Nuviadenu     | CRUD repositories & Travis CI        | 24              |
+|Jose Antonio Jijon | Spring-based backend                 | 22              |
