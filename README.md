@@ -14,7 +14,7 @@ ___
 | Name              | Major                  | Year |
 |:-----------------:|:----------------------:|:----:|
 |Ousmane Baricisse  | Software Engineering   | ?    |
-|Jessie Tang        | Electrical Engineering | ?    |
+|Jessie Tang        | Electrical Engineering | U2   |
 |Garrett Kinman     | Computer Engineering   | U2   |
 |Edem Nuviadenu     | Computer Engineering   | ?    |
 |Jose Antonio Jijon | Mechanical Engineering | ?    |
