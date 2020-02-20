@@ -23,6 +23,8 @@ ___
 
 ## Deliverable Reports
 
+## Deliverable 1
+
 [Deliverable 1 Report](https://github.com/McGill-ECSE321-Winter2020/project-group-04/wiki/Deliverable-1-Report)
 
 ### Roles and Hours invested by integrant for Deliverable 1
@@ -36,3 +38,19 @@ ___
 |Jose Antonio Jijon | Spring-based backend, Tests                | 23              |
 
 *Note:* Everyone participated in project management and persistence testing.
+
+## Deliverable 2
+
+[Deliverable 2 Report](https://github.com/McGill-ECSE321-Winter2020/project-group-04/wiki/Deliverable-2---Report)
+
+### Roles and Hours invested by integrant for Deliverable 2
+
+| Name              | Role                                       | Amount of hours |
+|:-----------------:|:-------------:|:---------------:|
+|Ousmane Baricisse  |                                            |             |
+|Jessie Tang        |  |              |
+|Garrett Kinman     |  |               |
+|Edem Nuviadenu     |       |              |
+|Jose Antonio Jijon |                |               |
+
+
