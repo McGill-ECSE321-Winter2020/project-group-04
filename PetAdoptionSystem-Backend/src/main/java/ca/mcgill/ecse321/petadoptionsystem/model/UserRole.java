@@ -18,7 +18,7 @@ public abstract class UserRole {
       this.petProfile = petProfiles;
    }
 
-   private Account user;
+   public Account user;
 
    @OneToOne(optional = false)
    public Account getUser() {

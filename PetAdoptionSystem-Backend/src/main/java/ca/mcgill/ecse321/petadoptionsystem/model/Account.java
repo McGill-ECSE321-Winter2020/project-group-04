@@ -26,7 +26,7 @@ public class Account {
         this.userRole = userRole;
     }
 
-    private String username;
+    public String username;
 
     public void setUsername(String value) {
         this.username = value;
