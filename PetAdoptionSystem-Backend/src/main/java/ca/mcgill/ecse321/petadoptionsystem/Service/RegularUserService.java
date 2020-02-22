@@ -17,7 +17,6 @@ public class RegularUserService {
     
     @Autowired
     RegularUserRepository regularuserrepository;
-    AccountRepository accountRepository;
 
     /**
      *

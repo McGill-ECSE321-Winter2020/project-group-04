@@ -35,7 +35,7 @@ public class RegularUser extends UserRole {
         this.application = applications;
     }
 
-    private String name;
+    public String name;
 
     public void setName(String value) {
         this.name = value;
