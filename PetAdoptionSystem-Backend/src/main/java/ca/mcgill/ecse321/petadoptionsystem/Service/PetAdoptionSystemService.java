@@ -2,9 +2,14 @@ package ca.mcgill.ecse321.petadoptionsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetAdoptionSystemRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
+
+/**
+ * @author eknuviad
+ */
 
 @Service
 public class PetAdoptionSystemService {
@@ -14,15 +19,26 @@ public class PetAdoptionSystemService {
     @Autowired
     PetAdoptionSystemRepository pasRepository;
 
-    public PetAdoptionSystem createPetAdoptionSystem(){
+    @Transactional
+    public PetAdoptionSystem createPetAdoptionSystem() {
 
-        PetAdoptionSystem pas = new PetAdoptionSystem();
-        pas.setId(systemID);
-        pasRepository.save(pas);
+        PetAdoptionSystem pas = pasRepository.findPetAdoptionSystemById(systemID);
+
+        if (pas == null) {
+            pas = new PetAdoptionSystem();
+            pas.setId(systemID);
+            pasRepository.save(pas);
+        }
+
         return pas;
 
     }
 
+    @Transactional
+    public PetAdoptionSystem getPetAdoptionSystem() {
 
+        PetAdoptionSystem pas = pasRepository.findPetAdoptionSystemById(systemID);
+        return pas;
+    }
 
 }
