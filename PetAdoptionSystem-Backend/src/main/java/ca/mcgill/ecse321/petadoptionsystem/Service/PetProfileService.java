@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.petadoptionsystem.Service;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
-import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetType;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
@@ -20,7 +19,6 @@ public class PetProfileService {
 
     @Autowired
     PetProfileRepository petprofilerepository;
-    RegularUserRepository regularuserrepository;
 
     /**
      *
