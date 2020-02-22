@@ -1,0 +1,7 @@
+package ca.mcgill.ecse321.petadoptionsystem.dto;
+
+public class ReguralUserDTO {
+
+    //chupame un huevo
+
+}
