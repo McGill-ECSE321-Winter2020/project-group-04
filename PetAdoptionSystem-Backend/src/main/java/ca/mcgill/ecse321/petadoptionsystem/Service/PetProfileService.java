@@ -134,14 +134,13 @@ public class PetProfileService {
     /**
      *
      * @param id id of pet profile to be deleted
-     * @return deletes that pet profile
      */
     @Transactional
-    public PetProfile deletePetProfile(int id){
+    public void deletePetProfile(int id){
 
         PetProfile pet = petprofilerepository.findPetProfileById(id);
         deletePetProfile(id);
-        return pet;
+        return;
 
     }
 }
