@@ -1,5 +1,4 @@
 package ca.mcgill.ecse321.petadoptionsystem.service;
-
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
