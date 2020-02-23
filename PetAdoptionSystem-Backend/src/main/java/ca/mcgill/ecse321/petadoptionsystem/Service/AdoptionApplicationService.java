@@ -25,8 +25,28 @@ public class AdoptionApplicationService{
 
     @Transactional
     public AdoptionApplication createApplication(Date postDate, Time postTime, PetProfile petprof, RegularUser applicant){
-// TODO add null checks
-        AdoptionApplication adoptApp = new AdoptionApplication();
+// TODO add null checks ..need to check that application already exists "You have already applied to this pet". If needs to be changed, update post date and time
+//need to check that profile is up to date. this overides existing application
+        //input validation
+        String error = "";
+        if(postDate == null){
+            error = error + "Application date cannot be empty.";
+        }
+        if(postTime == null){
+            error = error + "Application time cannot be empty.";
+        }
+        if(petprof == null){
+            error = error + "Pet Profile needs to be selected to apply.";
+        }
+        AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(applicant, petprof);
+        if(adoptApp != null){
+           error = error + "This application already exists.";
+
+        }
+        if (error.length()>0){
+            throw new IllegalArgumentException(error);
+        }
+        adoptApp = new AdoptionApplication();
         adoptApp.setIsApproved(false);
         adoptApp.setApplicant(applicant);
         adoptApp.setPostDate(postDate);
@@ -39,11 +59,11 @@ public class AdoptionApplicationService{
     }
 
     @Transactional
-    public boolean deleteApplication (int id){
-
+    public boolean deleteApplication (int id){//needs to be changed, not this straight forward
+//find by applicant and petprofile and get id and delete by id. this should take in an application
         AdoptionApplication adoptApp = appRepository.findAdoptionById(id);
         if(adoptApp == null){
-            throw new NullPointerException("No such document exists.");
+            throw new NullPointerException("No such application exists.");
         }
         appRepository.deleteById(id);
         return true;
@@ -56,40 +76,42 @@ public class AdoptionApplicationService{
 
     }
     
-    //return all applications of a particular user
+   
     @Transactional
     public List<AdoptionApplication> getApplicationsByUser(RegularUser regUser){
-        List<AdoptionApplication> userApplications = appRepository.findAdoptionApplicationByRegularUser(regUser);
+        List<AdoptionApplication> userApplications = appRepository.findByApplicant(regUser);
 
         return userApplications;
     }
 
     @Transactional
     public List<AdoptionApplication> getApplicationsByPetProfile(PetProfile petprof){
-        List<AdoptionApplication> petprofApps = appRepository.findAdoptionApplicationByPetProfile(petprof);
+        List<AdoptionApplication> petprofApps = appRepository.findByPetProfile(petprof);
 
         return petprofApps;
     }
 
+    // @Transactional  to be done in due time.
+    // public List<AdoptionApplication> getApplicationByDate(Date postDate){
+    //     List<AdoptionApplication> appsbyDate = appRepository.findAdoptionApplicationByDate(postDate);
+
+    //     return appsbyDate;
+
+    // }
+
     @Transactional
-    public List<AdoptionApplication> getApplicationByDate(Date postDate){
-        List<AdoptionApplication> appsbyDate = appRepository.findAdoptionApplicationByDate(postDate);
-
-        return appsbyDate;
-
-    }
-
-    @Transactional
-    public AdoptionApplication getApplication(int id){
+    public AdoptionApplication getApplication(int id){ //needs to be changed, not this straight forward
+       //find by petprofile and petadopter. this is used in controller to get. Should take in adopter and petprofile
         AdoptionApplication adoptApp = appRepository.findAdoptionById(id);
         if(adoptApp == null){
-            throw new NullPointerException("No such document exists.");
+            throw new NullPointerException("No such application exists.");
         }
         return adoptApp;
     }
 
     @Transactional
     public AdoptionApplication updateApplicationStatus(int id, boolean status){
+        //findbyadopter and profile
         //TODO put in checks
         AdoptionApplication adoptApp = appRepository.findAdoptionById(id);
         adoptApp.setIsApproved(status);

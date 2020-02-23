@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.petadoptionsystem.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Id;
 import java.sql.Date;
@@ -60,11 +62,12 @@ public class AdoptionApplication {
 
     private int id;
 
-    public void setId(int value) {
+    public void setId(int value) { 
         this.id = value;
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return this.id;
     }

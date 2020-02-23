@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.petadoptionsystem.dao;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
@@ -13,18 +12,14 @@ import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 @Repository
 public interface AdoptionApplicationRepository extends CrudRepository<AdoptionApplication, Integer> {
 
-	AdoptionApplication findAdoptionById(int id5);
+	AdoptionApplication findAdoptionById(int appid);
 
-	List<AdoptionApplication> findAdoptionApplicationByRegularUser(RegularUser regUser);
+	List<AdoptionApplication> findByApplicant(RegularUser regUser);
 
-	List<AdoptionApplication> findAdoptionApplicationByPetProfile(PetProfile petprof);
+	List<AdoptionApplication> findByPetProfile(PetProfile petprof);
 
-	List<AdoptionApplication> findAdoptionApplicationByDate(Date postDate);
+	AdoptionApplication findByApplicantAndPetProfile(RegularUser petAdopter, PetProfile petProf);
 
-
-	// AdoptionApplication findAdoptionByRegularUserId(int id3);
-
-	// AdoptionApplication findAdoptionByAdopter(RegularUser petAdopter);
-
+	// List<AdoptionApplication> findListByApplicantAndPetProfile(RegularUser petAdopter, PetProfile petProf);	
 	
 }

@@ -95,7 +95,7 @@ class TestingUtility {
         AdoptionApplication ada = new AdoptionApplication();
 
         ada.setApplicant(regUser);
-        ada.setId(pkey);
+        // ada.setId(pkey);
         ada.setPetProfile(petProf);
         return ada;
 

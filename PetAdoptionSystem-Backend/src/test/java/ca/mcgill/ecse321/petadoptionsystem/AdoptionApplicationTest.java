@@ -49,6 +49,7 @@ public class AdoptionApplicationTest {
     private int id5 = 322;
     private Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
     private Time postTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+    
 
     @AfterEach
     public void clearDatabase(){
@@ -86,14 +87,17 @@ public class AdoptionApplicationTest {
         AdoptionApplication adoptApp = TestingUtility.initAdoptionApplication(id5, petAdopter, petProf);
         adoptApp.setPostDate(date);
         adoptApp.setPostTime(postTime);
+        
         adoptionRepository.save(adoptApp);
+       
 
         adoptApp = null;
 
-        adoptApp = adoptionRepository.findAdoptionById(id5);
+        // adoptApp =  adoptionRepository.findAdoptionById(id5);
+        adoptApp =  adoptionRepository.findByApplicantAndPetProfile(petAdopter, petProf);
 
         assertNotNull(adoptApp);
-        assertEquals(id5, adoptApp.getId());
+        // assertEquals(132, adoptApp.getId());
         assertEquals(date, adoptApp.getPostDate());
         assertEquals(postTime, adoptApp.getPostTime());           
 
