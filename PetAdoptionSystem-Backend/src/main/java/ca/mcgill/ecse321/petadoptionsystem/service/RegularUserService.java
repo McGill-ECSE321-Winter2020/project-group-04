@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.petadoptionsystem.Service;
+package ca.mcgill.ecse321.petadoptionsystem.service;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
@@ -24,7 +24,9 @@ public class RegularUserService {
      */
     @Transactional
     public RegularUser getRegularUserByName(String name){
+
     RegularUser regularuser = regularuserrepository.findRegularUserByName(name);
+
     return(regularuser);
 
 }
@@ -35,8 +37,8 @@ public class RegularUserService {
      */
     @Transactional
     public List<RegularUser> getAllRegularUsers(){
-    return toList(regularuserrepository.findAll());
 
+    return toList(regularuserrepository.findAll());
 }
 
     /**
@@ -44,8 +46,10 @@ public class RegularUserService {
      * @param id id of the user to get
      * @return returns the user with all attributes
      */
+
     @Transactional
     public RegularUser getRegularUserById(int id){
+
     RegularUser regularuser = regularuserrepository.findRegularUserById(id);
     return regularuser;
 
@@ -64,9 +68,15 @@ public class RegularUserService {
 
     RegularUser regularuser = regularuserrepository.findRegularUserByUser(username);
 
-    regularuser.setName(name);
-    regularuser.setPhoneNumber(phonenumber);
-    regularuser.setHomeDescription(homedescription);
+    if (name != null) {
+        regularuser.setName(name);
+    }
+    if (phonenumber != 0) {
+        regularuser.setPhoneNumber(phonenumber);
+    }
+    if (homedescription != null) {
+        regularuser.setHomeDescription(homedescription);
+    }
     regularuserrepository.save(regularuser);
 
     return regularuser;

@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.petadoptionsystem.Service;
+package ca.mcgill.ecse321.petadoptionsystem.service;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
@@ -55,7 +55,7 @@ public class PetProfileService {
     /**
      *
      * @param id id of petprofile
-     * @return
+     * @return gives you the pet profile with desired id
      */
     @Transactional
     public PetProfile getPetProfileById(int id){
@@ -121,11 +121,21 @@ public class PetProfileService {
     public PetProfile updatePetProfile(int id, String breed, String description, String reason, PetType type, String name){
 
         PetProfile pet = petprofilerepository.findPetProfileById(id);
-        pet.setReasonForPosting(reason);
-        pet.setPetType(type);
-        pet.setDescription(description);
-        pet.setBreed(breed);
-        pet.setName(name);
+        if (reason != null) {
+            pet.setReasonForPosting(reason);
+        }
+        if (type != null) {
+            pet.setPetType(type);
+        }
+        if (description != null) {
+            pet.setDescription(description);
+        }
+        if (breed != null) {
+            pet.setBreed(breed);
+        }
+        if (name != null) {
+            pet.setName(name);
+        }
         petprofilerepository.save(pet);
         return pet;
 
@@ -144,7 +154,3 @@ public class PetProfileService {
 
     }
 }
-
-
-
-
