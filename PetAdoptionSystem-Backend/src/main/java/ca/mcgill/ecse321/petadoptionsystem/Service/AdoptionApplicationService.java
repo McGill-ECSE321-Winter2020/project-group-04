@@ -23,11 +23,16 @@ public class AdoptionApplicationService{
     @Autowired
     AdoptionApplicationRepository appRepository;
 
+    /**
+     * Method to create a new Application
+     * @param postDate
+     * @param postTime
+     * @param petprof
+     * @param applicant
+     * @return created application
+     */
     @Transactional
     public AdoptionApplication createApplication(Date postDate, Time postTime, PetProfile petprof, RegularUser applicant){
-// TODO add null checks ..need to check that application already exists "You have already applied to this pet". If needs to be changed, update post date and time
-//need to check that profile is up to date. this overides existing application
-        //input validation
         String error = "";
         if(postDate == null){
             error = error + "Application date cannot be empty.";
@@ -38,16 +43,19 @@ public class AdoptionApplicationService{
         if(petprof == null){
             error = error + "Pet Profile needs to be selected to apply.";
         }
+        if(applicant == null){
+            error = error + "Applicant needs to be selected to apply";
+        }
         AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(applicant, petprof);
-        if(adoptApp != null){
+        if(adoptApp !=null){
            error = error + "This application already exists.";
-
         }
         if (error.length()>0){
             throw new IllegalArgumentException(error);
         }
         adoptApp = new AdoptionApplication();
         adoptApp.setIsApproved(false);
+        adoptApp.setIsConfirmed(false);
         adoptApp.setApplicant(applicant);
         adoptApp.setPostDate(postDate);
         adoptApp.setPostTime(postTime);
@@ -58,25 +66,37 @@ public class AdoptionApplicationService{
         return adoptApp;    
     }
 
+    /**
+     * 
+     * @param adoptApp
+     * @return if delete is successful
+     */
     @Transactional
-    public boolean deleteApplication (int id){//needs to be changed, not this straight forward
-//find by applicant and petprofile and get id and delete by id. this should take in an application
-        AdoptionApplication adoptApp = appRepository.findAdoptionById(id);
-        if(adoptApp == null){
-            throw new NullPointerException("No such application exists.");
+    public boolean deleteApplication (AdoptionApplication adoptApp){
+        int id = adoptApp.getId();
+        AdoptionApplication deleteApp = appRepository.findAdoptionById(id);
+        if(deleteApp == null){
+            throw new NullPointerException("No such application exists to be deleted.");
         }
         appRepository.deleteById(id);
         return true;
     }
 
-    //return all applications in the system
+    /**
+     * 
+     * @return list of all applications in system
+     */
     @Transactional
     public List<AdoptionApplication> getAllApplications(){
         return toList(appRepository.findAll());
 
     }
     
-   
+    /**
+     * Method to get all applications made by a user
+     * @param regUser
+     * @return list of applications of a user
+     */
     @Transactional
     public List<AdoptionApplication> getApplicationsByUser(RegularUser regUser){
         List<AdoptionApplication> userApplications = appRepository.findByApplicant(regUser);
@@ -84,38 +104,72 @@ public class AdoptionApplicationService{
         return userApplications;
     }
 
+    /**
+     * Method to return all applications made to a pet profile
+     * @param petprof
+     * @return list of applications to a petprofile
+     */
     @Transactional
     public List<AdoptionApplication> getApplicationsByPetProfile(PetProfile petprof){
+        if(petprof == null){
+            throw new NullPointerException("Pet profile is required to get its application.");
+        }
         List<AdoptionApplication> petprofApps = appRepository.findByPetProfile(petprof);
 
         return petprofApps;
     }
 
-    // @Transactional  to be done in due time.
-    // public List<AdoptionApplication> getApplicationByDate(Date postDate){
-    //     List<AdoptionApplication> appsbyDate = appRepository.findAdoptionApplicationByDate(postDate);
-
-    //     return appsbyDate;
-
-    // }
-
+    
+    /**
+     * Method to find an application 
+     * @param adopter
+     * @param petprof
+     * @return a specific application to pet profile
+     */
     @Transactional
-    public AdoptionApplication getApplication(int id){ //needs to be changed, not this straight forward
-       //find by petprofile and petadopter. this is used in controller to get. Should take in adopter and petprofile
-        AdoptionApplication adoptApp = appRepository.findAdoptionById(id);
+    public AdoptionApplication getApplication(RegularUser adopter, PetProfile petprof){ 
+       String error ="";
+       if(adopter == null){
+           error = error + "User is required to get an application.";
+       }
+       if(petprof == null){
+           error = error + "Pet profile is required";
+       }
+       if (error.length()>0){
+           throw new IllegalArgumentException(error);
+       }
+       AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(adopter, petprof);
         if(adoptApp == null){
             throw new NullPointerException("No such application exists.");
         }
+        
         return adoptApp;
     }
 
+    /**
+     * Method to update the status of an application
+     * @param adoptApp
+     * @param isApproved
+     * @param isConfirmed
+     * @return an updated application
+     */
     @Transactional
-    public AdoptionApplication updateApplicationStatus(int id, boolean status){
-        //findbyadopter and profile
-        //TODO put in checks
-        AdoptionApplication adoptApp = appRepository.findAdoptionById(id);
-        adoptApp.setIsApproved(status);
-        appRepository.save(adoptApp);
+    public AdoptionApplication updateApplicationStatus(AdoptionApplication adoptApp, boolean isApproved, boolean isConfirmed){
+        if(adoptApp == null){
+            throw new NullPointerException("An application is required to be updated.");
+        }
+        int id = adoptApp.getId();
+        AdoptionApplication updateApp = appRepository.findAdoptionById(id);
+        if(updateApp == null){
+            throw new NullPointerException("This application does not exist.");
+        }
+        boolean approvalStatus = updateApp.isIsApproved();
+        if ((approvalStatus == false) && (isConfirmed == true)){
+            throw new IllegalArgumentException("This application has not been approved.");
+        }
+        updateApp.setIsApproved(isApproved);
+        updateApp.setIsConfirmed(isConfirmed);
+        appRepository.save(updateApp);
         return adoptApp;
     }
 

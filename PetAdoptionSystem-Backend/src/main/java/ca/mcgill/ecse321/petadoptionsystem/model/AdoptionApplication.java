@@ -62,7 +62,7 @@ public class AdoptionApplication {
 
     private int id;
 
-    public void setId(int value) { 
+    public void setId(int value) {
         this.id = value;
     }
 
@@ -73,5 +73,14 @@ public class AdoptionApplication {
     }
 
     private Date postDate;
+
+    private boolean isConfirmed;
+
+	public void setIsConfirmed(boolean value) {
+        this.isConfirmed = value;
+    }
+    public boolean isIsConfirmed() {
+        return this.isConfirmed;
+    }
 
 }
