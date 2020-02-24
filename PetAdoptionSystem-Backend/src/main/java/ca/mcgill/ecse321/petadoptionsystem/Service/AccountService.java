@@ -109,7 +109,7 @@ public class AccountService {
 
     @Transactional
     public ArrayList<Account> getAllAccounts() {
-        // TODO
+        return toArrayList(accountRepository.findAll());
     }
 
     @Transactional
