@@ -96,7 +96,15 @@ public class AccountService {
 
     @Transactional
     public Account getAccountByEmail(String email) {
-        // TODO
+
+        String error = "";
+
+        // check if valid username
+        if (email == null || email.length() == 0) error += "The email address cannot be empty.\n";
+
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        return accountRepository.findAccountByEmail(email);
     }
 
     @Transactional
