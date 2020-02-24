@@ -33,6 +33,7 @@ public class AccountService {
                     
                     // TODO: create UserRole
 
+                    accountRepository.save(account);
                     return account;
                 }
             }
@@ -43,14 +44,27 @@ public class AccountService {
 
     @Transactional
     public Account createAdminAccount(String username, String passwordHash, String email) {
-        Account account = new Account();
-        account.setUsername(username);
-        account.setPasswordHash(passwordHash);
-        account.setEmail(email);
-        // TODO: create UserRole
-        // TODO: check for valid inputs
+        
+        // check if username, email, and passwordHash are valid
+        if (username != null && email != null && passwordHash != null) {
+            if (username.length() > 0 && email.length() > 0 && passwordHash.length() > 0) {
+                
+                // check if username and email are unique in the system
+                if (!(accountRepository.existsByUsername(username) || accountRepository.existsByEmail(email))) {
+                    Account account = new Account();
+                    account.setUsername(username);
+                    account.setPasswordHash(passwordHash);
+                    account.setEmail(email);
+                    
+                    // TODO: create UserRole
 
-        return account;
+                    accountRepository.save(account);
+                    return account;
+                }
+            }
+        }
+
+        return null;
     }
 
     @Transactional
