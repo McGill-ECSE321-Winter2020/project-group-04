@@ -149,7 +149,12 @@ public class AccountService {
 
     @Transactional
     public boolean deleteAccount(String username) {
-        // TODO
+        
+        // retrieve the correct account and update password hash
+        Account account = this.getAccount(username);
+        // TODO: perform deletion
+
+        return true;
     }
 
     private static <T> ArrayList<T> toArrayList(Iterable<T> iterable) {
