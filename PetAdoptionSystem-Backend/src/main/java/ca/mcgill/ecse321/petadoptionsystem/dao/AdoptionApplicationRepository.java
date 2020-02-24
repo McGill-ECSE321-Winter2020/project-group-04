@@ -20,8 +20,4 @@ public interface AdoptionApplicationRepository extends CrudRepository<AdoptionAp
 
 	AdoptionApplication findByApplicantAndPetProfile(RegularUser petAdopter, PetProfile petProf);
 
-	// boolean exitsByApplicantAndPetProfile(RegularUser applicant, PetProfile petprof);
-
-	// List<AdoptionApplication> findListByApplicantAndPetProfile(RegularUser petAdopter, PetProfile petProf);	
-	
 }

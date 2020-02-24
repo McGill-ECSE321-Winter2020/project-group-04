@@ -76,9 +76,10 @@ public class AdoptionApplication {
 
     private boolean isConfirmed;
 
-	public void setIsConfirmed(boolean value) {
+    public void setIsConfirmed(boolean value) {
         this.isConfirmed = value;
     }
+
     public boolean isIsConfirmed() {
         return this.isConfirmed;
     }

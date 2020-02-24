@@ -18,13 +18,14 @@ import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
  * @author eknuviad
  */
 @Service
-public class AdoptionApplicationService{
+public class AdoptionApplicationService {
 
     @Autowired
     AdoptionApplicationRepository appRepository;
 
     /**
      * Method to create a new Application
+     * 
      * @param postDate
      * @param postTime
      * @param petprof
@@ -32,25 +33,26 @@ public class AdoptionApplicationService{
      * @return created application
      */
     @Transactional
-    public AdoptionApplication createApplication(Date postDate, Time postTime, PetProfile petprof, RegularUser applicant){
+    public AdoptionApplication createApplication(Date postDate, Time postTime, PetProfile petprof,
+            RegularUser applicant) {
         String error = "";
-        if(postDate == null){
+        if (postDate == null) {
             error = error + "Application date cannot be empty.";
         }
-        if(postTime == null){
+        if (postTime == null) {
             error = error + "Application time cannot be empty.";
         }
-        if(petprof == null){
+        if (petprof == null) {
             error = error + "Pet Profile needs to be selected to apply.";
         }
-        if(applicant == null){
+        if (applicant == null) {
             error = error + "Applicant needs to be selected to apply";
         }
         AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(applicant, petprof);
-        if(adoptApp !=null){
-           error = error + "This application already exists.";
+        if (adoptApp != null) {
+            error = error + "This application already exists.";
         }
-        if (error.length()>0){
+        if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
         adoptApp = new AdoptionApplication();
@@ -63,7 +65,7 @@ public class AdoptionApplicationService{
 
         appRepository.save(adoptApp);
 
-        return adoptApp;    
+        return adoptApp;
     }
 
     /**
@@ -72,10 +74,10 @@ public class AdoptionApplicationService{
      * @return if delete is successful
      */
     @Transactional
-    public boolean deleteApplication (AdoptionApplication adoptApp){
+    public boolean deleteApplication(AdoptionApplication adoptApp) {
         int id = adoptApp.getId();
         AdoptionApplication deleteApp = appRepository.findAdoptionById(id);
-        if(deleteApp == null){
+        if (deleteApp == null) {
             throw new NullPointerException("No such application exists to be deleted.");
         }
         appRepository.deleteById(id);
@@ -87,18 +89,19 @@ public class AdoptionApplicationService{
      * @return list of all applications in system
      */
     @Transactional
-    public List<AdoptionApplication> getAllApplications(){
+    public List<AdoptionApplication> getAllApplications() {
         return toList(appRepository.findAll());
 
     }
-    
+
     /**
      * Method to get all applications made by a user
+     * 
      * @param regUser
      * @return list of applications of a user
      */
     @Transactional
-    public List<AdoptionApplication> getApplicationsByUser(RegularUser regUser){
+    public List<AdoptionApplication> getApplicationsByUser(RegularUser regUser) {
         List<AdoptionApplication> userApplications = appRepository.findByApplicant(regUser);
 
         return userApplications;
@@ -106,12 +109,13 @@ public class AdoptionApplicationService{
 
     /**
      * Method to return all applications made to a pet profile
+     * 
      * @param petprof
      * @return list of applications to a petprofile
      */
     @Transactional
-    public List<AdoptionApplication> getApplicationsByPetProfile(PetProfile petprof){
-        if(petprof == null){
+    public List<AdoptionApplication> getApplicationsByPetProfile(PetProfile petprof) {
+        if (petprof == null) {
             throw new NullPointerException("Pet profile is required to get its application.");
         }
         List<AdoptionApplication> petprofApps = appRepository.findByPetProfile(petprof);
@@ -119,52 +123,54 @@ public class AdoptionApplicationService{
         return petprofApps;
     }
 
-    
     /**
-     * Method to find an application 
+     * Method to find an application
+     * 
      * @param adopter
      * @param petprof
      * @return a specific application to pet profile
      */
     @Transactional
-    public AdoptionApplication getApplication(RegularUser adopter, PetProfile petprof){ 
-       String error ="";
-       if(adopter == null){
-           error = error + "User is required to get an application.";
-       }
-       if(petprof == null){
-           error = error + "Pet profile is required";
-       }
-       if (error.length()>0){
-           throw new IllegalArgumentException(error);
-       }
-       AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(adopter, petprof);
-        if(adoptApp == null){
+    public AdoptionApplication getApplication(RegularUser adopter, PetProfile petprof) {
+        String error = "";
+        if (adopter == null) {
+            error = error + "User is required to get an application.";
+        }
+        if (petprof == null) {
+            error = error + "Pet profile is required";
+        }
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+        AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(adopter, petprof);
+        if (adoptApp == null) {
             throw new NullPointerException("No such application exists.");
         }
-        
+
         return adoptApp;
     }
 
     /**
      * Method to update the status of an application
+     * 
      * @param adoptApp
      * @param isApproved
      * @param isConfirmed
      * @return an updated application
      */
     @Transactional
-    public AdoptionApplication updateApplicationStatus(AdoptionApplication adoptApp, boolean isApproved, boolean isConfirmed){
-        if(adoptApp == null){
+    public AdoptionApplication updateApplicationStatus(AdoptionApplication adoptApp, boolean isApproved,
+            boolean isConfirmed) {
+        if (adoptApp == null) {
             throw new NullPointerException("An application is required to be updated.");
         }
         int id = adoptApp.getId();
         AdoptionApplication updateApp = appRepository.findAdoptionById(id);
-        if(updateApp == null){
+        if (updateApp == null) {
             throw new NullPointerException("This application does not exist.");
         }
         boolean approvalStatus = updateApp.isIsApproved();
-        if ((approvalStatus == false) && (isConfirmed == true)){
+        if ((approvalStatus == false) && (isConfirmed == true)) {
             throw new IllegalArgumentException("This application has not been approved.");
         }
         updateApp.setIsApproved(isApproved);
@@ -173,16 +179,12 @@ public class AdoptionApplicationService{
         return adoptApp;
     }
 
-
-
-    private <T> List<T> toList(Iterable<T> iterable){
+    private <T> List<T> toList(Iterable<T> iterable) {
         List<T> resultList = new ArrayList<T>();
-        for(T t: iterable){
+        for (T t : iterable) {
             resultList.add(t);
         }
         return resultList;
     }
-
-
 
 }

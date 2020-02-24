@@ -38,7 +38,7 @@ public class PetAdoptionSystemService {
     public PetAdoptionSystem getPetAdoptionSystem() {
 
         PetAdoptionSystem pas = pasRepository.findPetAdoptionSystemById(systemID);
-        if(pas == null){
+        if (pas == null) {
             throw new NullPointerException("No system has been created.");
         }
         return pas;
