@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.petadoptionsystem.dto.PetAdoptionSystemDTO;
+import ca.mcgill.ecse321.petadoptionsystem.dto.PetAdoptionSystemDto;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
 import ca.mcgill.ecse321.petadoptionsystem.service.PetAdoptionSystemService;
 
@@ -23,13 +23,13 @@ public class PetAdoptionSystemController{
     }
 
     @GetMapping(value = {"/getSystem", "/getSystem/"})
-    public PetAdoptionSystemDTO getPetAdoptionSystem()throws IllegalArgumentException{
+    public PetAdoptionSystemDto getPetAdoptionSystem() throws IllegalArgumentException {
         PetAdoptionSystem pas = service.getPetAdoptionSystem();
         return convertToDto(pas);
     }
 
-    private PetAdoptionSystemDTO convertToDto(PetAdoptionSystem pas) {
-        PetAdoptionSystemDTO pasDto = new PetAdoptionSystemDTO(pas.getId());
+    private PetAdoptionSystemDto convertToDto(PetAdoptionSystem pas) {
+        PetAdoptionSystemDto pasDto = new PetAdoptionSystemDto(pas.getId());
         return pasDto;
     }
 

@@ -1,10 +1,10 @@
 package ca.mcgill.ecse321.petadoptionsystem.dto;
 
-public class PetAdoptionSystemDTO {
+public class PetAdoptionSystemDto {
 
     private int systemID;
 
-    public PetAdoptionSystemDTO(int id) {
+    public PetAdoptionSystemDto(int id) {
         this.systemID = id;
     }
 
