@@ -10,8 +10,9 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
 
 	Account findAccountByUsername(String username);
 	Account findAccountByUserRole(String usrR);
-
-
+	Account findAccountByEmail(String email);
+	boolean existsByUsername(String username);
+	boolean existsByEmail(String email);
 	
 
 }
