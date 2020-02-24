@@ -83,17 +83,15 @@ public class AccountService {
 
     @Transactional
     public Account getAccount(String username) {
-        // TODO
 
-        // check if username is valid
-        if (username != null) {
-            if (username.length() > 0) {
+        String error = "";
 
-            }
-        }
+        // check if valid username
+        if (username == null || username.length() == 0) error += "The username cannot be empty.\n";
 
-        // if failed to get account
-        return null;
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        return accountRepository.findAccountByUsername(username);
     }
 
     @Transactional
