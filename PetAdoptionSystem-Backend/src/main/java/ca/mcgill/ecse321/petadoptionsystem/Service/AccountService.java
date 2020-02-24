@@ -114,12 +114,37 @@ public class AccountService {
 
     @Transactional
     public boolean updatePassword(String username, String newPasswordHash) {
-        // TODO
+        
+        String error = "";
+
+        if (newPasswordHash == null || newPasswordHash.length() == 0) error += "The password hash cannot be empty.\n";
+
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        // retrieve the correct account and update password hash
+        Account account = this.getAccount(username);
+        account.setPasswordHash(newPasswordHash);
+
+        accountRepository.save(account);
+
+        return true;
     }
 
     @Transactional
     public boolean updateEmail(String username, String newEmail) {
-        // TODO
+        
+        String error = "";
+
+        if (newEmail == null || newEmail.length() == 0) error += "The email address cannot be empty.\n";
+
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        // retrieve the correct account and update email address
+        Account account = this.getAccount(username);
+        account.setEmail(newEmail);
+        accountRepository.save(account);
+
+        return true;
     }
 
     @Transactional
