@@ -126,4 +126,12 @@ public class AccountService {
     public boolean deleteAccount(String username) {
         // TODO
     }
+
+    private static <T> ArrayList<T> toArrayList(Iterable<T> iterable) {
+        ArrayList<T> list = new ArrayList<T>();
+        for (T t : iterable) {
+            list.add(t);
+        }
+        return list;
+    }
 }
