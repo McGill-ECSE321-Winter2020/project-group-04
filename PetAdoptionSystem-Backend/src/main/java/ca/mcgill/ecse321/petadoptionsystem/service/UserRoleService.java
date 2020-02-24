@@ -2,17 +2,21 @@ package ca.mcgill.ecse321.petadoptionsystem.service;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.AdminRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
+import ca.mcgill.ecse321.petadoptionsystem.dto.UserRoleDTO;
 import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionsystem.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.*;
 
 import static org.hibernate.internal.util.collections.ArrayHelper.toList;
 
-public class UserRoleService {
+@Service
+public abstract class UserRoleService {
+
     @Autowired
     AdminRepository adminRepository;
 
@@ -24,18 +28,21 @@ public class UserRoleService {
      */
     @Transactional
     public List<UserRole> getAllUserRoles(){
-        List admins = toList(adminRepository.findAll());
-        List regularUsers = toList(regularUserRepository.findAll());
-        regularUsers.addAll(admins);
-        return regularUsers;
+        List<Admin> admins = toList(adminRepository.findAll());
+        List<RegularUser> regularUsers = toList(regularUserRepository.findAll());
+        List<UserRole> userRoles = new ArrayList<>();
+        userRoles.add((UserRole) admins);
+        userRoles.add((UserRole) regularUsers);
+        return userRoles;
     }
+
 
     /**
      * @param id UserRole id
      * @return UserRole corresponding to input id
      */
     @Transactional
-    public UserRole getUserRole(int id){
+    public UserRole getUserRoleById(int id){
         Admin admin = null;
         RegularUser regularUser = null;
 
@@ -55,12 +62,7 @@ public class UserRoleService {
             return admin;
         }
         else{
-            if (regularUser != null){
-                return regularUser;
-            }
-            else{
-                return null;
-            }
+            return regularUser;
         }
 
     }
@@ -71,7 +73,7 @@ public class UserRoleService {
      */
     @Transactional
     public boolean deleteUserRole(int id){
-        Boolean deleted = true;
+        boolean deleted = true;
 
         try {
             adminRepository.deleteById(id);
@@ -88,5 +90,16 @@ public class UserRoleService {
         return deleted;
     }
 
-
+    /**
+     * @param iterable
+     * @param <T>
+     * @return list
+     */
+    private <T> List<T> toList(Iterable<T> iterable){
+        List<T> resultList = new ArrayList<T>();
+        for (T t : iterable) {
+            resultList.add(t);
+        }
+        return resultList;
+    }
 }
