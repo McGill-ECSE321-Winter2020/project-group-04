@@ -7,13 +7,15 @@ import org.springframework.stereotype.Repository;
 
 import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
 
+import java.util.List;
+
 @Repository
 public interface PetProfileRepository extends CrudRepository<PetProfile, Integer> {
 
 	PetProfile findPetProfileById(int i);
-	PetProfile findAllPetProfileByPoster(UserRole id);
-	PetProfile findAllPetProfileByBreed(String breed);
-	PetProfile findAllPetProfileByPetType(PetType id);
+	List<PetProfile> findAllPetProfileByPoster(UserRole id);
+	List<PetProfile> findAllPetProfileByBreed(String breed);
+	List<PetProfile> findAllPetProfileByPetType(PetType id);
 
 
 

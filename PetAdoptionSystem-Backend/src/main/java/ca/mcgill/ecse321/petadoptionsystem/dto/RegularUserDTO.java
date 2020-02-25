@@ -16,6 +16,7 @@ public class RegularUserDTO {
     private String homeDescription;
     private int phoneNumber;
 
+    //Get everything from the DTO classes
     public RegularUserDTO(Set<Donation> donation, Account user, String name,
                           Set<AdoptionApplication> application, String homeDescription, int phoneNumber) {
         this.donation = donation;

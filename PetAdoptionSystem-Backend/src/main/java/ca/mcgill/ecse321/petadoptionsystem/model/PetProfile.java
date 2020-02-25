@@ -91,6 +91,7 @@ public class PetProfile {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return this.id;
     }

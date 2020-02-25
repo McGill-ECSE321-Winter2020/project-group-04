@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 import static org.hibernate.internal.util.collections.ArrayHelper.toList;
 
@@ -22,7 +23,6 @@ public class PetProfileService {
 
     /**
      *
-     * @param id new id for pet profile
      * @param breed breed of pet
      * @param description description of pet
      * @param name name of pet
@@ -34,10 +34,9 @@ public class PetProfileService {
      * @return the whole petprofile with attributes
      */
     @Transactional
-    public PetProfile createPetProfile(int id, String breed, String description, String name, PetType pettype, Time posttime, Date postdate, RegularUser poster, String reason){
+    public PetProfile createPetProfile(String breed, String description, String name, PetType pettype, Time posttime, Date postdate, RegularUser poster, String reason){
 
         PetProfile pet = new PetProfile();
-        pet.setId(id);
         pet.setBreed(breed);
         pet.setDescription(description);
         pet.setName(name);
@@ -52,18 +51,6 @@ public class PetProfileService {
 
     }
 
-    /**
-     *
-     * @param id id of petprofile
-     * @return gives you the pet profile with desired id
-     */
-    @Transactional
-    public PetProfile getPetProfileById(int id){
-
-        PetProfile pet = petprofilerepository.findPetProfileById(id);
-        return pet;
-
-    }
 
     /**
      *
@@ -80,9 +67,9 @@ public class PetProfileService {
      * @return return all post done by this poster
      */
     @Transactional
-    public PetProfile getAllPetProfilesByPosterId(RegularUser id){
+    public List<PetProfile> getAllPetProfilesByPosterId(RegularUser id){
 
-            return petprofilerepository.findAllPetProfileByPoster(id);
+            return toList(petprofilerepository.findAllPetProfileByPoster(id));
         }
 
     /**
@@ -91,9 +78,9 @@ public class PetProfileService {
      * @return get all pet profiles from this breed
      */
     @Transactional
-    public PetProfile getAllPetProfilesByBreed(String breed){
+    public List<PetProfile> getAllPetProfilesByBreed(String breed){
 
-        return petprofilerepository.findAllPetProfileByBreed(breed);
+        return toList(petprofilerepository.findAllPetProfileByBreed(breed));
     }
 
     /**
@@ -102,9 +89,9 @@ public class PetProfileService {
      * @return all pets from this type
      */
     @Transactional
-    public PetProfile getAllPetProfilesByPetType(PetType type){
+    public List<PetProfile> getAllPetProfilesByPetType(PetType type){
 
-        return petprofilerepository.findAllPetProfileByPetType(type);
+        return toList(petprofilerepository.findAllPetProfileByPetType(type));
     }
 
     /**
@@ -146,11 +133,21 @@ public class PetProfileService {
      * @param id id of pet profile to be deleted
      */
     @Transactional
+    //Look for Account username, PetProfile name
+    //Get Id from UserRole, using the username
     public void deletePetProfile(int id){
 
         PetProfile pet = petprofilerepository.findPetProfileById(id);
         deletePetProfile(id);
         return;
 
+    }
+
+    private <T> List<T> toList(Iterable<T> iterable){
+        List<T> resultList = new ArrayList<T>();
+        for (T t : iterable) {
+            resultList.add(t);
+        }
+        return resultList;
     }
 }

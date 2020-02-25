@@ -28,8 +28,15 @@ public class RegularUserService {
     RegularUser regularuser = regularuserrepository.findRegularUserByName(name);
 
     return(regularuser);
-
 }
+
+    @Transactional
+    public RegularUser getRegularUserByUsername(Account user){
+
+        RegularUser regularuser = regularuserrepository.findRegularUserByUser(user);
+
+        return(regularuser);
+    }
 
     /**
      *
@@ -39,20 +46,6 @@ public class RegularUserService {
     public List<RegularUser> getAllRegularUsers(){
 
     return toList(regularuserrepository.findAll());
-}
-
-    /**
-     *
-     * @param id id of the user to get
-     * @return returns the user with all attributes
-     */
-
-    @Transactional
-    public RegularUser getRegularUserById(int id){
-
-    RegularUser regularuser = regularuserrepository.findRegularUserById(id);
-    return regularuser;
-
 }
 
     /**

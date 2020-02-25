@@ -43,6 +43,8 @@ public class PetProfileDTO {
      * @param postDate date
      * @param postTime time
      */
+
+    //Get everything from the DTO classes
     public PetProfileDTO(UserRole poster, Set<Image> image, Set<AdoptionApplication> application, String name, PetType petType,
                          String breed, String description, int id, String reasonForPosting, Date postDate, Time postTime){
         this.poster = poster;
