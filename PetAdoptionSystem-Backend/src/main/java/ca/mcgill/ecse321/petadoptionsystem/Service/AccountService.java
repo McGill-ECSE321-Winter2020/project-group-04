@@ -83,7 +83,7 @@ public class AccountService {
     }
 
     @Transactional
-    public Account getAccount(String username) throws IllegalArgumentException {
+    public Account getAccountByUsername(String username) throws IllegalArgumentException {
 
         String error = "";
 
@@ -113,8 +113,9 @@ public class AccountService {
         return toList(accountRepository.findAll());
     }
 
+    // TODO: require matching old password
     @Transactional
-    public boolean updatePassword(String username, String newPasswordHash) throws IllegalArgumentException {
+    public void updatePassword(String username, String newPasswordHash) throws IllegalArgumentException {
         
         String error = "";
 
@@ -123,16 +124,16 @@ public class AccountService {
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         // retrieve the correct account and update password hash
-        Account account = this.getAccount(username);
+        Account account = this.getAccountByUsername(username);
         account.setPasswordHash(newPasswordHash);
 
         accountRepository.save(account);
 
-        return true;
+        return;
     }
 
     @Transactional
-    public boolean updateEmail(String username, String newEmail) throws IllegalArgumentException {
+    public void updateEmail(String username, String newEmail) throws IllegalArgumentException {
         
         String error = "";
 
@@ -141,19 +142,20 @@ public class AccountService {
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         // retrieve the correct account and update email address
-        Account account = this.getAccount(username);
+        Account account = this.getAccountByUsername(username);
         account.setEmail(newEmail);
         accountRepository.save(account);
 
-        return true;
+        return;
     }
 
+    // TODO: figure out what getAccountByUsername passes when it fails
     @Transactional
     public boolean deleteAccount(String username) {
         
         // retrieve the correct account and delete it
         // if found and deleted, returns true; else, false
-        Account account = this.getAccount(username);
+        Account account = this.getAccountByUsername(username);
         if (account != null) {
             accountRepository.delete(account);
             return true;
