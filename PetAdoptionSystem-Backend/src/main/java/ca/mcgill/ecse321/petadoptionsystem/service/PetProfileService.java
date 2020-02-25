@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.petadoptionsystem.service;
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.*;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,10 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * @author joseantoniojijon
+ */
 
 @Service
 public class PetProfileService {
@@ -70,6 +75,7 @@ public class PetProfileService {
         pet.setPostDate(postdate);
         pet.setPoster(posterid);
         pet.setReasonForPosting(reason);
+        pet.setIsAvailable(true);
 
         petprofilerepository.save(pet);
         return pet;
@@ -123,9 +129,20 @@ public class PetProfileService {
         return toList(petprofilerepository.findAllPetProfileByPetType(type));
     }
 
-
+    /**
+     *
+     * @param username of the user
+     * @param breed of the pet
+     * @param description of the pet
+     * @param reason for posting
+     * @param type of the pet
+     * @param name of the pet
+     * @param isAvailable if it's already adopted should be boolean false
+     * @return the updated petprofile
+     */
     @Transactional
-    public PetProfile updatePetProfile(Account username, String breed, String description, String reason, PetType type, String name){
+    public PetProfile updatePetProfile(Account username, String breed, String description, String reason,
+                                       PetType type, String name, Boolean isAvailable){
 
         //Get the PosterId from the account username
         UserRole posterid = regularUserRepository.findRegularUserByUser(username);
@@ -148,6 +165,11 @@ public class PetProfileService {
         if (name != null) {
             pet.setName(name);
         }
+
+        if (isAvailable != null) {
+            pet.setIsAvailable(isAvailable);
+        }
+
         petprofilerepository.save(pet);
         return pet;
 
@@ -168,8 +190,6 @@ public class PetProfileService {
         PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(name, posterid);
 
         petprofilerepository.delete(pet);
-
-        return;
 
     }
 

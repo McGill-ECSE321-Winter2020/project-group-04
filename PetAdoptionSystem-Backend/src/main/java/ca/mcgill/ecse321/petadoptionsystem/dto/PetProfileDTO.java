@@ -17,17 +17,17 @@ import java.util.Set;
 
 public class PetProfileDTO {
 
-    private UserRole poster;
-    private Set<Image> image;
-    private Set<AdoptionApplication> application;
-    private String name;
-    private PetType petType;
-    private String breed;
-    private String description;
-    private int id;
-    private String reasonForPosting;
-    private Date postDate;
-    private Time postTime;
+    public UserRole poster;
+    public Set<Image> image;
+    public Set<AdoptionApplication> application;
+    public String name;
+    public PetType petType;
+    public String breed;
+    public String description;
+    public int id;
+    public String reasonForPosting;
+    public Date postDate;
+    public Time postTime;
 
     /**
      *
@@ -60,48 +60,5 @@ public class PetProfileDTO {
         this.postTime = postTime;
     }
 
-    public UserRole getPoster() {
-        return this.poster;
-    }
-
-    public Set<Image> getImage() {
-        return this.image;
-    }
-
-    public Set<AdoptionApplication> getApplication() {
-        return this.application;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public PetType getPetType() {
-        return this.petType;
-    }
-
-    public String getBreed() {
-        return this.breed;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public String getReasonForPosting() {
-        return this.reasonForPosting;
-    }
-
-    public Date getPostDate() {
-        return this.postDate;
-    }
-
-    public Time getPostTime() {
-        return this.postTime;
-    }
 
 }
