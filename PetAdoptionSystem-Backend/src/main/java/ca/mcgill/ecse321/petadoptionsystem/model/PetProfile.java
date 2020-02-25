@@ -126,4 +126,15 @@ public class PetProfile {
         return this.postTime;
     }
 
+    public boolean isAvailable;
+
+    public void setIsAvailable(boolean value) {
+        this.isAvailable = value;
+    }
+
+    public boolean isIsAvailable() {
+        return this.isAvailable;
+    }
+
+
 }
