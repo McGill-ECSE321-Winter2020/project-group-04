@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.petadoptionsystem.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -108,8 +109,8 @@ public class AccountService {
     }
 
     @Transactional
-    public ArrayList<Account> getAllAccounts() {
-        return toArrayList(accountRepository.findAll());
+    public List<Account> getAllAccounts() {
+        return toList(accountRepository.findAll());
     }
 
     @Transactional
@@ -157,7 +158,7 @@ public class AccountService {
         return true;
     }
 
-    private static <T> ArrayList<T> toArrayList(Iterable<T> iterable) {
+    private static <T> List<T> toList(Iterable<T> iterable) {
         ArrayList<T> list = new ArrayList<T>();
         for (T t : iterable) {
             list.add(t);
