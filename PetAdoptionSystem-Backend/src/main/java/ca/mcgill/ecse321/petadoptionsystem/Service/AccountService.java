@@ -151,11 +151,14 @@ public class AccountService {
     @Transactional
     public boolean deleteAccount(String username) {
         
-        // retrieve the correct account and update password hash
+        // retrieve the correct account and delete it
+        // if found and deleted, returns true; else, false
         Account account = this.getAccount(username);
-        // TODO: perform deletion
-
-        return true;
+        if (account != null) {
+            accountRepository.delete(account);
+            return true;
+        }
+        return false;
     }
 
     private static <T> List<T> toList(Iterable<T> iterable) {
