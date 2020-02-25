@@ -19,7 +19,7 @@ public class AccountService {
     AccountRepository accountRepository;
 
     @Transactional
-    public Account createRegularUserAccount(String username, String passwordHash, String email) {
+    public Account createRegularUserAccount(String username, String passwordHash, String email) throws IllegalArgumentException {
         
         String error = "";
 
@@ -51,7 +51,7 @@ public class AccountService {
     }
 
     @Transactional
-    public Account createAdminAccount(String username, String passwordHash, String email) {
+    public Account createAdminAccount(String username, String passwordHash, String email) throws IllegalArgumentException {
         
         String error = "";
 
@@ -83,7 +83,7 @@ public class AccountService {
     }
 
     @Transactional
-    public Account getAccount(String username) {
+    public Account getAccount(String username) throws IllegalArgumentException {
 
         String error = "";
 
@@ -96,7 +96,7 @@ public class AccountService {
     }
 
     @Transactional
-    public Account getAccountByEmail(String email) {
+    public Account getAccountByEmail(String email) throws IllegalArgumentException {
 
         String error = "";
 
@@ -114,7 +114,7 @@ public class AccountService {
     }
 
     @Transactional
-    public boolean updatePassword(String username, String newPasswordHash) {
+    public boolean updatePassword(String username, String newPasswordHash) throws IllegalArgumentException {
         
         String error = "";
 
@@ -132,7 +132,7 @@ public class AccountService {
     }
 
     @Transactional
-    public boolean updateEmail(String username, String newEmail) {
+    public boolean updateEmail(String username, String newEmail) throws IllegalArgumentException {
         
         String error = "";
 
