@@ -33,8 +33,8 @@ public class AdoptionApplicationService {
      * @return created application
      */
     @Transactional
-    public AdoptionApplication createApplication(Date postDate, Time postTime, PetProfile petprof,
-            RegularUser applicant) {
+    public AdoptionApplication createApplication(Date postDate, Time postTime, RegularUser applicant,
+            PetProfile petprof) {
         String error = "";
         if (postDate == null) {
             error = error + "Application date cannot be empty.";
