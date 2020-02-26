@@ -93,7 +93,7 @@ public class PetProfileService {
      * @return get all pet profiles from this breed
      */
     @Transactional
-    public PetProfile getAllPetProfilesByBreed(String breed){
+    public List <PetProfile> getAllPetProfilesByBreed(String breed){
 
         return petprofilerepository.findAllPetProfileByBreed(breed);
     }
@@ -104,7 +104,7 @@ public class PetProfileService {
      * @return all pets from this type
      */
     @Transactional
-    public PetProfile getAllPetProfilesByPetType(PetType type){
+    public List <PetProfile> getAllPetProfilesByPetType(PetType type){
 
         return petprofilerepository.findAllPetProfileByPetType(type);
     }
@@ -139,13 +139,16 @@ public class PetProfileService {
      * @return deletes that pet profile
      */
     @Transactional
-    public PetProfile deletePetProfile(int id){
+    public void deletePetProfile(int id){
 
         PetProfile pet = petprofilerepository.findPetProfileById(id);
         deletePetProfile(id);
-        return pet;
 
     }
+
+	public List<PetProfile> getAllPetProfilesByUsername(String username) {
+		return null;
+	}
 }
 
 

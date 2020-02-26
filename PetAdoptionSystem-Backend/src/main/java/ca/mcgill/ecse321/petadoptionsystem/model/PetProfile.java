@@ -136,5 +136,8 @@ public class PetProfile {
         return this.isAvailable;
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Added browse for pet applications and Petprofile test fix #56
 }

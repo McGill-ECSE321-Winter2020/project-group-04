@@ -83,5 +83,9 @@ public class RegularUserService {
 
 }
 
+	public RegularUser getRegularUserByUsername(String username) {
+		return null;
+	}
+
 
 }

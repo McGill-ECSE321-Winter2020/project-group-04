@@ -74,10 +74,10 @@ class TestingUtility {
      * @param pas
      * @return
      */
-    public static PetProfile initPetProfile(int pkey, RegularUser regUser, PetAdoptionSystem pas) {
+    public static PetProfile initPetProfile(RegularUser regUser, PetAdoptionSystem pas) {
 
         PetProfile petProf = new PetProfile();
-        petProf.setId(pkey);
+        petProf.setIsAvailable(true);
         petProf.setPoster(regUser);
 
         return petProf;
@@ -91,11 +91,10 @@ class TestingUtility {
      * @param petProf
      * @return
      */
-    public static AdoptionApplication initAdoptionApplication(int pkey, RegularUser regUser, PetProfile petProf) {
+    public static AdoptionApplication initAdoptionApplication(RegularUser regUser, PetProfile petProf) {
         AdoptionApplication ada = new AdoptionApplication();
 
         ada.setApplicant(regUser);
-        // ada.setId(pkey);
         ada.setPetProfile(petProf);
         return ada;
 

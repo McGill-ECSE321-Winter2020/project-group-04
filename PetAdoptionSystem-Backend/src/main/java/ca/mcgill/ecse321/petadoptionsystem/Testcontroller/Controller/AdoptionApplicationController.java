@@ -52,15 +52,79 @@ public class AdoptionApplicationController {
             @RequestParam(name = "applicant") RegularUserDTO regUserDTO,
             @RequestParam(name = "petProfile") PetProfileDTO petprofDTO) throws IllegalArgumentException {
 
-            RegularUser ru = regservice.getRegularUserById(2);//at the moment id is not being stored in dto
-            PetProfile pp = profileservice.getPetProfileById(petprofDTO.getId());
+        RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser().username);// regUserbyUsername method
+                                                                                            // needs to be implemented
+                                                                                            // in regservice class.
+        PetProfile pp = profileservice.getPetProfileById(petprofDTO.getId()); // petProfile DTO from Jose can store the
+                                                                              // // username of poster to make this
+                                                                              // easier. needs to store id of petprofile
 
-            AdoptionApplication a = appservice.createApplication(postDate, Time.valueOf(postTime),ru, pp);
+        AdoptionApplication a = appservice.createApplication(postDate, Time.valueOf(postTime), ru, pp);
 
         return convertToDto(a);
     }
 
-    
+    @GetMapping(value = { "/deleteApplication", "/deleteApplication/" })
+    public boolean deleteApplication(@RequestParam(name = "application") AdoptionApplicationDTO appDTO,
+            @RequestParam(name = "applicant") RegularUserDTO regUserDTO,
+            @RequestParam(name = "petProfile") PetProfileDTO petprofDTO) throws IllegalArgumentException {
+
+        if (appDTO == null) {
+            throw new NullPointerException("An application is required to be deleted");
+        }
+        RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser().username);// regUserbyUsername method
+        // needs to be implemented
+        // in regservice class.
+        PetProfile pp = profileservice.getPetProfileById(petprofDTO.getId()); // petProfile DTO from Jose can store the
+        // // username of poster to make this
+        // easi
+        AdoptionApplication a = appservice.getApplication(ru, pp);
+        Boolean result = appservice.deleteApplication(a);
+
+        return result;
+    }
+
+    @GetMapping(value = { "/browse/applications/applicant", "/browse/applications/applicant/" })
+    public List<AdoptionApplicationDTO> browseApplicationsOfApplicant(
+            @RequestParam(name = "applicant") RegularUserDTO regUserDTO) throws IllegalArgumentException {
+
+        if (regUserDTO == null) {
+            throw new NullPointerException("A user is required to browse applications.");
+        }
+
+        RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser().username);// regUserbyUsername method
+        // needs to be implemented
+        // in regservice class.
+        List<AdoptionApplicationDTO> appDtos = new ArrayList<>();
+        for (AdoptionApplication app : appservice.getApplicationsByUser(ru)) {
+            appDtos.add(convertToDto(app));
+        }
+        return appDtos;
+    }
+
+    @GetMapping(value = { "/browse/applications/petprofile", "/browse/applications/petprofile/" })
+    public List<AdoptionApplicationDTO> browseApplicationsToPetProfile(
+            @RequestParam(name = "petProfile") PetProfileDTO petprofDTO) throws IllegalArgumentException {
+
+        if (petprofDTO == null) {
+            throw new NullPointerException("An pet is required to see all applications.");
+        }
+        PetProfile pp = profileservice.getPetProfileById(petprofDTO.getId()); // petProfile DTO from Jose can store the
+        // // username of poster to make this
+        List<AdoptionApplicationDTO> appDtos = new ArrayList<>();
+        for (AdoptionApplication app : appservice.getApplicationsByPetProfile(pp)) {
+            appDtos.add(convertToDto(app));
+        }
+        return appDtos;
+    }
+
+
+
+
+
+
+
+
 
     private AdoptionApplicationDTO convertToDto(AdoptionApplication app) {// TODO
         if (app == null) {

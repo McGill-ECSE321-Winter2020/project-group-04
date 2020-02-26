@@ -65,7 +65,7 @@ public class PetAdoptionSystemTests {
         RegularUser regUser = TestingUtility.initRegularUser(1234, act, pas);
         regularUserRepository.save(regUser);
 
-        PetProfile petProf = TestingUtility.initPetProfile(4321, regUser, pas);
+        PetProfile petProf = TestingUtility.initPetProfile(regUser, pas);
 
         petProfileRepository.save(petProf);
 

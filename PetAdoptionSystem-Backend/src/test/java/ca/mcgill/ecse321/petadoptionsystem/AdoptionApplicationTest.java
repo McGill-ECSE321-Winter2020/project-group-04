@@ -44,8 +44,6 @@ public class AdoptionApplicationTest {
     private int id1 = 123;
     private int id2 = 456;
     private int id3 = 789;
-    private int id4 = 321;
-    private int id5 = 322;
     private Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
     private Time postTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 
@@ -78,10 +76,10 @@ public class AdoptionApplicationTest {
         RegularUser petAdopter = TestingUtility.initRegularUser(id3, petAdopterAcc, pas);
         regularUserRepository.save(petAdopter);
 
-        PetProfile petProf = TestingUtility.initPetProfile(id4, petOwner, pas);
+        PetProfile petProf = TestingUtility.initPetProfile(petOwner, pas);
         petProfileRepository.save(petProf);
 
-        AdoptionApplication adoptApp = TestingUtility.initAdoptionApplication(id5, petAdopter, petProf);
+        AdoptionApplication adoptApp = TestingUtility.initAdoptionApplication(petAdopter, petProf);
         adoptApp.setPostDate(date);
         adoptApp.setPostTime(postTime);
 
