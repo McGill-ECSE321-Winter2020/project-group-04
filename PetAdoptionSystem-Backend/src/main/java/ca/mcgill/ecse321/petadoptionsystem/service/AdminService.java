@@ -1,8 +1,6 @@
 package ca.mcgill.ecse321.petadoptionsystem.service;
 
-import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AdminRepository;
-import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,6 @@ public class AdminService {
     @Autowired
     AdminRepository adminRepository;
 
-
     /**
      * @return list of all Admins currently in the Admin repository
      */
@@ -25,7 +22,10 @@ public class AdminService {
     public List<Admin> getAllAdmins() {
         List<Admin> admins;
         admins = toList(adminRepository.findAll());
+        Admin admin = new Admin();
         return admins;
+
+
     }
 
     /**

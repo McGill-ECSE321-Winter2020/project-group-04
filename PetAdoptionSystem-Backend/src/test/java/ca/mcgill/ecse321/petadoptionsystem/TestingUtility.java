@@ -34,17 +34,14 @@ class TestingUtility {
     /**
      * Helper method that create admin object based on primarykey, user account, and
      * petadoptionsystem
-     * 
-     * @param pkey
+     *
      * @param act
      * @param pas
      * @return
      */
-
-    public static Admin initAdmin(int pkey, Account act, PetAdoptionSystem pas) {
+    public static Admin initAdmin(Account act, PetAdoptionSystem pas) {
         Admin admin = new Admin();
         admin.setUser(act);
-        admin.setId(pkey);
 
         return admin;
     }
