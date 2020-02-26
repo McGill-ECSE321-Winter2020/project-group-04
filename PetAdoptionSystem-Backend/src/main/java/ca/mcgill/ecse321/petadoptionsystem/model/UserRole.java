@@ -36,6 +36,7 @@ public abstract class UserRole {
    }
 
    @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
    public int getId() {
       return this.id;
    }

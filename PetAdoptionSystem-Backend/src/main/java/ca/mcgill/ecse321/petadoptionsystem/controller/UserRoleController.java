@@ -16,35 +16,13 @@ public abstract class UserRoleController {
     private UserRoleService userRoleService;
 
     /**
-     * @return list of all UserRoles
-     */
-    @GetMapping(value = {"/userroles", "/userroles/"})
-    public List<UserRoleDTO> getAllUserRoles(){
-        List<UserRoleDTO> userRoleDTOs = new ArrayList<>();
-        for (UserRole userRole : userRoleService.getAllUserRoles()){
-            userRoleDTOs.add(convertToDTO(userRole));
-        }
-        return userRoleDTOs;
-    }
-
-    /**
-     * @param id UserRole id
-     * @return UserRoleDTO object
+     * @param username
+     * @return userRoleDTO object
      * @throws IllegalArgumentException
      */
-    @GetMapping(value = {"/userroles/{id}", "/userroles/{id}/"})
-    public UserRoleDTO getUserRoleById(@PathVariable("id") int id) throws IllegalArgumentException {
-        return convertToDTO(userRoleService.getUserRoleById(id));
-    }
-
-    /**
-     * @param id UserRole id
-     * @return if deletion of UserRole was successful
-     * @throws IllegalArgumentException
-     */
-    @RequestMapping(value = {"/userroles/{id}", "/userroles/{id}/"})
-    public boolean deleteUserRole(@PathVariable("id") int id) throws IllegalArgumentException {
-        return userRoleService.deleteUserRole(id);
+    @GetMapping(value = {"/userroles/{username}", "/userroles/{username}/"})
+    public UserRoleDTO getUserRoleByUsername(@PathVariable("username") String username) throws IllegalArgumentException {
+        return convertToDTO(userRoleService.getUserRoleByUsername(username));
     }
 
     /**
