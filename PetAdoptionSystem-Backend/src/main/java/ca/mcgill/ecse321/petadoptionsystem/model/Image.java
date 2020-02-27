@@ -1,6 +1,9 @@
 package ca.mcgill.ecse321.petadoptionsystem.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.ManyToOne;
+import javax.persistence.Id;
 
 @Entity
 public class Image {
@@ -14,7 +17,7 @@ public class Image {
     public void setPetProfile(PetProfile petProfile) {
         this.petProfile = petProfile;
     }
-
+    @Id @GeneratedValue
     private int id;
 
     public void setId(int value) {
@@ -25,7 +28,14 @@ public class Image {
     public int getId() {
         return this.id;
     }
+    private String imageName;
 
+    public String getImageName(){
+        return this.imageName;
+    }
+    public void setImageName(String imageName){
+        this.imageName = imageName;
+    }
     private String description;
 
     public void setDescription(String value) {
