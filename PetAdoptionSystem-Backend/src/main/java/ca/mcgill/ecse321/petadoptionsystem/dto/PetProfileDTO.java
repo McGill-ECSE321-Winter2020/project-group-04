@@ -1,10 +1,8 @@
 package ca.mcgill.ecse321.petadoptionsystem.dto;
 
 
-import ca.mcgill.ecse321.petadoptionsystem.model.AdoptionApplication;
-import ca.mcgill.ecse321.petadoptionsystem.model.Image;
-import ca.mcgill.ecse321.petadoptionsystem.model.PetType;
-import ca.mcgill.ecse321.petadoptionsystem.model.UserRole;
+import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
+import ca.mcgill.ecse321.petadoptionsystem.model.*;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -44,7 +42,7 @@ public class PetProfileDTO {
      * @param postDate date
      * @param postTime time
      */
-
+    public PetProfileDTO(){}
     //Get everything from the DTO classes
     public PetProfileDTO(UserRole poster, Set<Image> image, Set<AdoptionApplication> application, String name, PetType petType,
                          String breed, String description, int id, String reasonForPosting, Date postDate, Time postTime, boolean isAvailable){

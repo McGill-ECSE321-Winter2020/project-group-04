@@ -10,14 +10,16 @@ import java.util.Set;
 public class RegularUserDTO {
 
     public Set<Donation> donation;
-    public Account user;
+    public String user;
     public String name;
     public Set<AdoptionApplication> application;
     public String homeDescription;
     public int phoneNumber;
 
+    public RegularUserDTO(){}
+
     //Get everything from the DTO classes
-    public RegularUserDTO(Set<Donation> donation, Account user, String name,
+    public RegularUserDTO(Set<Donation> donation, String user, String name,
                           Set<AdoptionApplication> application, String homeDescription, int phoneNumber) {
         this.donation = donation;
         this.user = user;
@@ -27,7 +29,8 @@ public class RegularUserDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public Account getUser() {
+
+    public String getUser() {
         return this.user;
     }
 

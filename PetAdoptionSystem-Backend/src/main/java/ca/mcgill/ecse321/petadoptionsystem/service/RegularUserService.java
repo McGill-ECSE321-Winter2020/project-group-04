@@ -22,6 +22,7 @@ public class RegularUserService {
      * @param name name of the user to get
      * @return returns the user with all the attributes
      */
+
     @Transactional
     public RegularUser getRegularUserByName(String name){
 

@@ -1,9 +1,9 @@
 package ca.mcgill.ecse321.petadoptionsystem.service;
 
+import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.*;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,10 @@ public class PetProfileService {
 
     @Autowired
     PetProfileRepository petprofilerepository;
+    @Autowired
     RegularUserRepository regularUserRepository;
+    @Autowired
+    AccountRepository accountRepository;
 
 
     /**
@@ -38,12 +41,13 @@ public class PetProfileService {
      * @param reason why post it
      * @return the whole petprofile with attributes
      */
+
     @Transactional
     public PetProfile createPetProfile(String breed, String description, String name,
-                                       PetType pettype, Time posttime, Date postdate, Account username, String reason, boolean isAvailable)
+                                       PetType pettype, Time posttime, Date postdate, String username, String reason, boolean isAvailable)
     throws IllegalArgumentException {
 
-        String error = "";
+        String error = "Error";
 
         //Checking the validity of the inputs
 
@@ -55,29 +59,44 @@ public class PetProfileService {
         if (reason == null) error += "A reason for posting the pet for adoption must be inserted.\n";
         if (description == null || description.length() == 0) error += "A description of the pet must be inserted.\n";
 
-        if (error.length() > 0) throw new IllegalArgumentException();
+        if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        UserRole posterid = regularUserRepository.findRegularUserByUser(username);
+        Account account = accountRepository.findAccountByUsername(username);
+        UserRole userRole = regularUserRepository.findRegularUserByUser(account);
 
-        //Check if the user has another pet with that same name (not possible)
-        if (petprofilerepository.existsByNameAndPoster(name, regularUserRepository.findRegularUserByUser(username)))
+        if (accountRepository.existsByUsername(username)) error += "No user associated with this username";
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        // Check if the user has another pet with that same name (not possible)
+
+        if (petprofilerepository.existsByNameAndPoster(name, regularUserRepository.findRegularUserByUser(account)))
             error += "Cannot have two pets with the same exact name.\n" ;
 
-        if (error.length() > 0) throw new IllegalArgumentException();
+        if (error.length() > 0) throw new IllegalArgumentException(error);
 
 
         PetProfile pet = new PetProfile();
+
         pet.setBreed(breed);
+
         pet.setDescription(description);
+
         pet.setName(name);
+
         pet.setPetType(pettype);
+
         pet.setPostTime(posttime);
+
         pet.setPostDate(postdate);
-        pet.setPoster(posterid);
+
+        pet.setPoster(userRole);
+
         pet.setReasonForPosting(reason);
+
         pet.setIsAvailable(isAvailable);
 
         petprofilerepository.save(pet);
+
         return pet;
 
     }
@@ -141,11 +160,12 @@ public class PetProfileService {
      * @return the updated petprofile
      */
     @Transactional
-    public PetProfile updatePetProfile(Account username, String breed, String description, String reason,
+    public PetProfile updatePetProfile(String username, String breed, String description, String reason,
                                        PetType type, String name, Boolean isAvailable){
 
         //Get the PosterId from the account username
-        UserRole posterid = regularUserRepository.findRegularUserByUser(username);
+        Account account = accountRepository.findAccountByUsername(username);
+        UserRole posterid = regularUserRepository.findRegularUserByUser(account);
 
         //Find the PetProfile with the posterid and the pet's name
         PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(name, posterid);
