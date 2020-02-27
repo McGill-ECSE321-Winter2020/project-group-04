@@ -68,13 +68,14 @@ public class PetProfileRestController {
      * @return returns the updated value
      * @throws IllegalArgumentException error message
      */
-    @PutMapping( value = {"/updatePetProfile"})
+    @PutMapping( value = {"/updatePetProfile/{petname}", "/updatePetProfile/{petname}/"})
     public PetProfileDTO updatePetProfile(
-            @RequestBody Joint joint)
+            @RequestBody Joint joint,
+            @PathVariable("petname") String name)
             throws IllegalArgumentException{
 
         PetProfile pet = petProfileService.updatePetProfile(joint.regularUserDTO.getUser(), joint.petProfileDTO.getBreed(), joint.petProfileDTO.getDescription(),
-                joint.petProfileDTO.getReasonForPosting(), joint.petProfileDTO.getPetType(), joint.petProfileDTO.getName(), joint.petProfileDTO.getIsAvailable());
+                joint.petProfileDTO.getReasonForPosting(), joint.petProfileDTO.getPetType(), name, joint.petProfileDTO.getIsAvailable());
 
        return convertToDto(pet);
 
@@ -138,7 +139,7 @@ public class PetProfileRestController {
      * @throws IllegalArgumentException error
      */
     @GetMapping(value = { "/petprofiles/{type}", "/petprofiles/{type}/" })
-    public List<PetProfileDTO> getAllPetProfilesOfBreed(@PathVariable("type") PetType type) throws IllegalArgumentException {
+    public List<PetProfileDTO> getAllPetProfilesOfType(@PathVariable("type") PetType type) throws IllegalArgumentException {
 
         List<PetProfileDTO> petDtos = new ArrayList<>();
         for (PetProfile pet : petProfileService.getAllPetProfilesByPetType(type)) {

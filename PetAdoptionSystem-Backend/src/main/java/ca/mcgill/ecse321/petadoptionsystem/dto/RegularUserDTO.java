@@ -34,5 +34,25 @@ public class RegularUserDTO {
         return this.user;
     }
 
+    public Set<Donation> getDonation() {
+        return this.donation;
+    }
+
+    public Set<AdoptionApplication> getApplication() {
+        return this.application;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getHomeDescription() {
+        return this.homeDescription;
+    }
+
+    public int getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
 
 }

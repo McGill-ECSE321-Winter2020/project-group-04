@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.petadoptionsystem.service;
 
+import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
@@ -17,6 +18,9 @@ public class RegularUserService {
     @Autowired
     RegularUserRepository regularuserrepository;
 
+    @Autowired
+    AccountRepository accountRepository;
+
     /**
      *
      * @param name name of the user to get
@@ -32,9 +36,10 @@ public class RegularUserService {
 }
 
     @Transactional
-    public RegularUser getRegularUserByUsername(Account user){
+    public RegularUser getRegularUserByUsername(String user){
 
-        RegularUser regularuser = regularuserrepository.findRegularUserByUser(user);
+        Account account = accountRepository.findAccountByUsername(user);
+        RegularUser regularuser = regularuserrepository.findRegularUserByUser(account);
 
         return(regularuser);
     }
@@ -58,9 +63,10 @@ public class RegularUserService {
      * @return returns the saved and updated regular user
      */
     @Transactional
-    public RegularUser updateRegularUser(Account username,String name, String homedescription, int phonenumber){
+    public RegularUser updateRegularUser(String username,String name, String homedescription, int phonenumber){
 
-    RegularUser regularuser = regularuserrepository.findRegularUserByUser(username);
+        Account account = accountRepository.findAccountByUsername(username);
+        RegularUser regularuser = regularuserrepository.findRegularUserByUser(account);
 
     if (name != null) {
         regularuser.setName(name);
