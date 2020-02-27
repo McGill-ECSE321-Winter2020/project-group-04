@@ -131,7 +131,7 @@ public class AdoptionApplicationService {
      * @return a specific application to pet profile
      */
     @Transactional
-    public AdoptionApplication getApplication(RegularUser adopter, PetProfile petprof) {
+    public AdoptionApplication getAppbyAdopterAndPetProfile(RegularUser adopter, PetProfile petprof) {
         String error = "";
         if (adopter == null) {
             error = error + "User is required to get an application.";
@@ -147,6 +147,20 @@ public class AdoptionApplicationService {
             throw new NullPointerException("No such application exists.");
         }
 
+        return adoptApp;
+    }
+
+    /**
+     * Get an application by id
+     * @param id
+     * @return adoption application
+     */
+    @Transactional
+    public AdoptionApplication getApplicationbyId(int id) {
+        AdoptionApplication adoptApp = appRepository.findAdoptionById(id);
+        if (adoptApp == null) {
+            throw new NullPointerException("No such application exists.");
+        }
         return adoptApp;
     }
 

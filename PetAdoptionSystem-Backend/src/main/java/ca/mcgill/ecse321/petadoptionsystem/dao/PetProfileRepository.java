@@ -20,4 +20,5 @@ public interface PetProfileRepository extends CrudRepository<PetProfile, Integer
 	PetProfile findPetProfileByNameAndPoster(String name, UserRole id);
 
 
+	List<PetProfile> findAllPetProfileByUsername(String username);
 }

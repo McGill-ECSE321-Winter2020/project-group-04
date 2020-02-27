@@ -82,7 +82,7 @@ public class PetProfileService {
      * @return return all post done by this poster
      */
     @Transactional
-    public PetProfile getAllPetProfilesByPosterId(RegularUser id){
+    public List <PetProfile> getAllPetProfilesByPosterId(RegularUser id){
 
             return petprofilerepository.findAllPetProfileByPoster(id);
         }
@@ -147,7 +147,8 @@ public class PetProfileService {
     }
 
 	public List<PetProfile> getAllPetProfilesByUsername(String username) {
-		return null;
+        return petprofilerepository.findAllPetProfileByUsername(username);
+
 	}
 }
 
