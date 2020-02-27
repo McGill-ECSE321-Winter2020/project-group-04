@@ -42,7 +42,7 @@ class TestingUtility {
     public static Admin initAdmin(Account act, PetAdoptionSystem pas) {
         Admin admin = new Admin();
         admin.setUser(act);
-        //act.setUserRole(admin);
+        act.setUserRole(admin);
         return admin;
     }
 
@@ -95,8 +95,7 @@ class TestingUtility {
 
     /**
      * Helper method to return Donation object
-     * 
-     * @param pkey
+     *
      * @param regUser
      * @return
      */

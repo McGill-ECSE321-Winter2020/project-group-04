@@ -17,7 +17,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
-public class PetAdoptionSystemTests {
+public class PetAdoptionSystemTest {
     @Autowired
     private ImageRepository imageRepository;
     @Autowired

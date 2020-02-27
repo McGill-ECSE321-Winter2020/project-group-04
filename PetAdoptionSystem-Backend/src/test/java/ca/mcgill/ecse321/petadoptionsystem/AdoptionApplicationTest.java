@@ -93,7 +93,6 @@ public class AdoptionApplicationTest {
         adoptApp = adoptionRepository.findByApplicantAndPetProfile(petAdopter, petProf);
 
         assertNotNull(adoptApp);
-        // assertEquals(132, adoptApp.getId());
         assertEquals(date, adoptApp.getPostDate());
         assertEquals(postTime, adoptApp.getPostTime());
 

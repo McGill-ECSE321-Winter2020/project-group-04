@@ -22,7 +22,6 @@ public class Image {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return this.id;
     }

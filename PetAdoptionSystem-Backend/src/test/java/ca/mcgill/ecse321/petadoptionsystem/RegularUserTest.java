@@ -30,7 +30,7 @@ public class RegularUserTest {
 
 
     @Test
-    public void testPersistAndLoadImage() {
+    public void testPersistAndLoadRegularUser() {
         PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
         petAdoptionSystemRepository.save(pas);
 
@@ -49,7 +49,7 @@ public class RegularUserTest {
         regularUserRepository.save(regUser);
 
         regUser = null;
-        int regId = accountRepository.findAccountByUsername("Juanito").getUserRole().getId();
+        int regId = act.getUserRole().getId();
         regUser = regularUserRepository.findRegularUserById(regId);
 
 
