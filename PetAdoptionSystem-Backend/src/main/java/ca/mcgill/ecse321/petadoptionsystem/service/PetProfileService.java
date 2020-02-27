@@ -117,10 +117,11 @@ public class PetProfileService {
      * @return return all post done by this poster
      */
     @Transactional
-    public List<PetProfile> getAllPetProfilesByUsername(Account username){
+    public List<PetProfile> getAllPetProfilesByUsername(String username){
 
         //Get the PosterId from the account username
-        UserRole posterid = regularUserRepository.findRegularUserByUser(username);
+        Account account = accountRepository.findAccountByUsername(username);
+        UserRole posterid = regularUserRepository.findRegularUserByUser(account);
 
             return toList(petprofilerepository.findAllPetProfileByPoster(posterid));
 
@@ -201,9 +202,10 @@ public class PetProfileService {
      * @param name of the pet to be deleted
      */
     @Transactional
-    public void deletePetProfile(Account username, String name){
+    public void deletePetProfile(String username, String name){
 
-        UserRole posterid = regularUserRepository.findRegularUserByUser(username);
+        Account account = accountRepository.findAccountByUsername(username);
+        UserRole posterid = regularUserRepository.findRegularUserByUser(account);
 
         PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(name, posterid);
 

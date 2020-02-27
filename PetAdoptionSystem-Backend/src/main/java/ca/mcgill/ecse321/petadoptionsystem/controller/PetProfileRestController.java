@@ -106,7 +106,7 @@ public class PetProfileRestController {
      * @throws IllegalArgumentException errors
      */
     @GetMapping(value = { "/petprofiles/{username}", "/petprofiles/{username}/" })
-    public List<PetProfileDTO> getAllPetProfilesOfUser(@PathVariable("username") Account username) throws IllegalArgumentException {
+    public List<PetProfileDTO> getAllPetProfilesOfUser(@PathVariable("username") String username) throws IllegalArgumentException {
 
         List<PetProfileDTO> petDtos = new ArrayList<>();
         for (PetProfile pet : petProfileService.getAllPetProfilesByUsername(username)) {
@@ -159,10 +159,11 @@ public class PetProfileRestController {
      */
     @DeleteMapping(value = {"/deletePetProfile/{username}&{name}", "/deletePetProfile/{username}&{name}/"})
     public void deletePetProfile(
-            @PathVariable("username") Account username,
+            @PathVariable("username") String username,
             @PathVariable("petname") String name)
         throws IllegalArgumentException {
 
+        
        petProfileService.deletePetProfile(username, name);
 
     }

@@ -87,7 +87,7 @@ public class RegularUserRestController {
             throw new IllegalArgumentException("There is no such User!");
         }
 
-        RegularUserDTO regDto = new RegularUserDTO(reg.getDonation(), reg.getUser().username, reg.getName(), reg.getApplication(), reg.getHomeDescription(),
+        RegularUserDTO regDto = new RegularUserDTO(reg.getDonation(), reg.getUser().getUsername(), reg.getName(), reg.getApplication(), reg.getHomeDescription(),
                 reg.getPhoneNumber());
 
         return regDto;
