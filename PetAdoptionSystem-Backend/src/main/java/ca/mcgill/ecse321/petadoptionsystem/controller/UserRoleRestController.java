@@ -11,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-public abstract class UserRoleController {
+public abstract class UserRoleRestController {
     @Autowired
     private UserRoleService userRoleService;
 

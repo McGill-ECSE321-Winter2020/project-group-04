@@ -13,7 +13,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class AdminController {
+public class AdminRestController {
 
     @Autowired
     private AdminService adminService;
