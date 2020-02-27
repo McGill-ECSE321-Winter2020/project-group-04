@@ -69,11 +69,13 @@ public class AdoptionApplicationTest {
 
         Account petAdopterAcc = TestingUtility.initAccount("joe", "joe@gmail.com", pas);
         accountRepository.save(petAdopterAcc);
+
         // user who posts a pet up for adoption
-        RegularUser petOwner = TestingUtility.initRegularUser(id2, petOwnerAcc, pas);
+        RegularUser petOwner = TestingUtility.initRegularUser(petOwnerAcc, pas);
         regularUserRepository.save(petOwner);
+
         // user who is adopting pet
-        RegularUser petAdopter = TestingUtility.initRegularUser(id3, petAdopterAcc, pas);
+        RegularUser petAdopter = TestingUtility.initRegularUser(petAdopterAcc, pas);
         regularUserRepository.save(petAdopter);
 
         PetProfile petProf = TestingUtility.initPetProfile(petOwner, pas);

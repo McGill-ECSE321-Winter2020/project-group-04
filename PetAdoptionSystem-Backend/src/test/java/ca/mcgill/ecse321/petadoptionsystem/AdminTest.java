@@ -42,17 +42,16 @@ public class AdminTest {
 
         Account account = TestingUtility.initAccount("JohnDoe361", "johndoe1955@gmail.com", system);
         accountRepository.save(account);
-
+        account = null;
+        account = accountRepository.findAccountByUsername("JohnDoe361");
         Admin admin = TestingUtility.initAdmin(account, system);
 
         adminRepository.save(admin);
-
-        assertNotNull(admin);
-
         admin = null;
 
         int adId = accountRepository.findAccountByUsername("JohnDoe361").getUserRole().getId();
         admin = adminRepository.findAdminById(adId);
+        assertNotNull(admin);
         assertEquals(adId, admin.getId());
     }
 

@@ -59,7 +59,7 @@ public class PetProfileTest {
         // act = null;
         // act = accountRepository.findAccountByUsername("Pedro");
 
-        RegularUser regUser = TestingUtility.initRegularUser(1111, act, pas);
+        RegularUser regUser = TestingUtility.initRegularUser(act, pas);
         //Initializing the User
         regularUserRepository.save(regUser);
         // regUser = null;

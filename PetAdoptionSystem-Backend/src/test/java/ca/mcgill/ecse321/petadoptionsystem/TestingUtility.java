@@ -42,21 +42,19 @@ class TestingUtility {
     public static Admin initAdmin(Account act, PetAdoptionSystem pas) {
         Admin admin = new Admin();
         admin.setUser(act);
-
+        //act.setUserRole(admin);
         return admin;
     }
 
     /**
      * Helper method to return a regular user account
-     * 
-     * @param pkey
+     *
      * @param act
      * @param pas
      * @return
      */
-    public static RegularUser initRegularUser(int pkey, Account act, PetAdoptionSystem pas) {
+    public static RegularUser initRegularUser(Account act, PetAdoptionSystem pas) {
         RegularUser user = new RegularUser();
-        user.setId(pkey);
         user.setUser(act);
         act.setUserRole(user);
 
@@ -65,8 +63,7 @@ class TestingUtility {
 
     /**
      * Helper method to return PetProfile
-     * 
-     * @param pkey
+     *
      * @param regUser
      * @param pas
      * @return
@@ -82,8 +79,7 @@ class TestingUtility {
 
     /**
      * Helper method for adoption application
-     * 
-     * @param pkey
+     *
      * @param regUser
      * @param petProf
      * @return
