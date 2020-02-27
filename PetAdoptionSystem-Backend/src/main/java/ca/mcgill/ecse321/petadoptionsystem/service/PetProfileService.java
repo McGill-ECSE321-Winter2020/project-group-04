@@ -26,7 +26,6 @@ public class PetProfileService {
     RegularUserRepository regularUserRepository;
 
 
-
     /**
      *
      * @param breed breed of pet
@@ -40,7 +39,8 @@ public class PetProfileService {
      * @return the whole petprofile with attributes
      */
     @Transactional
-    public PetProfile createPetProfile(String breed, String description, String name, PetType pettype, Time posttime, Date postdate, Account username, String reason)
+    public PetProfile createPetProfile(String breed, String description, String name,
+                                       PetType pettype, Time posttime, Date postdate, Account username, String reason)
     throws IllegalArgumentException {
 
         String error = "";
@@ -59,7 +59,7 @@ public class PetProfileService {
 
         UserRole posterid = regularUserRepository.findRegularUserByUser(username);
 
-        //Check if the user has another oet with that same name (not possible)
+        //Check if the user has another pet with that same name (not possible)
         if (petprofilerepository.existsByNameAndPoster(name, regularUserRepository.findRegularUserByUser(username)))
             error += "Cannot have two pets with the same exact name.\n" ;
 
