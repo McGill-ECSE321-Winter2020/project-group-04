@@ -28,6 +28,7 @@ public class PetProfileDTO {
     public String reasonForPosting;
     public Date postDate;
     public Time postTime;
+    private boolean isAvailable;
 
     /**
      *
@@ -46,7 +47,7 @@ public class PetProfileDTO {
 
     //Get everything from the DTO classes
     public PetProfileDTO(UserRole poster, Set<Image> image, Set<AdoptionApplication> application, String name, PetType petType,
-                         String breed, String description, int id, String reasonForPosting, Date postDate, Time postTime){
+                         String breed, String description, int id, String reasonForPosting, Date postDate, Time postTime, boolean isAvailable){
         this.poster = poster;
         this.image = image;
         this.application = application;
@@ -58,6 +59,51 @@ public class PetProfileDTO {
         this.reasonForPosting = reasonForPosting;
         this.postDate = postDate;
         this.postTime = postTime;
+        this.isAvailable = isAvailable;
+    }
+
+    public UserRole getPoster() {
+        return this.poster;
+    }
+
+    public Set<Image> getImage() {
+        return this.image;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public PetType getPetType() {
+        return this.petType;
+    }
+
+    public String getBreed() {
+        return this.breed;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public String getReasonForPosting() {
+        return this.reasonForPosting;
+    }
+
+    public Date getPostDate() {
+        return this.postDate;
+    }
+
+    public Time getPostTime() {
+        return this.postTime;
+    }
+
+    public boolean getIsAvailable() {
+        return this.isAvailable;
     }
 
 

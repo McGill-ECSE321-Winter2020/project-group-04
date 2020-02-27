@@ -27,4 +27,9 @@ public class RegularUserDTO {
         this.phoneNumber = phoneNumber;
     }
 
+    public Account getUser() {
+        return this.user;
+    }
+
+
 }

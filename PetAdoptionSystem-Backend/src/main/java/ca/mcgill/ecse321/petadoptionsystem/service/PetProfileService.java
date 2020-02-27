@@ -40,7 +40,7 @@ public class PetProfileService {
      */
     @Transactional
     public PetProfile createPetProfile(String breed, String description, String name,
-                                       PetType pettype, Time posttime, Date postdate, Account username, String reason)
+                                       PetType pettype, Time posttime, Date postdate, Account username, String reason, boolean isAvailable)
     throws IllegalArgumentException {
 
         String error = "";
@@ -75,7 +75,7 @@ public class PetProfileService {
         pet.setPostDate(postdate);
         pet.setPoster(posterid);
         pet.setReasonForPosting(reason);
-        pet.setIsAvailable(true);
+        pet.setIsAvailable(isAvailable);
 
         petprofilerepository.save(pet);
         return pet;
@@ -181,8 +181,6 @@ public class PetProfileService {
      * @param name of the pet to be deleted
      */
     @Transactional
-    //Look for Account username, PetProfile name
-    //Get Id from UserRole, using the username
     public void deletePetProfile(Account username, String name){
 
         UserRole posterid = regularUserRepository.findRegularUserByUser(username);

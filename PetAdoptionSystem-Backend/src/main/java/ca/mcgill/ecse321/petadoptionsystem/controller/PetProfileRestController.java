@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,31 +32,59 @@ public class PetProfileRestController {
 @PostMapping(value = { "/petprofile", "/petprofile/" })
     public PetProfileDTO createPetProfile(
 
-        @RequestParam (name = "username") Account username,
-        @RequestParam Date postDate,
-        @RequestParam (name = "Breed") String breed,
-        @RequestParam (name = "Description") String description,
-        @RequestParam (name = "Pet Type") PetType petType,
-        @RequestParam (name = "Reason") String reason,
-        @RequestParam (name = "Name of Pet") String name,
-        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime postTime)
-    throws IllegalArgumentException {
-
-    PetProfile pet = petProfileService.createPetProfile(breed, description, name, petType, Time.valueOf(postTime), postDate, username, reason);
+            @RequestBody RegularUserDTO regularUserDTO,
+            @RequestBody PetProfileDTO petProfileDTO,
+            @RequestParam Date date,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime postTime)
+            throws IllegalArgumentException {
 
 
-    return convertToDto(pet);
-}
+        PetProfile pet = petProfileService.createPetProfile(petProfileDTO.getBreed(), petProfileDTO.getDescription(), petProfileDTO.getName(),
+                petProfileDTO.getPetType(), Time.valueOf(postTime), date, regularUserDTO.getUser(),
+                petProfileDTO.getReasonForPosting(), petProfileDTO.getIsAvailable());
 
 
-//    @GetMapping(value = { "/applications", "/applications/" })
-//    public List<PetProfileDTO> getAllPetProfiles() throws IllegalArgumentException {
-//        List<PetProfileDTO> appDtos = new ArrayList<>();
-//        for (PetProfile app : petProfileService.getAllPetProfiles()) {
-//            appDtos.add(convertToDto(app));
-//        }
-//        return appDtos;
-//    }
+        return convertToDto(pet);
+    }
+
+
+    @PutMapping(value = { "/changepetprofile", "/chnagepetprofile/" })
+    public PetProfileDTO updatePetProfile(
+
+            @RequestBody UserRole userRole,
+            @RequestBody PetProfileDTO petProfileDTO,
+            @RequestParam Date date,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime postTime)
+            throws IllegalArgumentException {
+
+
+        PetProfile pet = petProfileService.updatePetProfile(userRole.getUser(), petProfileDTO.getBreed(), petProfileDTO.getDescription(),
+                petProfileDTO.getReasonForPosting(), petProfileDTO.getPetType(), petProfileDTO.getName(),petProfileDTO.getIsAvailable());
+
+
+        return convertToDto(pet);
+    }
+
+
+    @GetMapping(value = { "/petprofiles", "/petprofiles/" })
+    public List<PetProfileDTO> getAllPetProfiles() throws IllegalArgumentException {
+        List<PetProfileDTO> petDtos = new ArrayList<>();
+        for (PetProfile pet : petProfileService.getAllPetProfiles()) {
+            petDtos.add(convertToDto(pet));
+        }
+        return petDtos;
+    }
+
+
+    @GetMapping(value = { "/petprofiles/{username}", "/petprofiles/{username}/" })
+    public List<PetProfileDTO> getAllPetProfilesOfUser(@PathVariable("username") Account username) throws IllegalArgumentException {
+
+        List<PetProfileDTO> petDtos = new ArrayList<>();
+        for (PetProfile pet : petProfileService.getAllPetProfilesByUsername(username)) {
+            petDtos.add(convertToDto(pet));
+        }
+        return petDtos;
+    }
 
 
     private PetProfileDTO convertToDto(PetProfile pet) {
@@ -64,7 +93,7 @@ public class PetProfileRestController {
         }
 
         PetProfileDTO petDto = new PetProfileDTO(pet.getPoster(), pet.getImage(), pet.getApplication(), pet.getName(), pet.getPetType(),
-                pet.getBreed(), pet.getDescription(), pet.getId(), pet.getReasonForPosting(), pet.getPostDate(), pet.getPostTime());
+                pet.getBreed(), pet.getDescription(), pet.getId(), pet.getReasonForPosting(), pet.getPostDate(), pet.getPostTime(), pet.isIsAvailable());
 
         return petDto;
     }
