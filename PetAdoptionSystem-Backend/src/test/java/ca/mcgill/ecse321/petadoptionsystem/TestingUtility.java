@@ -34,32 +34,27 @@ class TestingUtility {
     /**
      * Helper method that create admin object based on primarykey, user account, and
      * petadoptionsystem
-     * 
-     * @param pkey
+     *
      * @param act
      * @param pas
      * @return
      */
-
-    public static Admin initAdmin(int pkey, Account act, PetAdoptionSystem pas) {
+    public static Admin initAdmin(Account act, PetAdoptionSystem pas) {
         Admin admin = new Admin();
         admin.setUser(act);
-        admin.setId(pkey);
-
+        act.setUserRole(admin);
         return admin;
     }
 
     /**
      * Helper method to return a regular user account
-     * 
-     * @param pkey
+     *
      * @param act
      * @param pas
      * @return
      */
-    public static RegularUser initRegularUser(int pkey, Account act, PetAdoptionSystem pas) {
+    public static RegularUser initRegularUser(Account act, PetAdoptionSystem pas) {
         RegularUser user = new RegularUser();
-        user.setId(pkey);
         user.setUser(act);
         act.setUserRole(user);
 
@@ -68,16 +63,15 @@ class TestingUtility {
 
     /**
      * Helper method to return PetProfile
-     * 
-     * @param pkey
+     *
      * @param regUser
      * @param pas
      * @return
      */
-    public static PetProfile initPetProfile(int pkey, RegularUser regUser, PetAdoptionSystem pas) {
+    public static PetProfile initPetProfile(RegularUser regUser, PetAdoptionSystem pas) {
 
         PetProfile petProf = new PetProfile();
-        petProf.setId(pkey);
+        petProf.setIsAvailable(true);
         petProf.setPoster(regUser);
 
         return petProf;
@@ -85,17 +79,15 @@ class TestingUtility {
 
     /**
      * Helper method for adoption application
-     * 
-     * @param pkey
+     *
      * @param regUser
      * @param petProf
      * @return
      */
-    public static AdoptionApplication initAdoptionApplication(int pkey, RegularUser regUser, PetProfile petProf) {
+    public static AdoptionApplication initAdoptionApplication(RegularUser regUser, PetProfile petProf) {
         AdoptionApplication ada = new AdoptionApplication();
 
         ada.setApplicant(regUser);
-        ada.setId(pkey);
         ada.setPetProfile(petProf);
         return ada;
 
@@ -103,8 +95,7 @@ class TestingUtility {
 
     /**
      * Helper method to return Donation object
-     * 
-     * @param pkey
+     *
      * @param regUser
      * @return
      */

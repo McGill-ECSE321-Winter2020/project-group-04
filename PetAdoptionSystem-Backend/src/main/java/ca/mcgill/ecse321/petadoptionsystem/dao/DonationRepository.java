@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import ca.mcgill.ecse321.petadoptionsystem.model.Donation;
 
+import java.util.Set;
+
 
 @Repository
 public interface DonationRepository extends CrudRepository<Donation, Integer> {

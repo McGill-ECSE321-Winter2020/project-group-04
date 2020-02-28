@@ -56,20 +56,20 @@ public class PetProfileTest {
         Account act = TestingUtility.initAccount("Pedro", "pedro@gmail.com", pas);
         //Initializing Account
         accountRepository.save(act);
-        act = null;
-        act = accountRepository.findAccountByUsername("Pedro");
+        // act = null;
+        // act = accountRepository.findAccountByUsername("Pedro");
 
-        RegularUser regUser = TestingUtility.initRegularUser(1111, act, pas);
+        RegularUser regUser = TestingUtility.initRegularUser(act, pas);
         //Initializing the User
         regularUserRepository.save(regUser);
-        regUser = null;
-        regUser = regularUserRepository.findRegularUserById(1111);
+        // regUser = null;
+        // regUser = regularUserRepository.findRegularUserById(1111);
 
-        PetProfile petProf = TestingUtility.initPetProfile(1010, regUser, pas);
+        PetProfile petProf = TestingUtility.initPetProfile(regUser, pas);
         //Initializing the PetProfile and setting the attributes that we want to test for persistence
-
+        String name = "doggy";
         petProf.setBreed("chihuahua");
-        petProf.setName("doggy");
+        petProf.setName(name);
         petProf.setDescription("fat and tired");
         petProf.setReasonForPosting("very ugly");
         petProf.setPetType(PetType.DOG);
@@ -81,7 +81,7 @@ public class PetProfileTest {
         petProfilerepository.save(petProf);
 
         petProf = null;
-        petProf = petProfilerepository.findPetProfileById(1010);
+        petProf = petProfilerepository.findPetProfileByNameAndPoster(name, regUser);
 
         //
         assertNotNull(petProf);

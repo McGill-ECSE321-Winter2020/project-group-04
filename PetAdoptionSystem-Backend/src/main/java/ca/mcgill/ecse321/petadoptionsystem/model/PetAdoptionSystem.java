@@ -20,9 +20,14 @@ public class PetAdoptionSystem {
    }
 
    private int id;
+   public boolean wasSet;
 
    public void setId(int value) {
-      this.id = value;
+      if(wasSet == false){
+         this.id = value;
+         this.wasSet = true;
+      }
+      
    }
 
    @Id

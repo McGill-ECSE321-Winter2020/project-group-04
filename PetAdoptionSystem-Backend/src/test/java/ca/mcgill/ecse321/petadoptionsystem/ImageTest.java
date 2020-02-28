@@ -70,10 +70,10 @@ public class ImageTest {
 
         accountRepository.save(act);
 
-        RegularUser regUser = TestingUtility.initRegularUser(1234, act, pas);
+        RegularUser regUser = TestingUtility.initRegularUser(act, pas);
         regularUserRepository.save(regUser);
 
-        PetProfile petProf = TestingUtility.initPetProfile(4321, regUser, pas);
+        PetProfile petProf = TestingUtility.initPetProfile(regUser, pas);
 
         petProfileRepository.save(petProf);
 

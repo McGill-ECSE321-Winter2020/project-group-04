@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.util.Set;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class RegularUser extends UserRole {
@@ -25,11 +26,16 @@ public class RegularUser extends UserRole {
         return this.application;
     }
 
+    @OneToOne(optional = false)
+    public Account getUser() {
+        return this.user;
+    }
+
     public void setApplication(Set<AdoptionApplication> applications) {
         this.application = applications;
     }
 
-    private String name;
+    public String name;
 
     public void setName(String value) {
         this.name = value;

@@ -30,7 +30,7 @@ public class RegularUserTest {
 
 
     @Test
-    public void testPersistAndLoadImage() {
+    public void testPersistAndLoadRegularUser() {
         PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
         petAdoptionSystemRepository.save(pas);
 
@@ -40,7 +40,7 @@ public class RegularUserTest {
         act = null;
         act = accountRepository.findAccountByUsername("Juan");
 
-        RegularUser regUser = TestingUtility.initRegularUser(1111, act, pas);
+        RegularUser regUser = TestingUtility.initRegularUser(act, pas);
 
         regUser.setName("Juanito");
         regUser.setHomeDescription("house");
@@ -49,7 +49,8 @@ public class RegularUserTest {
         regularUserRepository.save(regUser);
 
         regUser = null;
-        regUser = regularUserRepository.findRegularUserById(1111);
+        int regId = act.getUserRole().getId();
+        regUser = regularUserRepository.findRegularUserById(regId);
 
 
         assertNotNull(regUser);
@@ -57,7 +58,7 @@ public class RegularUserTest {
         assertEquals("Juanito", regUser.getName());
         assertEquals("house", regUser.getHomeDescription());
         assertEquals(514, regUser.getPhoneNumber());
-        assertEquals(1111, regUser.getId());
+        assertEquals(regId, regUser.getId());
 
     }
 

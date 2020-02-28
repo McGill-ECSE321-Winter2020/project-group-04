@@ -60,7 +60,7 @@ public class DonationTest {
         Account acc = TestingUtility.initAccount("billy","billy@gmail.com" , pas);
         accountRepository.save(acc);
         
-        RegularUser petAdopter = TestingUtility.initRegularUser(id2, acc, pas);// user who is adopting pet
+        RegularUser petAdopter = TestingUtility.initRegularUser(acc, pas);// user who is adopting pet
         regularUserRepository.save(petAdopter);
         
         Donation donation = TestingUtility.initDonation(id3, petAdopter);

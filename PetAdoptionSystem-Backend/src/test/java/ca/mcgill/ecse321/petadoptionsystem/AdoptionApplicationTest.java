@@ -13,7 +13,6 @@ import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -32,12 +31,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class AdoptionApplicationTest {
 
     @Autowired
-    private AdoptionApplicationRepository adoptionRepository; 
+    private AdoptionApplicationRepository adoptionRepository;
     @Autowired
     private PetAdoptionSystemRepository petAdoptionRepository;
     @Autowired
     private AccountRepository accountRepository;
-    @Autowired 
+    @Autowired
     private RegularUserRepository regularUserRepository;
     @Autowired
     private PetProfileRepository petProfileRepository;
@@ -45,57 +44,57 @@ public class AdoptionApplicationTest {
     private int id1 = 123;
     private int id2 = 456;
     private int id3 = 789;
-    private int id4 = 321;
-    private int id5 = 322;
     private Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
     private Time postTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 
     @AfterEach
-    public void clearDatabase(){
+    public void clearDatabase() {
 
         adoptionRepository.deleteAll();
         petProfileRepository.deleteAll();
         regularUserRepository.deleteAll();
         accountRepository.deleteAll();
-        petAdoptionRepository.deleteAll();    
+        petAdoptionRepository.deleteAll();
 
     }
 
     @Test
-    public void testPersistandLoadAdoptionApplication(){
+    public void testPersistandLoadAdoptionApplication() {
 
         PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(id1);
         petAdoptionRepository.save(pas);
 
-        Account petOwnerAcc = TestingUtility.initAccount("billy","billy@gmail.com" , pas);
+        Account petOwnerAcc = TestingUtility.initAccount("billy", "billy@gmail.com", pas);
         accountRepository.save(petOwnerAcc);
 
-        Account petAdopterAcc = TestingUtility.initAccount("joe","joe@gmail.com" , pas);
+        Account petAdopterAcc = TestingUtility.initAccount("joe", "joe@gmail.com", pas);
         accountRepository.save(petAdopterAcc);
-        //user who posts a pet up for adoption
-        RegularUser petOwner = TestingUtility.initRegularUser(id2, petOwnerAcc, pas); 
+
+        // user who posts a pet up for adoption
+        RegularUser petOwner = TestingUtility.initRegularUser(petOwnerAcc, pas);
         regularUserRepository.save(petOwner);
+
         // user who is adopting pet
-        RegularUser petAdopter = TestingUtility.initRegularUser(id3, petAdopterAcc, pas);
+        RegularUser petAdopter = TestingUtility.initRegularUser(petAdopterAcc, pas);
         regularUserRepository.save(petAdopter);
 
-        PetProfile petProf = TestingUtility.initPetProfile(id4, petOwner, pas);
+        PetProfile petProf = TestingUtility.initPetProfile(petOwner, pas);
         petProfileRepository.save(petProf);
 
-
-        AdoptionApplication adoptApp = TestingUtility.initAdoptionApplication(id5, petAdopter, petProf);
+        AdoptionApplication adoptApp = TestingUtility.initAdoptionApplication(petAdopter, petProf);
         adoptApp.setPostDate(date);
         adoptApp.setPostTime(postTime);
+
         adoptionRepository.save(adoptApp);
 
         adoptApp = null;
 
-        adoptApp = adoptionRepository.findAdoptionById(id5);
+        // adoptApp = adoptionRepository.findAdoptionById(id5);
+        adoptApp = adoptionRepository.findByApplicantAndPetProfile(petAdopter, petProf);
 
         assertNotNull(adoptApp);
-        assertEquals(id5, adoptApp.getId());
         assertEquals(date, adoptApp.getPostDate());
-        assertEquals(postTime, adoptApp.getPostTime());           
+        assertEquals(postTime, adoptApp.getPostTime());
 
     }
 }

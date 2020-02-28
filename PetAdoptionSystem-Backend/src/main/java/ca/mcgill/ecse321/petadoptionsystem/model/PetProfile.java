@@ -91,6 +91,7 @@ public class PetProfile {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return this.id;
     }
@@ -123,6 +124,16 @@ public class PetProfile {
 
     public Time getPostTime() {
         return this.postTime;
+    }
+
+    public boolean isAvailable;
+
+    public void setIsAvailable(boolean value) {
+        this.isAvailable = value;
+    }
+
+    public boolean isIsAvailable() {
+        return this.isAvailable;
     }
 
 }

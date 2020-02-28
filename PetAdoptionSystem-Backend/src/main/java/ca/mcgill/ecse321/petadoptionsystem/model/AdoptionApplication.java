@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.petadoptionsystem.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Id;
 import java.sql.Date;
@@ -65,10 +67,21 @@ public class AdoptionApplication {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return this.id;
     }
 
     private Date postDate;
+
+    private boolean isConfirmed;
+
+    public void setIsConfirmed(boolean value) {
+        this.isConfirmed = value;
+    }
+
+    public boolean isIsConfirmed() {
+        return this.isConfirmed;
+    }
 
 }
