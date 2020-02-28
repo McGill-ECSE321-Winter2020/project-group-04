@@ -50,39 +50,8 @@ public class Image {
     public String getDescription() {
         return this.description;
     }
-
-    private int sizeX;
-
-    public void setSizeX(int value) {
-        this.sizeX = value;
-    }
-
-    public int getSizeX() {
-        return this.sizeX;
-    }
-
-    
-    private int sizeY;
-
-
-    public void setSizeY(int value) {
-        this.sizeY = value;
-    }
-
-    public int getSizeY() {
-        return this.sizeY;
-    }
     private String imageType;
     
-    private String filePath;
-
-    public void setFilePath(String value) {
-        this.filePath = value;
-    }
-
-    public String getFilePath() {
-        return this.filePath;
-    }
 
     public byte[] getData() {
         return data;
