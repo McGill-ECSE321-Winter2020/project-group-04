@@ -4,6 +4,7 @@ import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionsystem.model.Donation;
 
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -18,6 +19,12 @@ public class RegularUserDTO {
     public int id;
 
     //Get everything from the DTO classes
+    @SuppressWarnings("unchecked")
+    public RegularUserDTO(String name){
+        
+        this(new HashSet<Donation>(), "", name, new HashSet<AdoptionApplication>(), "", 0);
+    }
+    
     public RegularUserDTO(Set<Donation> donation, String user, String name,
                           Set<AdoptionApplication> application, String homeDescription, int phoneNumber) {
         this.donation = donation;
