@@ -14,7 +14,7 @@ import static org.hibernate.internal.util.collections.ArrayHelper.toList;
 
 @Service
 public class RegularUserService {
-    
+
     @Autowired
     RegularUserRepository regularuserrepository;
 
@@ -30,10 +30,10 @@ public class RegularUserService {
     @Transactional
     public RegularUser getRegularUserByName(String name){
 
-    RegularUser regularuser = regularuserrepository.findRegularUserByName(name);
+        RegularUser regularuser = regularuserrepository.findRegularUserByName(name);
 
-    return(regularuser);
-}
+        return(regularuser);
+    }
 
     @Transactional
     public RegularUser getRegularUserByUsername(String user){
@@ -51,8 +51,8 @@ public class RegularUserService {
     @Transactional
     public List<RegularUser> getAllRegularUsers(){
 
-    return toList(regularuserrepository.findAll());
-}
+        return toList(regularuserrepository.findAll());
+    }
 
     /**
      *
@@ -68,24 +68,20 @@ public class RegularUserService {
         Account account = accountRepository.findAccountByUsername(username);
         RegularUser regularuser = regularuserrepository.findRegularUserByUser(account);
 
-    if (name != null) {
-        regularuser.setName(name);
-    }
-    if (phonenumber != 0) {
-        regularuser.setPhoneNumber(phonenumber);
-    }
-    if (homedescription != null) {
-        regularuser.setHomeDescription(homedescription);
-    }
-    regularuserrepository.save(regularuser);
+        if (name != null) {
+            regularuser.setName(name);
+        }
+        if (phonenumber != 0) {
+            regularuser.setPhoneNumber(phonenumber);
+        }
+        if (homedescription != null) {
+            regularuser.setHomeDescription(homedescription);
+        }
+        regularuserrepository.save(regularuser);
 
-    return regularuser;
+        return regularuser;
 
-}
-
-	public RegularUser getRegularUserByUsername(String username) {
-		return null;
-	}
+    }
 
 
 }

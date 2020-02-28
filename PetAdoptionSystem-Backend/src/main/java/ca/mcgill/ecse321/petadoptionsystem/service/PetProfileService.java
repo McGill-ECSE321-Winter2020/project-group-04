@@ -213,6 +213,18 @@ public class PetProfileService {
 
     }
 
+    /**
+     *
+     * @param id id of petprofile
+     * @return
+     */
+    @Transactional
+    public PetProfile getPetProfileById(int id){
+
+        PetProfile pet = petprofilerepository.findPetProfileById(id);
+        return pet;
+
+    }
 
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<T>();

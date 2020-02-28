@@ -15,8 +15,7 @@ public class RegularUserDTO {
     public Set<AdoptionApplication> application;
     public String homeDescription;
     public int phoneNumber;
-
-    public RegularUserDTO(){}
+    public int id;
 
     //Get everything from the DTO classes
     public RegularUserDTO(Set<Donation> donation, String user, String name,
@@ -54,5 +53,8 @@ public class RegularUserDTO {
         return this.phoneNumber;
     }
 
+    public int getId(){
+        return this.id;
+    }
 
 }

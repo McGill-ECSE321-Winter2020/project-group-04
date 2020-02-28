@@ -74,8 +74,8 @@ public class AdoptionApplicationRestController {
             @RequestParam(name = "applicant") RegularUserDTO regUserDTO,
             @RequestParam(name = "petProfile") PetProfileDTO petprofDTO) throws IllegalArgumentException {
 
-        RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser().username);                                                                                    
-        PetProfile pp = profileservice.getPetProfileById(petprofDTO.getProfileId()); 
+        RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser());
+        PetProfile pp = profileservice.getPetProfileById(petprofDTO.getId());
         AdoptionApplication a = appservice.createApplication(postDate, Time.valueOf(postTime), ru, pp);
 
         return convertToDto(a);
@@ -89,8 +89,8 @@ public class AdoptionApplicationRestController {
         if (appDTO == null) {
             throw new NullPointerException("An application is required to be deleted");
         }
-        RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser().username);
-        PetProfile pp = profileservice.getPetProfileById(petprofDTO.getProfileId());
+        RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser());
+        PetProfile pp = profileservice.getPetProfileById(petprofDTO.getId());
    
         AdoptionApplication a = appservice.getAppbyAdopterAndPetProfile(ru, pp);
         Boolean result = appservice.deleteApplication(a);
@@ -105,7 +105,7 @@ public class AdoptionApplicationRestController {
         if (regUserDTO == null) {
             throw new NullPointerException("A user is required to browse applications.");
         }
-        RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser().username);
+        RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser());
 
         List<AdoptionApplicationDTO> appDtos = new ArrayList<>();
         for (AdoptionApplication app : appservice.getApplicationsByUser(ru)) {
@@ -121,7 +121,7 @@ public class AdoptionApplicationRestController {
         if (petprofDTO == null) {
             throw new NullPointerException("A pet is required to see all applications.");
         }
-        PetProfile pp = profileservice.getPetProfileById(petprofDTO.getProfileId()); 
+        PetProfile pp = profileservice.getPetProfileById(petprofDTO.getId());
         List<AdoptionApplicationDTO> appDtos = new ArrayList<>();
         for (AdoptionApplication app : appservice.getApplicationsByPetProfile(pp)) {
             appDtos.add(convertToDto(app));
@@ -157,7 +157,7 @@ public class AdoptionApplicationRestController {
     private PetProfile convertToDomainObject(PetProfileDTO ppDto) {
         List<PetProfile> allprofiles = profileservice.getAllPetProfiles();
         for (PetProfile pp : allprofiles) {
-            if (pp.getId() == (ppDto.getProfileId())) {
+            if (pp.getId() == (ppDto.getId())) {
                 return pp;
             }
         }
@@ -190,10 +190,10 @@ public class AdoptionApplicationRestController {
         if (petProfile == null) {
             throw new IllegalArgumentException("There is no Pet Profile.");
         }
-        PetProfileDTO profileDTO = new PetProfileDTO(petProfile.getId(), petProfile.getPoster(), petProfile.getImage(),
+        PetProfileDTO profileDTO = new PetProfileDTO(petProfile.getPoster(), petProfile.getImage(),
                 petProfile.getApplication(), petProfile.getName(), petProfile.getPetType(), petProfile.getBreed(),
                 petProfile.getDescription(), petProfile.getId(), petProfile.getReasonForPosting(),
-                petProfile.getPostDate(), petProfile.getPostTime());
+                petProfile.getPostDate(), petProfile.getPostTime(), petProfile.isIsAvailable());
         // This might have to be changed to convert image and poster into dtos before
         // creating pet perofile dtos
         return profileDTO;
@@ -203,7 +203,7 @@ public class AdoptionApplicationRestController {
         if (applicant == null) {
             throw new IllegalArgumentException("There is no Applicant.");
         }
-        RegularUserDTO userDTO = new RegularUserDTO(applicant.getId(), applicant.getDonation(), applicant.getUser(),
+        RegularUserDTO userDTO = new RegularUserDTO(applicant.getDonation(), applicant.getUser().getUsername(),
                 applicant.getName(), applicant.getApplication(), applicant.getHomeDescription(),
                 applicant.getPhoneNumber());
         // This might have to be changed to convert image and poster into dtos before
