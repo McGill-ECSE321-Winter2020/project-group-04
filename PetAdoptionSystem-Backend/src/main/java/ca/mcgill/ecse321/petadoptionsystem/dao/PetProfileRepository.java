@@ -13,12 +13,10 @@ import java.util.List;
 public interface PetProfileRepository extends CrudRepository<PetProfile, Integer> {
 
 	PetProfile findPetProfileById(int i);
-	List<PetProfile> findAllPetProfileByPoster(UserRole id);
+	List<PetProfile> findAllPetProfileByPoster(UserRole poster);
 	List<PetProfile> findAllPetProfileByBreed(String breed);
 	List<PetProfile> findAllPetProfileByPetType(PetType id);
 	boolean existsByNameAndPoster(String name, UserRole id);
 	PetProfile findPetProfileByNameAndPoster(String name, UserRole id);
 
-
-	List<PetProfile> findAllPetProfileByUsername(String username);
 }

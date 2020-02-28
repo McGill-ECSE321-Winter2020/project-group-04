@@ -121,9 +121,9 @@ public class PetProfileService {
 
         //Get the PosterId from the account username
         Account account = accountRepository.findAccountByUsername(username);
-        UserRole posterid = regularUserRepository.findRegularUserByUser(account);
+        UserRole poster = regularUserRepository.findRegularUserByUser(account);
 
-        return toList(petprofilerepository.findAllPetProfileByPoster(posterid));
+        return toList(petprofilerepository.findAllPetProfileByPoster(poster));
 
     }
 
@@ -166,10 +166,10 @@ public class PetProfileService {
 
         //Get the PosterId from the account username
         Account account = accountRepository.findAccountByUsername(username);
-        UserRole posterid = regularUserRepository.findRegularUserByUser(account);
+        UserRole poster = regularUserRepository.findRegularUserByUser(account);
 
         //Find the PetProfile with the posterid and the pet's name
-        PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(name, posterid);
+        PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(name, poster);
 
         if (reason != null) {
             pet.setReasonForPosting(reason);
@@ -205,9 +205,9 @@ public class PetProfileService {
     public void deletePetProfile(String username, String name){
 
         Account account = accountRepository.findAccountByUsername(username);
-        UserRole posterid = regularUserRepository.findRegularUserByUser(account);
+        UserRole poster = regularUserRepository.findRegularUserByUser(account);
 
-        PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(name, posterid);
+        PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(name, poster);
 
         petprofilerepository.delete(pet);
 
