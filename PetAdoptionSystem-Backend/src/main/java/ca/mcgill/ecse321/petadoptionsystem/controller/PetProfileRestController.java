@@ -160,7 +160,7 @@ public class PetProfileRestController {
             @PathVariable("petname") String name)
         throws IllegalArgumentException {
 
-        
+
        petProfileService.deletePetProfile(username, name);
 
     }
