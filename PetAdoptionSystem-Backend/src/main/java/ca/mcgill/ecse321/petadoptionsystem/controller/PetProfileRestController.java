@@ -27,8 +27,6 @@ public class PetProfileRestController {
 
 
 
-
-
     /**
      *
      * @param petProfileDTO union of both classes RegularUser and PetProfile
