@@ -53,6 +53,6 @@ public class ImageController {
                 .body(new ByteArrayResource(dbFile.getData()));
     }
     
-
+   
 
 }
