@@ -47,7 +47,7 @@ public class PetProfileService {
                                        PetType pettype, Time posttime, Date postdate, String username, String reason, boolean isAvailable)
             throws IllegalArgumentException {
 
-        String error = "Error";
+        String error = "";
 
         //Checking the validity of the inputs
 
@@ -120,6 +120,10 @@ public class PetProfileService {
     public List<PetProfile> getAllPetProfilesByUsername(String username){
 
         //Get the PosterId from the account username
+        String error = "";
+        if (accountRepository.existsByUsername(username)) error += "No user associated with this username";
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
         Account account = accountRepository.findAccountByUsername(username);
         UserRole poster = regularUserRepository.findRegularUserByUser(account);
 
@@ -134,6 +138,10 @@ public class PetProfileService {
      */
     @Transactional
     public List<PetProfile> getAllPetProfilesByBreed(String breed){
+
+        String error = "";
+        if (petprofilerepository.existsByBreed(breed)) error += "There is no such breed in our database";
+        if (error.length() > 0) throw new IllegalArgumentException(error);
 
         return toList(petprofilerepository.findAllPetProfileByBreed(breed));
     }
@@ -165,6 +173,15 @@ public class PetProfileService {
                                        PetType type, String name, Boolean isAvailable){
 
         //Get the PosterId from the account username
+
+        String error = "error";
+        if (accountRepository.existsByUsername(username)) error += "No user associated with username" + username;
+
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        if (petprofilerepository.existsByName(name)) error += "No pet of name " + name + "in the data base";
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
         Account account = accountRepository.findAccountByUsername(username);
         UserRole poster = regularUserRepository.findRegularUserByUser(account);
 
@@ -199,16 +216,22 @@ public class PetProfileService {
     /**
      *
      * @param username of the user
-     * @param name of the pet to be deleted
+     * @param petname of the pet to be deleted
      */
     @Transactional
-    public void deletePetProfile(String username, String name){
+    public void deletePetProfile(String username, String petname){
+
+        String error = "";
+        if (accountRepository.existsByUsername(username)) error += "No user associated with username" + username;
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        if (petprofilerepository.existsByName(petname)) error += "No existing pet of name " + petname + "in the data base";
+        if (error.length() > 0) throw new IllegalArgumentException(error);
 
         Account account = accountRepository.findAccountByUsername(username);
-        UserRole poster = regularUserRepository.findRegularUserByUser(account);
+        UserRole posterid = regularUserRepository.findRegularUserByUser(account);
 
-        PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(name, poster);
-
+        PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(petname, posterid);
         petprofilerepository.delete(pet);
 
     }
@@ -216,7 +239,7 @@ public class PetProfileService {
     /**
      *
      * @param id id of petprofile
-     * @return
+     * @return the petprofile
      */
     @Transactional
     public PetProfile getPetProfileById(int id){

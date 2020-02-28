@@ -23,22 +23,21 @@ public class RegularUserService {
 
     /**
      *
-     * @param name name of the user to get
+     * @param username name of the user to get
      * @return returns the user with all the attributes
      */
 
-    @Transactional
-    public RegularUser getRegularUserByName(String name){
 
-        RegularUser regularuser = regularuserrepository.findRegularUserByName(name);
-
-        return(regularuser);
-    }
 
     @Transactional
-    public RegularUser getRegularUserByUsername(String user){
+    public RegularUser getRegularUserByUsername(String username){
 
-        Account account = accountRepository.findAccountByUsername(user);
+        String error = "";
+
+        if (accountRepository.existsByUsername(username)) error += "No existing user with the username" + username;
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        Account account = accountRepository.findAccountByUsername(username);
         RegularUser regularuser = regularuserrepository.findRegularUserByUser(account);
 
         return(regularuser);
@@ -64,6 +63,11 @@ public class RegularUserService {
      */
     @Transactional
     public RegularUser updateRegularUser(String username,String name, String homedescription, int phonenumber){
+
+        String error = "";
+
+        if (accountRepository.existsByUsername(username)) error += "No user associated with username" + username;
+        if (error.length() > 0) throw new IllegalArgumentException(error);
 
         Account account = accountRepository.findAccountByUsername(username);
         RegularUser regularuser = regularuserrepository.findRegularUserByUser(account);
