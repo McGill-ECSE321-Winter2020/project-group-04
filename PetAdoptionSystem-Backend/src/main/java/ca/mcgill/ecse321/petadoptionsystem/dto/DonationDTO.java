@@ -4,7 +4,7 @@ import java.sql.Time;
 import java.util.Date;
 
 public class DonationDTO {
-    private RegularUserDTO regUserDto;
+    private RegularUserDTO regularUserDto;
     private Time time;
     private Date date;
     private float amnt;
@@ -12,7 +12,7 @@ public class DonationDTO {
 
     public DonationDTO(RegularUserDTO regUserDto, Time time, Date date, float amount){
         this.time = time;
-        this.regUserDto = regUserDto;
+        this.regularUserDto = regUserDto;
         this.date = date;
         this.amnt = amount;
     }
@@ -39,5 +39,13 @@ public class DonationDTO {
 
     public void setAmnt(float amnt) {
         this.amnt = amnt;
+    }
+
+    public RegularUserDTO getRegularUserDto() {
+        return regularUserDto;
+    }
+
+    public void setRegularUserDto(RegularUserDTO regularUserDto) {
+        this.regularUserDto = regularUserDto;
     }
 }
