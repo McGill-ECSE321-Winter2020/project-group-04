@@ -24,5 +24,5 @@ public interface PetProfileRepository extends CrudRepository<PetProfile, Integer
     boolean existsByBreed(String breed);
 
 	boolean existsByName(String username);
-	
+
 }
