@@ -1,18 +1,15 @@
 package ca.mcgill.ecse321.petadoptionsystem.controller;
 
-import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dto.PetProfileDTO;
-import ca.mcgill.ecse321.petadoptionsystem.dto.RegularUserDTO;
+import ca.mcgill.ecse321.petadoptionsystem.dto.UserRoleDTO;
 import ca.mcgill.ecse321.petadoptionsystem.model.*;
 import ca.mcgill.ecse321.petadoptionsystem.service.PetProfileService;
-import ca.mcgill.ecse321.petadoptionsystem.service.RegularUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +28,7 @@ public class PetProfileRestController {
 
     static class Joint{
         PetProfileDTO petProfileDTO;
-        RegularUserDTO regularUserDTO;
+        UserRoleDTO userRoleDTO;
     }
 
 
@@ -53,7 +50,7 @@ public class PetProfileRestController {
 
 
         PetProfile pet = petProfileService.createPetProfile(joint.petProfileDTO.getBreed(), joint.petProfileDTO.getDescription(), joint.petProfileDTO.getName(),
-                joint.petProfileDTO.getPetType(), Time.valueOf(postTime), date, joint.regularUserDTO.getUser(),
+                joint.petProfileDTO.getPetType(), Time.valueOf(postTime), date, joint.userRoleDTO.getUser(),
                 joint.petProfileDTO.getReasonForPosting(), joint.petProfileDTO.getIsAvailable());
 
 
@@ -74,7 +71,7 @@ public class PetProfileRestController {
             @PathVariable("petname") String name)
             throws IllegalArgumentException{
 
-        PetProfile pet = petProfileService.updatePetProfile(joint.regularUserDTO.getUser(), joint.petProfileDTO.getBreed(), joint.petProfileDTO.getDescription(),
+        PetProfile pet = petProfileService.updatePetProfile(joint.userRoleDTO.getUser(), joint.petProfileDTO.getBreed(), joint.petProfileDTO.getDescription(),
                 joint.petProfileDTO.getReasonForPosting(), joint.petProfileDTO.getPetType(), name, joint.petProfileDTO.getIsAvailable());
 
        return convertToDto(pet);
