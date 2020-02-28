@@ -36,6 +36,7 @@ public class RegularUserRestController {
     @GetMapping( value = { "/regularusers", "/regularusers/" })
     public List<RegularUserDTO> getAllRegularUsers() throws IllegalArgumentException{
         List<RegularUserDTO> regDtos = new ArrayList<>();
+
         for (RegularUser reg : regularUserService.getAllRegularUsers()) {
             regDtos.add(convertToDto(reg));
         }
@@ -49,7 +50,7 @@ public class RegularUserRestController {
      * @throws IllegalArgumentException error
      */
     @GetMapping( value = { "/regularuser/{username}", "/regularusers/{username}/" })
-    public RegularUserDTO getAllRegularUsers(@PathVariable("username") String username) throws IllegalArgumentException{
+    public RegularUserDTO getRegularUsersByUser(@PathVariable("username") String username) throws IllegalArgumentException{
 
         RegularUser reg =  regularUserService.getRegularUserByUsername(username);
 

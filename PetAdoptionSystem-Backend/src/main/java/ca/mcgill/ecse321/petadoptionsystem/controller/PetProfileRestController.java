@@ -26,32 +26,29 @@ public class PetProfileRestController {
 //TODO Need to change the Classes to be DTO Classes and not the normal ones
 
 
-    static class Joint{
-        PetProfileDTO petProfileDTO;
-        UserRoleDTO userRoleDTO;
-    }
+
 
 
     /**
      *
-     * @param joint union of both classes RegularUser and PetProfile
+     * @param petProfileDTO union of both classes RegularUser and PetProfile
      * @param date date of posting
      * @param postTime time of posting
      * @return the newly created profile
      * @throws IllegalArgumentException error
      */
-    @PostMapping(value = { "/petprofile", "/petprofile/" })
+    @PostMapping(value = { "/petprofile/{username}", "/petprofile/{username}/" })
     public PetProfileDTO createPetProfile(
-
-            @RequestBody Joint joint,
+            @PathVariable("username") String name,
+            @RequestBody PetProfileDTO petProfileDTO,
             @RequestParam Date date,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime postTime)
             throws IllegalArgumentException {
 
 
-        PetProfile pet = petProfileService.createPetProfile(joint.petProfileDTO.getBreed(), joint.petProfileDTO.getDescription(), joint.petProfileDTO.getName(),
-                joint.petProfileDTO.getPetType(), Time.valueOf(postTime), date, joint.userRoleDTO.getUser(),
-                joint.petProfileDTO.getReasonForPosting(), joint.petProfileDTO.getIsAvailable());
+        PetProfile pet = petProfileService.createPetProfile(petProfileDTO.getBreed(), petProfileDTO.getDescription(), petProfileDTO.getName(),
+                petProfileDTO.getPetType(), Time.valueOf(postTime), date, name,
+                petProfileDTO.getReasonForPosting(), petProfileDTO.getIsAvailable());
 
 
         return convertToDto(pet);
@@ -61,18 +58,21 @@ public class PetProfileRestController {
 
     /**
      *
-     * @param joint union of both classes RegularUser and PetProfile
+     * @param petProfileDTO union of both classes RegularUser and PetProfile
      * @return returns the updated value
      * @throws IllegalArgumentException error message
      */
-    @PutMapping( value = {"/updatePetProfile/{petname}", "/updatePetProfile/{petname}/"})
+    @PutMapping( value = {"/updatePetProfile/{username}/{petname}", "/updatePetProfile/{petname}/"})
     public PetProfileDTO updatePetProfile(
-            @RequestBody Joint joint,
-            @PathVariable("petname") String name)
+            @RequestBody PetProfileDTO petProfileDTO,
+            @PathVariable("username") String name,
+            @PathVariable("petname") String petname)
             throws IllegalArgumentException{
 
-        PetProfile pet = petProfileService.updatePetProfile(joint.userRoleDTO.getUser(), joint.petProfileDTO.getBreed(), joint.petProfileDTO.getDescription(),
-                joint.petProfileDTO.getReasonForPosting(), joint.petProfileDTO.getPetType(), name, joint.petProfileDTO.getIsAvailable());
+
+        PetProfile pet = petProfileService.updatePetProfile(name, petProfileDTO.getBreed(), petProfileDTO.getDescription(),
+                petProfileDTO.getReasonForPosting(), petProfileDTO.getPetType(), petname, petProfileDTO.getIsAvailable());
+
 
        return convertToDto(pet);
 
@@ -151,17 +151,17 @@ public class PetProfileRestController {
     /**
      *
      * @param username of user associated with
-     * @param name of pet to be deleted
+     * @param petname of pet to be deleted
      * @throws IllegalArgumentException error
      */
     @DeleteMapping(value = {"/deletePetProfile/{username}&{name}", "/deletePetProfile/{username}&{name}/"})
     public void deletePetProfile(
             @PathVariable("username") String username,
-            @PathVariable("petname") String name)
+            @PathVariable("petname") String petname)
         throws IllegalArgumentException {
 
 
-       petProfileService.deletePetProfile(username, name);
+       petProfileService.deletePetProfile(username, petname);
 
     }
 
