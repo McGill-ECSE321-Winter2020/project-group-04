@@ -12,7 +12,7 @@ public class Donation {
     public RegularUser getUser() {
         return this.user;
     }
-
+ 
     public void setUser(RegularUser user) {
         this.user = user;
     }
