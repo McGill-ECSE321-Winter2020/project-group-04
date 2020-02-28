@@ -32,6 +32,7 @@ public class Image {
 
     @Lob
     private byte[] data;
+    private long imageSize;
     
     private String imageName;
 
@@ -67,5 +68,13 @@ public class Image {
 
     public void setImageType(String imageType) {
         this.imageType = imageType;
+    }
+
+    public long getImageSize() {
+        return imageSize;
+    }
+
+    public void setImageSize(long imageSize) {
+        this.imageSize = imageSize;
     }
 }
