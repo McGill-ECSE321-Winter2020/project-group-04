@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ca.mcgill.ecse321.petadoptionsystem.dao.DonationRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.Donation;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
-import ca.mcgill.ecse321.petadoptionsystem.model.UserRole;
+
 
 public class DonationService {
     @Autowired
