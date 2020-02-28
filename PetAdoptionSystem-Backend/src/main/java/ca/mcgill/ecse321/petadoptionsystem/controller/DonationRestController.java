@@ -45,14 +45,23 @@ public class DonationRestController {
     }
 
     @GetMapping(value = { "/donations", "/donations/" })
-    public List<DonationDTO> getAllEvents() {
+    public List<DonationDTO> getAllDonations() {
         List<DonationDTO> donationDtos = new ArrayList<>();
         for (Donation d : donationService.getAllDonation()) {
             donationDtos.add(convertDonationToDTO(d));
         }
         return donationDtos;
     }
-
+    @GetMapping(value = { "/donations/{username}", "/donations/{username}/" })
+    public List<DonationDTO> getDonationByUsername(@PathVariable("username") String username) {
+        List<DonationDTO> userDonationDtos = new ArrayList<>();
+        for(Donation d : donationService.getDonationsByUsername(username)){
+            userDonationDtos.add(convertDonationToDTO(d));
+        }
+        return userDonationDtos;
+    }
+    
+    
     public DonationDTO convertDonationToDTO(Donation d) {
         if (d == null)
             throw new IllegalArgumentException("There is no such Donation!");
@@ -61,6 +70,6 @@ public class DonationRestController {
         return new DonationDTO(regDTO, d.getTime(), d.getDate(), d.getAmount());
     }
 
-    
+
 
 }
