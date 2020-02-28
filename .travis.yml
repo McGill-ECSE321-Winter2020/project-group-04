@@ -1,4 +1,9 @@
 language: java
 script:
 - gradle build
-
+deploy:
+  provider: heroku
+  api_key:
+    secure: Z/7zjPzKUbi99rNyxhVYO/GngkHzOBv5nvqsGXVnUY/tp16hmFZNx9WlQt1wCprOPx8hI99uZERxs5wXC2erqn3z6FxJ9/UNaf0qy7yx28Yd1ioFWZCDTfgyyTwoWrIi4Ed8uKL+KtnNVQefk8hFoZ8NmzjuMHFpQD8ls1lOGJJRx1MryOSxoGCoW2lnYVqWGjx2wZEw5TZHxTPnyv5Ny6V+BcP50ATnXHyDS169RTOyWM4JcC+iTYrGHkHKHei2X/jvn3XBScoBURFLNDKJSa55OdRmTNYbqgRu/MYLmBXSctbyss+sRssXl0z32yhzFh9Y7w2NZw/iPu0H3iRnpFHNYira6z4Bbv04RlPiUH5vyADT02OEbcEOIR3VgaZ7pwZc+gSXqJMdW2ZxlU6aYfOPtOIh2DuN8GYULW3r8cqf9Q8jvK2IVbsXB9ElDLTXctqD4SCNVQpFMyOgsqg1EDiP9eKl6gxkEpfLzgx5EFBhydfvW9ro/f1HPVYA63X/Nw/at3NfEKgYt6+z5YiE5juh1ZkYzQ9s2did3yWDUB+6OX9u9YzkcOudo053kQoAO7AsDzgJeSb7e+bpZr57dlxWPn/IuXFowlMLJysdLulIi8voIVqFYBFIxp29dDoduAq9q+oTSP3EpsF+B8fIfqUyZ/JX2rk5314Nr01U910=
+  app:
+    master: project-group-04
