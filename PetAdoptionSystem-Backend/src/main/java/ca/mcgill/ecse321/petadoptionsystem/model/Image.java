@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToOne;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
 public class Image {
@@ -28,6 +29,10 @@ public class Image {
     public int getId() {
         return this.id;
     }
+
+    @Lob
+    private byte[] data;
+    
     private String imageName;
 
     public String getImageName(){
@@ -74,5 +79,13 @@ public class Image {
 
     public String getFilePath() {
         return this.filePath;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
     }
 }
