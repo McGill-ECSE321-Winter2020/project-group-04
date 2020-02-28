@@ -49,9 +49,12 @@ public class DonationService {
     }
 
     @Transactional
-    public List<Donation> getDonationsByUserId(int id){
+    public List<Donation> getDonationsByUsername(String username){
         List<Donation> donationsByUser = new ArrayList<>();
-        for(Donation d : donationRepository.findDonationByUser_id(id)){
+        Account act =  actRepo.findAccountByUsername(username);
+        RegularUser regUser = regUserRepo.findRegularUserByUser(act);
+        
+        for(Donation d : donationRepository.findDonationByUser_id(regUser.getId())){
             donationsByUser.add(d);
         }
 
