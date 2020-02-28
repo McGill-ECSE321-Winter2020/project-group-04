@@ -61,7 +61,9 @@ public class Image {
         return this.sizeX;
     }
 
+    
     private int sizeY;
+
 
     public void setSizeY(int value) {
         this.sizeY = value;
@@ -70,7 +72,8 @@ public class Image {
     public int getSizeY() {
         return this.sizeY;
     }
-
+    private String imageType;
+    
     private String filePath;
 
     public void setFilePath(String value) {
@@ -87,5 +90,13 @@ public class Image {
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
     }
 }
