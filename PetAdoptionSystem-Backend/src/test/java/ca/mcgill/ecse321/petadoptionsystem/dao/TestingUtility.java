@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.petadoptionsystem;
+package ca.mcgill.ecse321.petadoptionsystem.dao;
 
 import ca.mcgill.ecse321.petadoptionsystem.model.*;
 
