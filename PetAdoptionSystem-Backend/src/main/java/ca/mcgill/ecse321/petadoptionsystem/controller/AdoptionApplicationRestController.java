@@ -40,7 +40,6 @@ public class AdoptionApplicationRestController {
     @Autowired
     private PetProfileService profileservice;
 
-    
     @GetMapping(value = { "/applications", "/applications/" })
     public List<AdoptionApplicationDTO> getAllApplications() throws IllegalArgumentException {
         List<AdoptionApplicationDTO> appDtos = new ArrayList<>();
@@ -51,29 +50,39 @@ public class AdoptionApplicationRestController {
     }
 
     @GetMapping(value = { "/application/{id}", "/application/{id}/" })
-    public AdoptionApplication getApplicationbyId(@PathVariable("id") int id) throws IllegalArgumentException {
+    public AdoptionApplicationDTO getApplicationbyId(@PathVariable("id") int id) throws IllegalArgumentException {
         AdoptionApplication app = appservice.getApplicationbyId(id);
-        return app;
+        return convertToDto(app);
     }
 
     @GetMapping(value = { "/application", "/application/" })
-    public AdoptionApplication getApplication(@RequestParam(name = "application") AdoptionApplicationDTO appDTO)
-            throws IllegalArgumentException {
+    public AdoptionApplicationDTO getApplication(RegularUserDTO ruDTO, PetProfileDTO ppDTO) throws IllegalArgumentException {
 
-        RegularUser ru = convertToDomainObject(appDTO.getRegularUserDTO());
-        PetProfile pp = convertToDomainObject(appDTO.getPetProfileDTO());
+        if(ruDTO == null){
+            throw new NullPointerException("A user is required to create an application.");
+        }
+        if(ppDTO == null){
+            throw new NullPointerException("A pet profile is required to create an application.");
+        }
+        RegularUser ru = regservice.getRegularUserByUsername(ruDTO.getUser());
+        PetProfile pp = profileservice.getPetProfileById(ppDTO.getId());
 
         AdoptionApplication app = appservice.getAppbyAdopterAndPetProfile(ru, pp);
 
-        return app;
+        return convertToDto(app);
     }
 
     @PostMapping(value = { "/apply", "/apply/" })
     public AdoptionApplicationDTO createApplication(@RequestParam Date postDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime postTime,
-            @RequestParam(name = "applicant") RegularUserDTO regUserDTO,
-            @RequestParam(name = "petProfile") PetProfileDTO petprofDTO) throws IllegalArgumentException {
+            RegularUserDTO regUserDTO, PetProfileDTO petprofDTO) throws IllegalArgumentException {
 
+        if(regUserDTO == null){
+            throw new NullPointerException("A user is required to create an application.");
+        }
+        if(petprofDTO == null){
+            throw new NullPointerException("A pet profile is required to create an application.");
+        }
         RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser());
         PetProfile pp = profileservice.getPetProfileById(petprofDTO.getId());
         AdoptionApplication a = appservice.createApplication(postDate, Time.valueOf(postTime), ru, pp);
@@ -82,16 +91,15 @@ public class AdoptionApplicationRestController {
     }
 
     @DeleteMapping(value = { "/deleteApplication", "/deleteApplication/" })
-    public boolean deleteApplication(@RequestParam(name = "application") AdoptionApplicationDTO appDTO,
-            @RequestParam(name = "applicant") RegularUserDTO regUserDTO,
-            @RequestParam(name = "petProfile") PetProfileDTO petprofDTO) throws IllegalArgumentException {
+    public boolean deleteApplication(AdoptionApplicationDTO appDTO, RegularUserDTO regUserDTO, PetProfileDTO petprofDTO)
+            throws IllegalArgumentException {
 
         if (appDTO == null) {
             throw new NullPointerException("An application is required to be deleted");
         }
         RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser());
         PetProfile pp = profileservice.getPetProfileById(petprofDTO.getId());
-   
+
         AdoptionApplication a = appservice.getAppbyAdopterAndPetProfile(ru, pp);
         Boolean result = appservice.deleteApplication(a);
 
@@ -99,8 +107,8 @@ public class AdoptionApplicationRestController {
     }
 
     @GetMapping(value = { "/browse/applications/applicant", "/browse/applications/applicant/" })
-    public List<AdoptionApplicationDTO> browseApplicationsOfApplicant(
-            @RequestParam(name = "applicant") RegularUserDTO regUserDTO) throws IllegalArgumentException {
+    public List<AdoptionApplicationDTO> browseApplicationsOfApplicant(RegularUserDTO regUserDTO)
+            throws IllegalArgumentException {
 
         if (regUserDTO == null) {
             throw new NullPointerException("A user is required to browse applications.");
@@ -115,8 +123,8 @@ public class AdoptionApplicationRestController {
     }
 
     @GetMapping(value = { "/browse/applications/petprofile", "/browse/applications/petprofile/" })
-    public List<AdoptionApplicationDTO> browseApplicationsToPetProfile(
-            @RequestParam(name = "petProfile") PetProfileDTO petprofDTO) throws IllegalArgumentException {
+    public List<AdoptionApplicationDTO> browseApplicationsToPetProfile(PetProfileDTO petprofDTO)
+            throws IllegalArgumentException {
 
         if (petprofDTO == null) {
             throw new NullPointerException("A pet is required to see all applications.");
@@ -130,7 +138,7 @@ public class AdoptionApplicationRestController {
     }
 
     @PutMapping(value = { "/updateApplication", "/updateApplication/" })
-    public AdoptionApplicationDTO updateApplication(@RequestParam(name = "application") AdoptionApplicationDTO appDTO,
+    public AdoptionApplicationDTO updateApplication(AdoptionApplicationDTO appDTO,
             @RequestParam(value = "approve", required = false, defaultValue = "false") boolean approve,
             @RequestParam(value = "confirm", required = false, defaultValue = "false") boolean confirm) {
 
@@ -144,25 +152,6 @@ public class AdoptionApplicationRestController {
 
     }
 
-    private RegularUser convertToDomainObject(RegularUserDTO ruDto) {
-        List<RegularUser> allusers = regservice.getAllRegularUsers();
-        for (RegularUser ru : allusers) {
-            if (ru.getId() == (ruDto.getId())) {
-                return ru;
-            }
-        }
-        return null;
-    }
-
-    private PetProfile convertToDomainObject(PetProfileDTO ppDto) {
-        List<PetProfile> allprofiles = profileservice.getAllPetProfiles();
-        for (PetProfile pp : allprofiles) {
-            if (pp.getId() == (ppDto.getId())) {
-                return pp;
-            }
-        }
-        return null;
-    }
 
     private AdoptionApplication convertToDomainObject(AdoptionApplicationDTO appDto) {
         List<AdoptionApplication> allapps = appservice.getAllApplications();
