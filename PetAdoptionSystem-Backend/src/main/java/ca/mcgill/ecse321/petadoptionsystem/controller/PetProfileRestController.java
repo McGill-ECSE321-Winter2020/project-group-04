@@ -179,7 +179,7 @@ public class PetProfileRestController {
             throw new IllegalArgumentException("There is no such Pet!");
         }
 
-        PetProfileDTO petDto = new PetProfileDTO(pet.getPoster(), pet.getImage(), pet.getApplication(), pet.getName(), pet.getPetType(),
+        PetProfileDTO petDto = new PetProfileDTO(pet.getPoster(), pet.getImages(), pet.getApplication(), pet.getName(), pet.getPetType(),
                 pet.getBreed(), pet.getDescription(), pet.getId(), pet.getReasonForPosting(), pet.getPostDate(), pet.getPostTime(), pet.isIsAvailable());
 
         return petDto;

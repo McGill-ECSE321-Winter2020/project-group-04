@@ -17,6 +17,7 @@ import java.time.LocalTime;
 import java.time.Month;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -37,7 +38,7 @@ public class DonationTest {
     private Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
     private Time postTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 
-    @AfterEach
+    @BeforeEach
     public void clearDatabase(){
 
         donationRepository.deleteAll();

@@ -12,8 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class PetAdoptionSystemTest {
     @Autowired
-    private ImageRepository imageRepository;
-    @Autowired
     private PetAdoptionSystemRepository petAdoptionSystemRepository;
 
     @Autowired
@@ -33,7 +31,6 @@ public class PetAdoptionSystemTest {
 
     @AfterEach
     public void clearDataBase() {
-        imageRepository.deleteAll();
 
         petProfileRepository.deleteAll();
 
