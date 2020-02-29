@@ -79,9 +79,6 @@ public class RegularUserRestController {
     }
 
 
-
-
-
     private RegularUserDTO convertToDto(RegularUser reg) {
         if (reg == null) {
             throw new IllegalArgumentException("There is no such User!");

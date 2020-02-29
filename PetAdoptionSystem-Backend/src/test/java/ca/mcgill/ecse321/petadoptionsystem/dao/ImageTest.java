@@ -1,5 +1,13 @@
-package ca.mcgill.ecse321.petadoptionsystem;
+package ca.mcgill.ecse321.petadoptionsystem.dao;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AdminRepository;
@@ -8,16 +16,15 @@ import ca.mcgill.ecse321.petadoptionsystem.dao.ImageRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetAdoptionSystemRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
-import ca.mcgill.ecse321.petadoptionsystem.model.*;
+import ca.mcgill.ecse321.petadoptionsystem.model.Account;
+import ca.mcgill.ecse321.petadoptionsystem.model.Image;
+import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
+import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
+import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
-public class PetAdoptionSystemTest {
+public class ImageTest {
+
     @Autowired
     private ImageRepository imageRepository;
     @Autowired
@@ -38,8 +45,10 @@ public class PetAdoptionSystemTest {
     @Autowired
     private PetProfileRepository petProfileRepository;
 
+
     @AfterEach
     public void clearDataBase() {
+
         imageRepository.deleteAll();
 
         petProfileRepository.deleteAll();
@@ -52,12 +61,11 @@ public class PetAdoptionSystemTest {
 
     }
 
-    
     @Test
-    void testPersistAndLoadPetAdoptionSystem() {
-        PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
-        petAdoptionSystemRepository.save(pas);
-
+    public void testPersistAndLoadImage() {
+//        PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
+//        petAdoptionSystemRepository.save(pas);
+//
 //        Account act = TestingUtility.initAccount("test", "ODHD", pas);
 //
 //        accountRepository.save(act);
@@ -77,11 +85,10 @@ public class PetAdoptionSystemTest {
 //        img = null;
 //        img = imageRepository.findImageById(1023);
 //
-//        pas = null;
-
-        pas = petAdoptionSystemRepository.findPetAdoptionSystemById(1);
-        assertNotNull(pas);
-        assertEquals(1, pas.getId());
+//        assertNotNull(img);
+//
+//        assertEquals(1023, img.getId());
 
     }
+
 }

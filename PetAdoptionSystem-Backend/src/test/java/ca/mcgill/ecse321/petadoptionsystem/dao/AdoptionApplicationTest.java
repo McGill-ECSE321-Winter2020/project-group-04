@@ -1,12 +1,7 @@
-package ca.mcgill.ecse321.petadoptionsystem;
+package ca.mcgill.ecse321.petadoptionsystem.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
-import ca.mcgill.ecse321.petadoptionsystem.dao.AdoptionApplicationRepository;
-import ca.mcgill.ecse321.petadoptionsystem.dao.PetAdoptionSystemRepository;
-import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
-import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;

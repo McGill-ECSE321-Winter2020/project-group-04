@@ -1,8 +1,5 @@
-package ca.mcgill.ecse321.petadoptionsystem;
+package ca.mcgill.ecse321.petadoptionsystem.dao;
 
-import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
-import ca.mcgill.ecse321.petadoptionsystem.dao.PetAdoptionSystemRepository;
-import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;

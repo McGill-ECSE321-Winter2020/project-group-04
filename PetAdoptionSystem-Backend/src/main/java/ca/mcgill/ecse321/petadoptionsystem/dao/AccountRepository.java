@@ -12,4 +12,5 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
 	Account findAccountByUserRole(String usrR);
     boolean existsByUsername(String username);
 
+
 }
