@@ -6,9 +6,13 @@ import org.springframework.stereotype.Repository;
 
 import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 
+import java.util.List;
+
 @Repository
 public interface AdminRepository extends CrudRepository<Admin, Integer> {
     Admin findAdminById(int id);
 
     Admin findAdminByUser(Account account);
+
+    List<Admin> getAllBy()
 }

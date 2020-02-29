@@ -15,6 +15,9 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
@@ -29,10 +32,14 @@ public class TestAdminService {
     private AdminRepository adminDao;
 
     private static final String USERNAME1 = "John";
+    private static final String USERNAME2 = "Sarah";
 
 
     @InjectMocks
     private AdminService adminService;
+
+//    @InjectMocks
+//    private AccountService accountService;
 
     @AfterEach
     public void clearDataBase(){
@@ -65,5 +72,14 @@ public class TestAdminService {
     public void testExistingAdmin(){
         //assertEquals(adminService.getAdminByUsername(USERNAME1).getUser().getUsername(), USERNAME1);
     }
+
+    @Test
+    public void testGetAllAdmin(){
+        List<Admin> admins = new ArrayList<Admin>();
+
+
+        assertEquals(adminService.getAllAdmins());
+    }
+
 
 }
