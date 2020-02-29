@@ -4,11 +4,25 @@ import ca.mcgill.ecse321.petadoptionsystem.model.UserRole;
 
 public class AccountDTO {
 
-    public String username;
-    public String email;
-    public UserRole userRole;
+    private String username;
+    private String email;
+    private UserRole userRole;
 
-    public AccountDTO(String username) {
-        // TODO
+    public AccountDTO(String username, String email, UserRole userRole) {
+        this.username = username;
+        this.email = email;
+        this.userRole = userRole;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public UserRole getUserRole() {
+        return this.userRole;
     }
 }
