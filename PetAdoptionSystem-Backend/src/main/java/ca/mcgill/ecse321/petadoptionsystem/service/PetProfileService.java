@@ -160,11 +160,8 @@ public class PetProfileService {
     @Transactional
     public List<PetProfile> getAllPetProfilesByIsAvailable(boolean available){
 
-//        String error = "";
-//        if (petprofilerepository.existsByBreed(available)) error += "There is no such breed in our database";
-//        if (error.length() > 0) throw new IllegalArgumentException(error);
-
         return toList(petprofilerepository.findAllPetProfileByIsAvailable(available));
+
     }
 
 
