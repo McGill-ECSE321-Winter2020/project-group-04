@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.petadoptionsystem.service.AccountService;
@@ -39,6 +40,16 @@ public class AccountRestController {
     @GetMapping(value = {"/account/email/{email}", "/account/email/{email}/"})
     public AccountDTO getAccountsByEmail(@PathVariable("email") String email) throws IllegalArgumentException {
         return convertToDTO(accountService.getAccountByEmail(email));
+    }
+
+    @PostMapping(value = {"/account/createregular/{username}+{email}+{passwordHash}", "/account/createregular/{username}+{email}+{passwordHash}/"})
+    public AccountDTO createRegularUserAccount(@PathVariable("username") String username, @PathVariable("passwordHash") String passwordHash, @PathVariable("email") String email) {
+        return convertToDTO(accountService.createRegularUserAccount(username, passwordHash, email));
+    }
+
+    @PostMapping(value = {"/account/createadmin/{username}+{email}+{passwordHash}", "/account/createadmin/{username}+{email}+{passwordHash}/"})
+    public AccountDTO createAdminAccount(@PathVariable("username") String username, @PathVariable("passwordHash") String passwordHash, @PathVariable("email") String email) {
+        return convertToDTO(accountService.createAdminAccount(username, passwordHash, email));
     }
 
     private AccountDTO convertToDTO(Account account) {
