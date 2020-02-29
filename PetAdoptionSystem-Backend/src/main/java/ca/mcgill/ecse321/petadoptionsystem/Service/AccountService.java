@@ -151,16 +151,13 @@ public class AccountService {
 
     // TODO: figure out what getAccountByUsername passes when it fails
     @Transactional
-    public boolean deleteAccount(String username) {
+    public void deleteAccount(String username) {
         
         // retrieve the correct account and delete it
         // if found and deleted, returns true; else, false
         Account account = this.getAccountByUsername(username);
-        if (account != null) {
-            accountRepository.delete(account);
-            return true;
-        }
-        return false;
+        accountRepository.delete(account);
+        return;
     }
 
     private static <T> List<T> toList(Iterable<T> iterable) {

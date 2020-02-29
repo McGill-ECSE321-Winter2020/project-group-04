@@ -66,6 +66,12 @@ public class AccountRestController {
         return;
     }
 
+    @PostMapping(value = {"/account/delete/{username}", "/account/delete/{username}/"})
+    public void deleteAccount(@PathVariable("username") String username) {
+        accountService.deleteAccount(username);
+        return;
+    }
+
     private AccountDTO convertToDTO(Account account) {
         return null;
     }
