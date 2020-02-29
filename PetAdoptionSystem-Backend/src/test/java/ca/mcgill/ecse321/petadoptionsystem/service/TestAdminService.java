@@ -75,10 +75,10 @@ public class TestAdminService {
 
     @Test
     public void testGetAllAdmin(){
-        List<Admin> admins = new ArrayList<Admin>();
-
-
-        assertEquals(adminService.getAllAdmins());
+//        List<Admin> admins = adminService.getAllAdmins();
+//        assertEquals(1, admins.size());
+//        int adId = adminService.getAdminByUsername(USERNAME1).getId();
+//        assertEquals(admins.get(adId).getId(), adId);
     }
 
 

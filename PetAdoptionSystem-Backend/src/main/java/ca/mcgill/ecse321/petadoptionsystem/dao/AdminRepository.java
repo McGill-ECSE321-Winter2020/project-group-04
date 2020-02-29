@@ -14,5 +14,4 @@ public interface AdminRepository extends CrudRepository<Admin, Integer> {
 
     Admin findAdminByUser(Account account);
 
-    List<Admin> getAllBy()
 }
