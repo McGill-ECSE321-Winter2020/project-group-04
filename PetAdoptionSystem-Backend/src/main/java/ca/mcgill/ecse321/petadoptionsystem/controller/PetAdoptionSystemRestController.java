@@ -27,8 +27,7 @@ public class PetAdoptionSystemRestController {
     }
 
     private PetAdoptionSystemDto convertToDto(PetAdoptionSystem pas) {
-        PetAdoptionSystemDto pasDto = new PetAdoptionSystemDto(pas.getId());
-        return pasDto;
+        return new PetAdoptionSystemDto(pas.getId());
     }
 
 

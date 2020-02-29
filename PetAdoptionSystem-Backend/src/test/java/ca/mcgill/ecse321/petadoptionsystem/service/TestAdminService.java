@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,7 +34,7 @@ public class TestAdminService {
     private AdminRepository adminDao;
 
     private static final String USERNAME1 = "John";
-    private static final String USERNAME2 = "Sarah";
+    private static final String NON_EXISTING_USERNAME = "Sarah";
 
 
     @InjectMocks
@@ -78,8 +80,12 @@ public class TestAdminService {
 //        List<Admin> admins = adminService.getAllAdmins();
 //        assertEquals(1, admins.size());
 //        int adId = adminService.getAdminByUsername(USERNAME1).getId();
-//        assertEquals(admins.get(adId).getId(), adId);
+//        assertEquals(admins.get(0).getId(), adId);
     }
 
+    @Test
+    public void testNonExistingAdmin(){
+        //assertNull(adminService.getAdminByUsername(NON_EXISTING_USERNAME));
+    }
 
 }
