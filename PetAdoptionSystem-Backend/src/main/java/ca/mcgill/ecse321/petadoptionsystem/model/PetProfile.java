@@ -4,6 +4,8 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+
+import java.util.HashSet;
 import java.util.Set;
 import java.sql.Date;
 import java.sql.Time;
@@ -19,17 +21,19 @@ public class PetProfile {
 
     public void setPoster(UserRole poster) {
         this.poster = poster;
+    } 
+    
+    public HashSet<String> images = new HashSet<>();
+
+    public void addImage(String image){
+        this.images.add(image);
+    }
+    public void setImages(HashSet<String> set){
+        this.images = set;
     }
 
-    private Set<Image> image;
-
-    @OneToMany(mappedBy = "petProfile", cascade = CascadeType.REMOVE)
-    public Set<Image> getImage() {
-        return this.image;
-    }
-
-    public void setImage(Set<Image> images) {
-        this.image = images;
+    public HashSet<String> getImages(){
+        return images;
     }
 
     private Set<AdoptionApplication> application;

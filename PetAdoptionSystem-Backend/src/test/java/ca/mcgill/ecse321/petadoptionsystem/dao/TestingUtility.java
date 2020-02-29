@@ -109,20 +109,4 @@ class TestingUtility {
 
     }
 
-    /**
-     * Helper method to return a Image object
-     * 
-     * @param pkey
-     * @param petProf
-     * @return
-     */
-    public static Image initImage(int pkey, PetProfile petProf) {
-        Image img = new Image();
-        img.setId(pkey);
-        img.setPetProfile(petProf);
-
-        return img;
-
-    }
-
 }

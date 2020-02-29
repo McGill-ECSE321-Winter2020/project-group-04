@@ -190,7 +190,7 @@ public class AdoptionApplicationRestController {
         if (petProfile == null) {
             throw new IllegalArgumentException("There is no Pet Profile.");
         }
-        PetProfileDTO profileDTO = new PetProfileDTO(petProfile.getPoster(), petProfile.getImage(),
+        PetProfileDTO profileDTO = new PetProfileDTO(petProfile.getPoster(), petProfile.getImages(),
                 petProfile.getApplication(), petProfile.getName(), petProfile.getPetType(), petProfile.getBreed(),
                 petProfile.getDescription(), petProfile.getId(), petProfile.getReasonForPosting(),
                 petProfile.getPostDate(), petProfile.getPostTime(), petProfile.isIsAvailable());
