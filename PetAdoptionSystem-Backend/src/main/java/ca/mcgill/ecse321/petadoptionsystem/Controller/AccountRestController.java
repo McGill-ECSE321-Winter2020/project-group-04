@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.petadoptionsystem.service.AccountService;
@@ -50,6 +51,19 @@ public class AccountRestController {
     @PostMapping(value = {"/account/createadmin/{username}+{email}+{passwordHash}", "/account/createadmin/{username}+{email}+{passwordHash}/"})
     public AccountDTO createAdminAccount(@PathVariable("username") String username, @PathVariable("passwordHash") String passwordHash, @PathVariable("email") String email) {
         return convertToDTO(accountService.createAdminAccount(username, passwordHash, email));
+    }
+
+    // TODO: update methods
+    @PutMapping(value = {"/account/updateemail/{username}+{newEmail}", "/account/updateemail/{username}+{newEmail}/"})
+    public void updateEmail(@PathVariable("username") String username, @PathVariable("newEmail") String newEmail) {
+        accountService.updateEmail(username, newEmail);
+        return;
+    }
+
+    @PutMapping(value = {"/account/updatepassword/{username}+{newPasswordHash}", "/account/updatepassword/{username}+{newPasswordHash}/"})
+    public void updatePassword(@PathVariable("username") String username, @PathVariable("newPasswordHash") String newPasswordHash) {
+        accountService.updatePassword(username, newPasswordHash);
+        return;
     }
 
     private AccountDTO convertToDTO(Account account) {
