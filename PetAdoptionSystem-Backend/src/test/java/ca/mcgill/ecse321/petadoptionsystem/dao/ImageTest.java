@@ -54,32 +54,8 @@ public class ImageTest {
  
     @Test
     public void testPersistAndLoadImage() {
-//        PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
-//        petAdoptionSystemRepository.save(pas);
-//
-//        Account act = TestingUtility.initAccount("test", "ODHD", pas);
-//
-//        accountRepository.save(act);
-//
-//        RegularUser regUser = TestingUtility.initRegularUser(act, pas);
-//        regularUserRepository.save(regUser);
-//
-//        PetProfile petProf = TestingUtility.initPetProfile(regUser, pas);
-//
-//        petProfileRepository.save(petProf);
-//
-//        Image img = TestingUtility.initImage(1023, petProf);
-//
-//        img.setDescription("I am trying");
-//        imageRepository.save(img);
-//
-//        img = null;
-//        img = imageRepository.findImageById(1023);
-//
-//        assertNotNull(img);
-//
-//        assertEquals(1023, img.getId());
 
     }
+
 
 }
