@@ -53,7 +53,6 @@ public class AccountRestController {
         return convertToDTO(accountService.createAdminAccount(username, passwordHash, email));
     }
 
-    // TODO: update methods
     @PutMapping(value = {"/account/updateemail/{username}+{newEmail}", "/account/updateemail/{username}+{newEmail}/"})
     public void updateEmail(@PathVariable("username") String username, @PathVariable("newEmail") String newEmail) {
         accountService.updateEmail(username, newEmail);
