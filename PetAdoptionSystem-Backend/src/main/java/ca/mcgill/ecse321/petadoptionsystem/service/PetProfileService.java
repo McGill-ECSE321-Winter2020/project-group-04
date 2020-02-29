@@ -51,6 +51,8 @@ public class PetProfileService {
 
         //Checking the validity of the inputs
 
+        if (username == null || username.trim().length() == 0)
+            error += "The username cannot be empty or have spaces.\n";
         if (name == null || name.length() == 0)
             error += "The name cannot be empty.\n";
         if (pettype == null)
@@ -68,7 +70,9 @@ public class PetProfileService {
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        if (accountRepository.existsByUsername(username)) error += "No user associated with this username";
+        if (!accountRepository.existsByUsername(username))
+            error += "No user associated with this username";
+
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         Account account = accountRepository.findAccountByUsername(username);
@@ -129,7 +133,9 @@ public class PetProfileService {
 
         //Get the PosterId from the account username
         String error = "";
-        if (accountRepository.existsByUsername(username))
+        if (username == null || username.trim().length() == 0)
+            error += "The username cannot be empty or have spaces.\n";
+        if (!accountRepository.existsByUsername(username))
             error += "No user associated with this username";
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
@@ -153,7 +159,8 @@ public class PetProfileService {
     public List<PetProfile> getAllPetProfilesByBreed(String breed){
 
         String error = "";
-        if (petprofilerepository.existsByBreed(breed)) error += "There is no such breed in our database";
+        if (!petprofilerepository.existsByBreed(breed))
+            error += "There is no such breed in our database";
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         if (petprofilerepository.findAllPetProfileByBreed(breed) == null )
@@ -211,7 +218,11 @@ public class PetProfileService {
         //Get the PosterId from the account username
 
         String error = "error";
-        if (accountRepository.existsByUsername(username)) error += "No user associated with username" + username;
+        if (username == null || username.trim().length() == 0)
+            error += "The username cannot be empty or have spaces.\n";
+
+        if (!accountRepository.existsByUsername(username))
+            error += "No user associated with username" + username;
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
@@ -258,6 +269,9 @@ public class PetProfileService {
     public void deletePetProfile(String username, String petname){
 
         String error = "";
+        if (username == null || username.trim().length() == 0)
+            error += "The username cannot be empty or have spaces.\n";
+
         if (!accountRepository.existsByUsername(username))
             error += "No user associated with username" + username;
         if (error.length() > 0) throw new IllegalArgumentException(error);
