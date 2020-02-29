@@ -12,4 +12,4 @@ build/
 bin/
 /**/.settings
 .setings/
-*./DS_Store
+.DS_Store
