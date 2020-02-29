@@ -19,10 +19,10 @@ public interface PetProfileRepository extends CrudRepository<PetProfile, Integer
 	boolean existsByNameAndPoster(String name, UserRole id);
 	PetProfile findPetProfileByNameAndPoster(String name, UserRole id);
 
-
-
     boolean existsByBreed(String breed);
 
 	boolean existsByName(String username);
+
+	List<PetProfile> findAllPetProfileByIsAvailable(boolean available);
 
 }

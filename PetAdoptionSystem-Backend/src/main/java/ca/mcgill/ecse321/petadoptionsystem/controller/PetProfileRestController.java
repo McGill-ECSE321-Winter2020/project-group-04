@@ -110,6 +110,17 @@ public class PetProfileRestController {
         return petDtos;
     }
 
+    @GetMapping(value = { "/petprofiles/{available}", "/petprofiles/{available}/" })
+    public List<PetProfileDTO> getAllPetProfilesIsAvailable(@PathVariable("available") boolean available)
+            throws IllegalArgumentException {
+
+        List<PetProfileDTO> petDtos = new ArrayList<>();
+        for (PetProfile pet : petProfileService.getAllPetProfilesByIsAvailable(available)) {
+            petDtos.add(convertToDto(pet));
+        }
+        return petDtos;
+    }
+
     /**
      *
      * @param breed to be looked for
