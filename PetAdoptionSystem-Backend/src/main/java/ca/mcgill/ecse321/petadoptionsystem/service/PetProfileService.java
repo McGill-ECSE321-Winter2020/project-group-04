@@ -157,6 +157,15 @@ public class PetProfileService {
         return toList(petprofilerepository.findAllPetProfileByPetType(type));
     }
 
+    @Transactional
+    public List<PetProfile> getAllPetProfilesByIsAvailable(boolean available){
+
+        return toList(petprofilerepository.findAllPetProfileByIsAvailable(available));
+
+    }
+
+
+
     /**
      *
      * @param username of the user
