@@ -34,7 +34,12 @@ public class RegularUserService {
 
         String error = "";
 
-        if (accountRepository.existsByUsername(username)) error += "No existing user with the username" + username;
+        if (username == null || username.trim().length() == 0)
+            error += "Username field cannot be empty !";
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        if (accountRepository.existsByUsername(username))
+            error += "No existing user with the username" + username;
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         Account account = accountRepository.findAccountByUsername(username);
@@ -66,6 +71,10 @@ public class RegularUserService {
 
         String error = "";
 
+        if (username == null || username.trim().length() == 0)
+            error += "Username field cannot be empty !";
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
         if (accountRepository.existsByUsername(username)) error += "No user associated with username" + username;
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
@@ -86,6 +95,7 @@ public class RegularUserService {
         return regularuser;
 
     }
+
 
 
 }
