@@ -88,7 +88,7 @@ public class AccountService {
         String error = "";
 
         if (!accountRepository.existsByUsername(username))
-            error += "No user associated with username" + username;
+            error += "No user associated with that username.\n";
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         // check if valid username
@@ -105,7 +105,7 @@ public class AccountService {
         String error = "";
 
         if (!accountRepository.existsByEmail(email))
-            error += "No user associated with username" + email;
+            error += "No user associated with that email.\n";
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         // check if valid username
@@ -127,7 +127,7 @@ public class AccountService {
         String error = "";
 
         if (!accountRepository.existsByUsername(username))
-            error += "No user associated with username" + username;
+            error += "No user associated with that username.\n";
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         if (newEmail == null || newEmail.trim().length() == 0) error += "The email address cannot be empty.\n";
@@ -147,7 +147,7 @@ public class AccountService {
         String error = "";
 
         if (!accountRepository.existsByUsername(username))
-            error += "No user associated with username" + username;
+            error += "No user associated with that username.\n";
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         Account account = this.getAccountByUsername(username);
