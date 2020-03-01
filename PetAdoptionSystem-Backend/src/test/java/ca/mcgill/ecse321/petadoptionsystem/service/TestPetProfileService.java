@@ -262,4 +262,10 @@ public class TestPetProfileService {
         lenient().when(petprofilerepository.save(any(PetProfile.class))).thenAnswer(returnParameterAsAnswer);
     }
 
+    @Test
+    public void testCreatePetProfile(){
+        
+    }
+
+
 }
