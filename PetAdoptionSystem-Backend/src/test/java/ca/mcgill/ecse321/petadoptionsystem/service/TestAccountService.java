@@ -25,6 +25,8 @@ public class TestAccountService {
     private AccountService accountService;
 
     private static final String USERNAME = "Bathsheba_Everdene";
+    private static final String EMAIL = "bathsheba.everdene@gmail.com";
+    private static final String PASSWORDHASH = "the HASH slinging SLASHer";
 
     @BeforeEach
     public void setMockOutput() {
@@ -32,6 +34,8 @@ public class TestAccountService {
             if (invocation.getArgument(0).equals(USERNAME)) {
                 Account account = new Account();
                 account.setUsername(USERNAME);
+                account.setEmail(EMAIL);
+                account.setPasswordHash(PASSWORDHASH);
                 return account;
             } else {
                 return null;
