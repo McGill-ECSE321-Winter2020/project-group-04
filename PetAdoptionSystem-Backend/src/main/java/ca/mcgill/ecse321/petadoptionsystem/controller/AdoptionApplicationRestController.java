@@ -56,18 +56,19 @@ public class AdoptionApplicationRestController {
     }
 
     @GetMapping(value = { "/application", "/application/" })
-    public AdoptionApplicationDTO getApplication(RegularUserDTO ruDTO, PetProfileDTO ppDTO) throws IllegalArgumentException {
+    public AdoptionApplicationDTO getApplication(RegularUserDTO ruDTO, PetProfileDTO ppDTO)
+            throws IllegalArgumentException {
 
-        if(ruDTO == null){
+        if (ruDTO == null) {
             throw new NullPointerException("A user is required to create an application.");
         }
-        if(ppDTO == null){
+        if (ppDTO == null) {
             throw new NullPointerException("A pet profile is required to create an application.");
         }
-        RegularUser ru = regservice.getRegularUserByUsername(ruDTO.getUser());
-        PetProfile pp = profileservice.getPetProfileById(ppDTO.getId());
+        String applicant = ruDTO.getUser();
+        int ppId = ppDTO.getId();
 
-        AdoptionApplication app = appservice.getAppbyAdopterAndPetProfile(ru, pp);
+        AdoptionApplication app = appservice.getAppbyAdopterAndPetProfile(applicant, ppId);
 
         return convertToDto(app);
     }
@@ -76,16 +77,15 @@ public class AdoptionApplicationRestController {
     public AdoptionApplicationDTO createApplication(@RequestParam Date postDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime postTime,
             RegularUserDTO regUserDTO, PetProfileDTO petprofDTO) throws IllegalArgumentException {
-
-        if(regUserDTO == null){
+        if (regUserDTO == null) {
             throw new NullPointerException("A user is required to create an application.");
         }
-        if(petprofDTO == null){
+        if (petprofDTO == null) {
             throw new NullPointerException("A pet profile is required to create an application.");
         }
-        RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser());
-        PetProfile pp = profileservice.getPetProfileById(petprofDTO.getId());
-        AdoptionApplication a = appservice.createApplication(postDate, Time.valueOf(postTime), ru, pp);
+        String applicant = regUserDTO.getUser();
+        int ppId = petprofDTO.getId();
+        AdoptionApplication a = appservice.createApplication(postDate, Time.valueOf(postTime), applicant, ppId);
 
         return convertToDto(a);
     }
@@ -97,10 +97,10 @@ public class AdoptionApplicationRestController {
         if (appDTO == null) {
             throw new NullPointerException("An application is required to be deleted");
         }
-        RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser());
-        PetProfile pp = profileservice.getPetProfileById(petprofDTO.getId());
+        String applicant = regUserDTO.getUser();
+        int ppId = petprofDTO.getId();
 
-        AdoptionApplication a = appservice.getAppbyAdopterAndPetProfile(ru, pp);
+        AdoptionApplication a = appservice.getAppbyAdopterAndPetProfile(applicant, ppId);
         Boolean result = appservice.deleteApplication(a);
 
         return result;
@@ -113,7 +113,7 @@ public class AdoptionApplicationRestController {
         if (regUserDTO == null) {
             throw new NullPointerException("A user is required to browse applications.");
         }
-        RegularUser ru = regservice.getRegularUserByUsername(regUserDTO.getUser());
+        String ru = regUserDTO.getUser();
 
         List<AdoptionApplicationDTO> appDtos = new ArrayList<>();
         for (AdoptionApplication app : appservice.getApplicationsByUser(ru)) {
@@ -131,7 +131,7 @@ public class AdoptionApplicationRestController {
         }
         PetProfile pp = profileservice.getPetProfileById(petprofDTO.getId());
         List<AdoptionApplicationDTO> appDtos = new ArrayList<>();
-        for (AdoptionApplication app : appservice.getApplicationsByPetProfile(pp)) {
+        for (AdoptionApplication app : appservice.getApplicationsByPetProfile(pp.getId())) {
             appDtos.add(convertToDto(app));
         }
         return appDtos;
@@ -151,7 +151,6 @@ public class AdoptionApplicationRestController {
         return convertToDto(updatedApp);
 
     }
-
 
     private AdoptionApplication convertToDomainObject(AdoptionApplicationDTO appDto) {
         List<AdoptionApplication> allapps = appservice.getAllApplications();

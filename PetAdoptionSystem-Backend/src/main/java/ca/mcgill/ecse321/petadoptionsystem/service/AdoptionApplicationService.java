@@ -9,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AdoptionApplicationRepository;
+import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
+import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
+import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
@@ -23,6 +27,13 @@ public class AdoptionApplicationService {
     @Autowired
     AdoptionApplicationRepository appRepository;
 
+    @Autowired
+    PetProfileRepository ppRepository;
+    @Autowired
+    AccountRepository acRepository;
+    @Autowired
+    RegularUserRepository regRepository;
+
     /**
      * Method to create a new Application
      * 
@@ -33,8 +44,8 @@ public class AdoptionApplicationService {
      * @return created application
      */
     @Transactional
-    public AdoptionApplication createApplication(Date postDate, Time postTime, RegularUser applicant,
-            PetProfile petprof) {
+    public AdoptionApplication createApplication(Date postDate, Time postTime, String username,
+            int petId) {
         String error = "";
         if (postDate == null) {
             error = error + "Application date cannot be empty.";
@@ -42,13 +53,18 @@ public class AdoptionApplicationService {
         if (postTime == null) {
             error = error + "Application time cannot be empty.";
         }
-        if (petprof == null) {
-            error = error + "Pet Profile needs to be selected to apply.";
+        if (username == null || username.trim().length()==0) {
+            error = error + "The username cannot be empty or have spaces.";
         }
-        if (applicant == null) {
-            error = error + "Applicant needs to be selected to apply";
+        PetProfile petprof = ppRepository.findPetProfileById(petId);
+
+        Account ac = acRepository.findAccountByUsername(username);
+        if(ac == null){
+            error = error + "No account associated with this username.";
         }
-        AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(applicant, petprof);
+        RegularUser ru = regRepository.findRegularUserByUser(ac);
+
+        AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(ru,petprof);
         if (adoptApp != null) {
             error = error + "This application already exists.";
         }
@@ -58,7 +74,7 @@ public class AdoptionApplicationService {
         adoptApp = new AdoptionApplication();
         adoptApp.setIsApproved(false);
         adoptApp.setIsConfirmed(false);
-        adoptApp.setApplicant(applicant);
+        adoptApp.setApplicant(ru);
         adoptApp.setPostDate(postDate);
         adoptApp.setPostTime(postTime);
         adoptApp.setPetProfile(petprof);
@@ -101,8 +117,17 @@ public class AdoptionApplicationService {
      * @return list of applications of a user
      */
     @Transactional
-    public List<AdoptionApplication> getApplicationsByUser(RegularUser regUser) {
-        List<AdoptionApplication> userApplications = appRepository.findByApplicant(regUser);
+    public List<AdoptionApplication> getApplicationsByUser(String username) {
+        String error = "";
+        if (username == null || username.trim().length()==0) {
+            error = error + "The username cannot be empty or have spaces.";
+        }
+        Account ac = acRepository.findAccountByUsername(username);
+        if(ac == null){
+            error = error + "No account associated with this username.";
+        }
+        RegularUser ru = regRepository.findRegularUserByUser(ac);
+        List<AdoptionApplication> userApplications = appRepository.findByApplicant(ru);
 
         return userApplications;
     }
@@ -114,7 +139,9 @@ public class AdoptionApplicationService {
      * @return list of applications to a petprofile
      */
     @Transactional
-    public List<AdoptionApplication> getApplicationsByPetProfile(PetProfile petprof) {
+    public List<AdoptionApplication> getApplicationsByPetProfile(int petId) {//name of pet and string of username
+        
+        PetProfile petprof = ppRepository.findPetProfileById(petId);
         if (petprof == null) {
             throw new NullPointerException("Pet profile is required to get its application.");
         }
@@ -131,18 +158,21 @@ public class AdoptionApplicationService {
      * @return a specific application to pet profile
      */
     @Transactional
-    public AdoptionApplication getAppbyAdopterAndPetProfile(RegularUser adopter, PetProfile petprof) {
+    public AdoptionApplication getAppbyAdopterAndPetProfile(String username, int petId) {
         String error = "";
-        if (adopter == null) {
-            error = error + "User is required to get an application.";
+        Account ac = acRepository.findAccountByUsername(username);
+        if(ac == null){
+            error = error + "No account associated with this username.";
         }
+        PetProfile petprof = ppRepository.findPetProfileById(petId);
         if (petprof == null) {
-            error = error + "Pet profile is required";
+            throw new NullPointerException("Pet profile is required to get its application.");
         }
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-        AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(adopter, petprof);
+        RegularUser ru = regRepository.findRegularUserByUser(ac);
+        AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(ru, petprof);
         if (adoptApp == null) {
             throw new NullPointerException("No such application exists.");
         }
