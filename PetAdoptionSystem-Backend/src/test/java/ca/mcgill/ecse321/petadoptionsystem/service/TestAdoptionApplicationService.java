@@ -236,10 +236,20 @@ public class TestAdoptionApplicationService {
 		assertEquals(id, apps.get(0).getId());
 	}
 
-	// @Test
-	// public void testGetApplicationsNoUser(){
+	@Test
+	public void testGetApplicationsNoUser(){
+		String error = "";
+		String user = null;
+		List<AdoptionApplication> apps = new ArrayList<>();
 
-	// }
+		try {
+			apps = appService.getApplicationsByUser(user);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage(); // Check that no error occurred
+		}
+		assertEquals(0, apps.size());
+		assertEquals("The username cannot be empty or have spaces.", error);
+	}
 
 	// @Test
 	// public void testGetApplicationsbyPetProfile(){

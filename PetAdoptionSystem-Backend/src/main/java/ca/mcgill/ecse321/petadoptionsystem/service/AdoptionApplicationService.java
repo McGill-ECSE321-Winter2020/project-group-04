@@ -122,8 +122,11 @@ public class AdoptionApplicationService {
             error = error + "The username cannot be empty or have spaces.";
         }
         Account ac = acRepository.findAccountByUsername(username);
-        if (ac == null) {
+        if (username != null && ac == null) {
             error = error + "No account associated with this username.";
+        }
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
         }
     
         RegularUser ru = regRepository.findRegularUserByUser(ac);
