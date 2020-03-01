@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.petadoptionsystem.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
@@ -8,6 +10,7 @@ import static org.mockito.Mockito.lenient;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -111,10 +114,35 @@ public class TestAccountService {
         lenient().when(accountDAO.save(any(Account.class))).thenAnswer(returnParam);
     }
 
+    @AfterEach
+    public void clearDataBase(){
+        accountDAO.deleteAll();
+    }
+
     @Test
     public void testCreateRegularUserAccount() {
-        assertEquals(0, accountService.getAllAccounts().size());
+        assertEquals(1, accountService.getAllAccounts().size());
 
+        // create test account params
         String username = "xXx_mike_xXx";
+        String passwordHash = "hashedpotatoes";
+        String email = "mikey.mike@hotmail.com";
+
+        // initialize account to null, so we can see if account creation was successful
+        Account account = null;
+        
+        try {
+            account = accountService.createRegularUserAccount(username, passwordHash, email);
+        } catch (IllegalArgumentException e) {
+            // no error should have occurred here
+            fail();
+        }
+
+        // check if not null and values are as expected
+        assertNotNull(account);
+        assertEquals(username, account.getUsername());
+        assertEquals(passwordHash, account.getPasswordHash());
+        assertEquals(email, account.getEmail());
+
     }
 }
