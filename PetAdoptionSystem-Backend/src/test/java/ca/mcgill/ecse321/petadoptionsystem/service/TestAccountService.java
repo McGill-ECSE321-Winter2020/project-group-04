@@ -93,8 +93,6 @@ public class TestAccountService {
             }
         });
 
-        // TODO: delete
-
         // mock for findAll
         lenient().when(accountDAO.findAll()).thenAnswer((InvocationOnMock invocation) -> {
             Account account = new Account();
@@ -112,7 +110,12 @@ public class TestAccountService {
         Answer<?> returnParam = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
+
+        // mock for save
         lenient().when(accountDAO.save(any(Account.class))).thenAnswer(returnParam);
+
+        // mock for delete
+        lenient().when(accountDAO.delete(any(Account.class))).thenAnswer(returnParam);
     }
 
     @AfterEach
@@ -780,5 +783,86 @@ public class TestAccountService {
         assertEquals("The username cannot be empty.\n", error);
     }
 
+    /* DELETE ACCOUNT TESTS */
 
+    @Test
+    public void testDeleteAccount() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // initialize to null to see if successfully deleted later
+        Account account = null;
+
+        try {
+            account = accountService.deleteAccount(USERNAME);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+
+        // check that account was deleted and that no more accounts
+        assertNotNull(account);
+        assertEquals(0, accountService.getAllAccounts().size());
+    }
+
+    @Test
+    public void testDeleteAccountNull() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // initialize to null to see if successfully deleted later
+        Account account = null;
+
+        String error = null;
+
+        try {
+            account = accountService.deleteAccount(null);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage()
+        }
+
+        // check that account was not deleted and that error is correct
+        assertNull(account);
+        assertEquals(1, accountService.getAllAccounts().size());
+        assertEquals("The username cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testDeleteAccountEmpty() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // initialize to null to see if successfully deleted later
+        Account account = null;
+
+        String error = null;
+
+        try {
+            account = accountService.deleteAccount("");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage()
+        }
+
+        // check that account was not deleted and that error is correct
+        assertNull(account);
+        assertEquals(1, accountService.getAllAccounts().size());
+        assertEquals("The username cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testDeleteAccountSpaces() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // initialize to null to see if successfully deleted later
+        Account account = null;
+
+        String error = null;
+
+        try {
+            account = accountService.deleteAccount(" ");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage()
+        }
+
+        // check that account was not deleted and that error is correct
+        assertNull(account);
+        assertEquals(1, accountService.getAllAccounts().size());
+        assertEquals("The username cannot be empty.\n", error);
+    }
 }
