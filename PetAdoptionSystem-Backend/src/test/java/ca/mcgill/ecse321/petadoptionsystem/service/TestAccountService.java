@@ -603,4 +603,182 @@ public class TestAccountService {
         assertNull(account);
         assertEquals("No user associated with that email.\n", error);
     }
+
+    /* UPDATE EMAIL TESTS */
+
+    @Test
+    public void testUpdateEmail() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        // new email to update account with
+        String email = "bathsheba.everdene@mail.mcgill.ca";
+
+        try {
+            account = accountService.updateEmail(USERNAME, email);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+
+        // check that not null and that email is the new email
+        assertNotNull(account);
+        assertEquals(email, account.getEmail());
+    }
+
+    @Test
+    public void testUpdateEmailNullEmail() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        // new email to update account with
+        String email = null;
+
+        String error = null;
+
+        try {
+            account = accountService.updateEmail(USERNAME, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check that null and for correct error message
+        assertNull(account);
+        assertEquals("The email address cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testUpdateEmailEmptyEmail() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        // new email to update account with
+        String email = "";
+
+        String error = null;
+
+        try {
+            account = accountService.updateEmail(USERNAME, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check that null and for correct error message
+        assertNull(account);
+        assertEquals("The email address cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testUpdateEmailSpacesEmail() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        // new email to update account with
+        String email = " ";
+
+        String error = null;
+
+        try {
+            account = accountService.updateEmail(USERNAME, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check that null and for correct error message
+        assertNull(account);
+        assertEquals("The email address cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testUpdateEmailDuplicateEmail() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        // new email to update account with
+        String email = EMAIL;
+
+        String error = null;
+
+        try {
+            account = accountService.updateEmail(USERNAME, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check that null and for correct error message
+        assertNull(account);
+        assertEquals("That email address is already taken.\n", error);
+    }
+
+    @Test
+    public void testUpdateEmailNullUsername() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        // new email to update account with
+        String email = "bathsheba.everdene@mail.mcgill.ca";
+
+        String error = null;
+
+        try {
+            account = accountService.updateEmail(null, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check that null and for correct error message
+        assertNull(account);
+        assertEquals("The username cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testUpdateEmailEmptyUsername() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        // new email to update account with
+        String email = "bathsheba.everdene@mail.mcgill.ca";
+
+        String error = null;
+
+        try {
+            account = accountService.updateEmail("", email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check that null and for correct error message
+        assertNull(account);
+        assertEquals("The username cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testUpdateEmailSpacesUsername() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        // new email to update account with
+        String email = "bathsheba.everdene@mail.mcgill.ca";
+
+        String error = null;
+
+        try {
+            account = accountService.updateEmail(" ", email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check that null and for correct error message
+        assertNull(account);
+        assertEquals("The username cannot be empty.\n", error);
+    }
+
+
 }
