@@ -14,6 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
+import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
+import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
+import ca.mcgill.ecse321.petadoptionsystem.model.UserRole;
 
 @ExtendWith(MockitoExtension.class)
 public class TestAccountService {
@@ -30,15 +33,50 @@ public class TestAccountService {
 
     @BeforeEach
     public void setMockOutput() {
+        
+        // mock for findAccountsByUsername
         lenient().when(accountDAO.findAccountByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(USERNAME)) {
                 Account account = new Account();
                 account.setUsername(USERNAME);
                 account.setEmail(EMAIL);
                 account.setPasswordHash(PASSWORDHASH);
+                account.setUserRole(new RegularUser());
                 return account;
             } else {
                 return null;
+            }
+        });
+
+        // mock for findAccountsByEmail
+        lenient().when(accountDAO.findAccountByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(EMAIL)) {
+                Account account = new Account();
+                account.setUsername(USERNAME);
+                account.setEmail(EMAIL);
+                account.setPasswordHash(PASSWORDHASH);
+                account.setUserRole(new RegularUser());
+                return account;
+            } else {
+                return null;
+            }
+        });
+
+        // mock for existsByUsername
+        lenient().when(accountDAO.existsByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(USERNAME)) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        // mock for existsByEmail
+        lenient().when(accountDAO.existsByEmail(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(EMAIL)) {
+                return true;
+            } else {
+                return false;
             }
         });
     }
