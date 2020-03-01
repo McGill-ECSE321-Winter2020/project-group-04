@@ -24,7 +24,7 @@ public class PetAdoptionSystemService {
 
         PetAdoptionSystem pas = pasRepository.findPetAdoptionSystemById(systemID);
 
-        if (pas == null) {
+        if (pas.getId() != systemID) {
             pas = new PetAdoptionSystem();
             pas.setId(systemID);
             pasRepository.save(pas);
