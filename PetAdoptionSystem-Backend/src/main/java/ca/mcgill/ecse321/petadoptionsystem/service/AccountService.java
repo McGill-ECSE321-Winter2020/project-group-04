@@ -120,7 +120,7 @@ public class AccountService {
     }
 
     @Transactional
-    public void updateEmail(String username, String newEmail) throws IllegalArgumentException {
+    public Account updateEmail(String username, String newEmail) throws IllegalArgumentException {
         
         String error = "";
 
@@ -128,16 +128,23 @@ public class AccountService {
         if (newEmail == null || newEmail.trim().length() == 0) error += "The email address cannot be empty.\n";
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        if (!accountRepository.existsByUsername(username))
-            error += "No user associated with that username.\n";
+        if (accountRepository.existsByEmail(newEmail)) error += "That email address is already taken.\n";
         if (error.length() > 0) throw new IllegalArgumentException(error);
+        
+        Account account = null;
 
-        // retrieve the correct account and update email address
-        Account account = this.getAccountByUsername(username);
-        account.setEmail(newEmail);
-        accountRepository.save(account);
+        // try to retrieve the correct account and update email address
+        try {
+            account = this.getAccountByUsername(username);
+            account.setEmail(newEmail);
+            accountRepository.save(account);
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
 
-        return;
+        // if successful, returns the account we updated
+        // otherwise, this will be null
+        return account;
     }
 
     @Transactional
@@ -148,12 +155,14 @@ public class AccountService {
         if (username == null || username.trim().length() == 0) error += "The username cannot be empty.\n";
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        if (!accountRepository.existsByUsername(username))
-            error += "No user associated with that username.\n";
-        if (error.length() > 0) throw new IllegalArgumentException(error);
+        // try to retrieve the correct account and delete it
+        try {
+            Account account = this.getAccountByUsername(username);
+            accountRepository.delete(account);
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
 
-        Account account = this.getAccountByUsername(username);
-        accountRepository.delete(account);
         return;
     }
 
