@@ -237,7 +237,7 @@ public class TestAdoptionApplicationService {
 	}
 
 	@Test
-	public void testGetApplicationsNoUser(){
+	public void testGetApplicationsNoUser() {
 		String error = "";
 		String user = null;
 		List<AdoptionApplication> apps = new ArrayList<>();
@@ -251,10 +251,22 @@ public class TestAdoptionApplicationService {
 		assertEquals("The username cannot be empty or have spaces.", error);
 	}
 
-	// @Test
-	// public void testGetApplicationsbyPetProfile(){
+	@Test
+	public void testGetApplicationsbyPetProfile() {
+		int petId = ppId2;
+		List<AdoptionApplication> apps = new ArrayList<>();
 
-	// }
+		try {
+			apps = appService.getApplicationsByPetProfile(petId);
+		} catch (IllegalArgumentException e) {
+			fail(); // Check that no error occurred
+		}
+
+		assertNotNull(apps);
+		assertEquals(1, apps.size());
+		int id = appService.getApplicationbyId(appId).getId();
+		assertEquals(id, apps.get(0).getId());
+	}
 
 	// @Test
 	// public void testGetApplicationsNoPetProfile(){
