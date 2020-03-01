@@ -125,21 +125,6 @@ public class TestDonationService {
     }
 
     @Test
-    public void testNonExistingDonation(){
-        String error = "";
-        List<Donation> donation = null;
-        try {
-            donation = donationService.getDonationsByUsername(NON_EXISTING_USERNAME);
-        } catch(IllegalArgumentException e){
-            error = e.getMessage();
-        }
-
-        
-        assertEquals("No user associated with this username.\n", error);
-
-    }
-
-    @Test
     public void testExistingDonation(){
         assertEquals(donationService.getDonationsByUsername(USERNAME1).get(0).getUser().getUser().getUsername(), USERNAME1);
     }
