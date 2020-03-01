@@ -24,9 +24,6 @@ public class PetProfileRestController {
     private PetProfileService petProfileService;
 
 
-//TODO Need to change the Classes to be DTO Classes and not the normal ones
-
-
 
     /**
      *
@@ -90,8 +87,6 @@ public class PetProfileRestController {
         }
         return petDtos;
     }
-
-    // TODO should be AccountDTO, not Account
 
 
 
