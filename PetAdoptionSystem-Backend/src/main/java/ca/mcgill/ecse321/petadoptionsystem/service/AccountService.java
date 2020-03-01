@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
+import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
+import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 
 // TODO dao and model imports
@@ -43,8 +45,7 @@ public class AccountService {
         account.setUsername(username);
         account.setPasswordHash(passwordHash);
         account.setEmail(email);
-                    
-        // TODO: create UserRole
+        account.setUserRole(new RegularUser());
 
         accountRepository.save(account);
         return account;
@@ -75,8 +76,7 @@ public class AccountService {
         account.setUsername(username);
         account.setPasswordHash(passwordHash);
         account.setEmail(email);
-                    
-        // TODO: create UserRole
+        account.setUserRole(new Admin());
 
         accountRepository.save(account);
         return account;
@@ -86,6 +86,10 @@ public class AccountService {
     public Account getAccountByUsername(String username) throws IllegalArgumentException {
 
         String error = "";
+
+        if (!accountRepository.existsByUsername(username))
+            error += "No user associated with username" + username;
+        if (error.length() > 0) throw new IllegalArgumentException(error);
 
         // check if valid username
         if (username == null || username.length() == 0) error += "The username cannot be empty.\n";
@@ -100,6 +104,10 @@ public class AccountService {
 
         String error = "";
 
+        if (!accountRepository.existsByEmail(email))
+            error += "No user associated with username" + email;
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
         // check if valid username
         if (email == null || email.length() == 0) error += "The email address cannot be empty.\n";
 
@@ -113,29 +121,14 @@ public class AccountService {
         return toList(accountRepository.findAll());
     }
 
-    // TODO: require matching old password
-    @Transactional
-    public void updatePassword(String username, String newPasswordHash) throws IllegalArgumentException {
-        
-        String error = "";
-
-        if (newPasswordHash == null || newPasswordHash.length() == 0) error += "The password hash cannot be empty.\n";
-
-        if (error.length() > 0) throw new IllegalArgumentException(error);
-
-        // retrieve the correct account and update password hash
-        Account account = this.getAccountByUsername(username);
-        account.setPasswordHash(newPasswordHash);
-
-        accountRepository.save(account);
-
-        return;
-    }
-
     @Transactional
     public void updateEmail(String username, String newEmail) throws IllegalArgumentException {
         
         String error = "";
+
+        if (!accountRepository.existsByUsername(username))
+            error += "No user associated with username" + username;
+        if (error.length() > 0) throw new IllegalArgumentException(error);
 
         if (newEmail == null || newEmail.length() == 0) error += "The email address cannot be empty.\n";
 
@@ -149,12 +142,14 @@ public class AccountService {
         return;
     }
 
-    // TODO: figure out what getAccountByUsername passes when it fails
     @Transactional
     public void deleteAccount(String username) {
-        
-        // retrieve the correct account and delete it
-        // if found and deleted, returns true; else, false
+        String error = "";
+
+        if (!accountRepository.existsByUsername(username))
+            error += "No user associated with username" + username;
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
         Account account = this.getAccountByUsername(username);
         accountRepository.delete(account);
         return;
