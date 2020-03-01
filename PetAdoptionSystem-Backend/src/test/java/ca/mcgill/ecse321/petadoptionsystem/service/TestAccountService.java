@@ -504,4 +504,103 @@ public class TestAccountService {
         assertNull(account);
         assertEquals("No user associated with that username.\n", error);
     }
+
+    /* GET ACCOUNT BY EMAIL TESTS */
+
+    @Test
+    public void testGetAccountByEmail() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // initialize as null to check if user was found
+        Account account = null;
+
+        // there should be one account with EMAIL as the email
+        try {
+            account = accountService.getAccountByEmail(EMAIL);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+
+        // check if non-null and everything correct
+        assertNotNull(account);
+        assertEquals(USERNAME, account.getUsername());
+        assertEquals(PASSWORDHASH, account.getPasswordHash());
+        assertEquals(EMAIL, account.getEmail());
+    }
+
+    @Test
+    public void testGetAccountByEmailNull() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        String error = null;
+
+        try {
+            account = accountService.getAccountByEmail(null);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check if null and for right error
+        assertNull(account);
+        assertEquals("The email address cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testGetAccountByEmailEmpty() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        String error = null;
+
+        try {
+            account = accountService.getAccountByEmail("");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check if null and for right error
+        assertNull(account);
+        assertEquals("The email address cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testGetAccountByEmailSpaces() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        String error = null;
+
+        try {
+            account = accountService.getAccountByEmail(" ");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check if null and for right error
+        assertNull(account);
+        assertEquals("The email address cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testGetAccountByEmailNonExistant() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        String error = null;
+
+        try {
+            account = accountService.getAccountByEmail("mikey.mike@hotmail.com");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check if null and for right error
+        assertNull(account);
+        assertEquals("No user associated with that email.\n", error);
+    }
 }
