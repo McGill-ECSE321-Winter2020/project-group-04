@@ -52,6 +52,7 @@ public class TestAdoptionApplicationService {
 
 	// Applicant Profile params
 	private static final String Username1 = "John316";
+	private static final String Username3 = "Edem316";
 	private static final String ruName1 = "John";
 	private static final String ruDesc1 = "Hardworking champ";
 	private static final int phoneNum1 = 123456789;
@@ -63,7 +64,7 @@ public class TestAdoptionApplicationService {
 
 	// application params
 	private static final int appId = 2;
-	private static final boolean isApproved = false;
+	private static final boolean isApproved = true;
 	private static final boolean isConfirmed = false;
 
 	// pet profile params
@@ -79,8 +80,7 @@ public class TestAdoptionApplicationService {
 	@BeforeEach
 	public void setMockOutput() {
 		lenient().when(appDao.findAdoptionById((anyInt()))).thenAnswer((InvocationOnMock invocation) -> {
-			AdoptionApplication aa = new AdoptionApplication();
-			aa.setId(appId);
+			AdoptionApplication aa = setUpApplication();
 			return aa;
 
 		});
@@ -120,25 +120,29 @@ public class TestAdoptionApplicationService {
 
 		lenient().when(acDao.findAccountByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
 			RegularUser ru = setUpRegularUser(Username1, ruName1, ruDesc1, phoneNum1);
+			RegularUser ru2 = setUpRegularUser(Username3, ruName1, ruDesc1, phoneNum1);
+			Account ac = null;
 			if (invocation.getArgument(0).equals(Username1)) {
-				Account ac = ru.getUser();
-				return ac;
+				 ac = ru.getUser();
+				// return ac;
 			} else {
-				return null;
+				ac = ru2.getUser();
 			}
+			return ac;
 		});
 		lenient().when(ruDao.findRegularUserByUser(any(Account.class))).thenAnswer((InvocationOnMock invocation) -> {
 			RegularUser ru = setUpRegularUser(Username1, ruName1, ruDesc1, phoneNum1);
-			// if (invocation.getArgument(0).equals(ru.getUser().getUsername())) {
+			RegularUser ru2 = setUpRegularUser(Username3, ruName1, ruDesc1, phoneNum1);
+			if (invocation.getArgument(0).equals(ru.getUser().getUsername())) {
 			return ru;
-			// } else {
-			// return null;
-			// }
+			} else {
+			return ru2;
+			}
 		});
 		lenient().when(ppDao.findPetProfileById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-			if (invocation.getArgument(0).equals(ppId2)) {
+			if (invocation.getArgument(0).equals(ppId)) {
 				RegularUser poster = setUpRegularUser(Username2, ruName2, ruDesc2, phoneNum2);
-				PetProfile pp = setUpPetProfile(poster, ppId2, ppName, ppDesc, ppBreed);
+				PetProfile pp = setUpPetProfile(poster, ppId, ppName, ppDesc, ppBreed);
 				return pp;
 			} else {
 				return null;
@@ -171,19 +175,25 @@ public class TestAdoptionApplicationService {
 		Time postTime = new Time(c.getTimeInMillis());
 
 		AdoptionApplication app = null;
+		// RegularUser pp = null;
 
 		String curUser = Username1;
 		int petId = 3;
 
 		try {
 			app = appService.createApplication(postDate, postTime, curUser, petId);
+			// pp = appService.createApplication(postDate, postTime, curUser, petId);
 		} catch (IllegalArgumentException e) {
 			fail(); // Check that no error occurred
 		}
+
+		// assertNotNull(pp);
+		// assertEquals(curUser, pp.getUser().getUsername());
+		
 		assertNotNull(app);
 		assertEquals(postDate, app.getPostDate());
 		assertEquals(postTime, app.getPostTime());
-		assertEquals(petId, app.getPetProfile().getId());
+		// assertEquals(petId, app.getPetProfile().getId());
 
 	}
 
@@ -198,7 +208,7 @@ public class TestAdoptionApplicationService {
 		AdoptionApplication app = null;
 
 		String curUser = null;
-		int petId = 2;
+		int petId = ppId;
 
 		try {
 			app = appService.createApplication(postDate, postTime, curUser, petId);
@@ -253,7 +263,7 @@ public class TestAdoptionApplicationService {
 
 	@Test
 	public void testGetApplicationsbyPetProfile() {
-		int petId = ppId2;
+		int petId = ppId;
 		List<AdoptionApplication> apps = new ArrayList<>();
 
 		try {
@@ -269,9 +279,9 @@ public class TestAdoptionApplicationService {
 	}
 
 	@Test
-	public void testGetApplicationsNoPetProfile(){
+	public void testGetApplicationsNoPetProfile() {
 		String error = "";
-		int petId = ppId;
+		int petId = 5;
 		List<AdoptionApplication> apps = new ArrayList<>();
 
 		try {
@@ -285,23 +295,56 @@ public class TestAdoptionApplicationService {
 		assertEquals("Pet profile is required to get its application.", error);
 	}
 
-	// @Test
-	// public void testGetAllApplicationsToProfile(){
+	@Test
+	public void testGetApplicationNoUserNoProfile(){
+		String error = "";
+		String applicant = "NoUser";
+		int petId = ppId;
+		AdoptionApplication app = null;
+		try {
+			app = appService.getAppbyAdopterAndPetProfile(applicant, petId);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNull(app);
+		assertEquals("No such application exists.", error);
 
-	// }
+	}
+	@Test
+	public void updateApplicationStatus(){
+		Boolean approve = true;
+		Boolean confirm = true;
+		Calendar c = Calendar.getInstance();
+		c.set(2017, Calendar.MARCH, 16, 9, 0, 0);
+		Date postDate = new Date(c.getTimeInMillis());
+		Time postTime = new Time(c.getTimeInMillis());
 
-	// @Test
-	// public void testGetAllApplicationsOfUser(){
+		AdoptionApplication app = null;
+		AdoptionApplication app2 = null;
+		String curUser = Username1;
+		int petId = 3;
 
-	// }
-	// @Test
-	// public void testGetApplicationNoUserNoProfile(){
+		try {
+			app = appService.createApplication(postDate, postTime, curUser, petId);
+			app.setId(appId);
+			app.setIsApproved(true);
+			app.setIsConfirmed(true);
+			app2 = appService.updateApplicationStatus(app, approve, confirm);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
 
-	// }
-	// @Test
-	// public void updateApplication(){
+		assertNotNull(app2);
+		assertEquals(approve, app2.isIsApproved());
+		assertEquals(confirm, app2.isIsConfirmed());
+	}
 
-	// }
+	@Test
+	public void updateApplicationNotApprovedConfirmed(){
+
+		
+
+	}
 
 	/**
 	 * Helper methods to create stubs and setup Mockito for Dao
@@ -309,7 +352,7 @@ public class TestAdoptionApplicationService {
 	 * @return
 	 */
 	private AdoptionApplication setUpApplication() {
-		RegularUser applicant = setUpRegularUser(Username1, ruName1, ruDesc1, phoneNum1);
+		RegularUser applicant = setUpRegularUser(Username3, ruName1, ruDesc1, phoneNum1);
 		RegularUser poster = setUpRegularUser(Username2, ruName2, ruDesc2, phoneNum2);
 		PetProfile petprof = setUpPetProfile(poster, ppId, ppName, ppDesc, ppBreed);
 

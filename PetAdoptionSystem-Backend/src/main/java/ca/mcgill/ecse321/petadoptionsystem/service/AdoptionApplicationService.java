@@ -45,6 +45,7 @@ public class AdoptionApplicationService {
      */
     @Transactional
     public AdoptionApplication createApplication(Date postDate, Time postTime, String username, int petId) {
+        // public RegularUser createApplication(Date postDate, Time postTime, String username, int petId) {
         String error = "";
         if (postDate == null) {
             error = error + "Application date cannot be empty.";
@@ -57,12 +58,10 @@ public class AdoptionApplicationService {
         }
         PetProfile petprof = ppRepository.findPetProfileById(petId);
         Account ac = acRepository.findAccountByUsername(username);
-
         if (username != null && ac == null) {
             error = error + "No account associated with this username.";
         }
         RegularUser ru = regRepository.findRegularUserByUser(ac);
-
         AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(ru, petprof);
         if (adoptApp != null) {
             error = error + "This application already exists.";
@@ -93,7 +92,7 @@ public class AdoptionApplicationService {
         int id = adoptApp.getId();
         AdoptionApplication deleteApp = appRepository.findAdoptionById(id);
         if (deleteApp == null) {
-            throw new NullPointerException("No such application exists to be deleted.");
+            throw new IllegalArgumentException("No such application exists to be deleted.");
         }
         appRepository.deleteById(id);
         return true;
@@ -168,16 +167,16 @@ public class AdoptionApplicationService {
             error = error + "No account associated with this username.";
         }
         PetProfile petprof = ppRepository.findPetProfileById(petId);
-        if (petprof == null) {
-            throw new NullPointerException("Pet profile is required to get its application.");
+        if (ac !=null && petprof == null) {
+            throw new IllegalArgumentException("Pet profile is required to get its application.");
         }
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
         RegularUser ru = regRepository.findRegularUserByUser(ac);
         AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(ru, petprof);
-        if (adoptApp == null) {
-            throw new NullPointerException("No such application exists.");
+        if (ac !=null && petprof !=null && adoptApp == null) {
+            throw new IllegalArgumentException("No such application exists.");
         }
 
         return adoptApp;
@@ -193,7 +192,7 @@ public class AdoptionApplicationService {
     public AdoptionApplication getApplicationbyId(int id) {
         AdoptionApplication adoptApp = appRepository.findAdoptionById(id);
         if (adoptApp == null) {
-            throw new NullPointerException("No such application exists.");
+            throw new IllegalArgumentException("No such application exists.");
         }
         return adoptApp;
     }
@@ -210,12 +209,12 @@ public class AdoptionApplicationService {
     public AdoptionApplication updateApplicationStatus(AdoptionApplication adoptApp, boolean isApproved,
             boolean isConfirmed) {
         if (adoptApp == null) {
-            throw new NullPointerException("An application is required to be updated.");
+            throw new IllegalArgumentException("An application is required to be updated.");
         }
         int id = adoptApp.getId();
         AdoptionApplication updateApp = appRepository.findAdoptionById(id);
         if (updateApp == null) {
-            throw new NullPointerException("This application does not exist.");
+            throw new IllegalArgumentException("This application does not exist.");
         }
         boolean approvalStatus = updateApp.isIsApproved();
         if ((approvalStatus == false) && (isConfirmed == true)) {
