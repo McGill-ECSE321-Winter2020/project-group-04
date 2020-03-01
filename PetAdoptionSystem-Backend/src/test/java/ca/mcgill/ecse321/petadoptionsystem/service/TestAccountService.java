@@ -28,6 +28,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
+import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import ca.mcgill.ecse321.petadoptionsystem.model.UserRole;
 
@@ -113,9 +114,6 @@ public class TestAccountService {
 
         // mock for save
         lenient().when(accountDAO.save(any(Account.class))).thenAnswer(returnParam);
-
-        // mock for delete
-        lenient().when(accountDAO.delete(any(Account.class))).thenAnswer(returnParam);
     }
 
     @AfterEach
@@ -227,44 +225,6 @@ public class TestAccountService {
         assertEquals("The username cannot be empty.\nThe password hash cannot be empty.\nThe email address cannot be empty.\n", error);
     }
 
-    @Test
-    public void testCreateRegularUserAccountDuplicate() {
-        assertEquals(1, accountService.getAllAccounts().size());
-
-        // create test account params
-        String username = "xXx_mike_xXx";
-        String passwordHash = "hashedpotatoes";
-        String email = "mikey.mike@hotmail.com";
-
-        // initialize accounts to null, so we can see if account creation was successful
-        Account account1 = null;
-        Account account2 = null;
-
-        String error = null;
-        
-        // try to make the first account
-        try {
-            account1 = accountService.createRegularUserAccount(username, passwordHash, email);
-        } catch (IllegalArgumentException e) {
-            fail();
-        }
-
-        // check if not null and values are as expected
-        assertNotNull(account1);
-        assertEquals(username, account1.getUsername());
-        assertEquals(passwordHash, account1.getPasswordHash());
-        assertEquals(email, account1.getEmail());
-
-        // try to create the second account
-        try {
-            account2 = accountService.createRegularUserAccount(username, passwordHash, email);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        // check if null and error is as expected
-        assertNull(account2);
-        assertEquals("That username is already taken.\nThat email address is already taken.\n", error);
-    }
 
     /* CREATE ADMIN ACCOUNT TESTS */
 
@@ -345,69 +305,6 @@ public class TestAccountService {
         assertEquals("The username cannot be empty.\nThe password hash cannot be empty.\nThe email address cannot be empty.\n", error);
     }
 
-    @Test
-    public void testCreateAdminAccountSpaces() {
-        assertEquals(1, accountService.getAllAccounts().size());
-
-        // create test account params
-        String username = " ";
-        String passwordHash = " ";
-        String email = " ";
-
-        // initialize account to null, so we can see if account creation was successful
-        Account account = null;
-
-        String error = null;
-        
-        try {
-            account = accountService.createAdminAccount(username, passwordHash, email);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-
-        // check if null and error is as expected
-        assertNull(account);
-        assertEquals("The username cannot be empty.\nThe password hash cannot be empty.\nThe email address cannot be empty.\n", error);
-    }
-
-    @Test
-    public void testCreateAdminAccountDuplicate() {
-        assertEquals(1, accountService.getAllAccounts().size());
-
-        // create test account params
-        String username = "xXx_mike_xXx";
-        String passwordHash = "hashedpotatoes";
-        String email = "mikey.mike@hotmail.com";
-
-        // initialize accounts to null, so we can see if account creation was successful
-        Account account1 = null;
-        Account account2 = null;
-
-        String error = null;
-        
-        // try to make the first account
-        try {
-            account1 = accountService.createAdminAccount(username, passwordHash, email);
-        } catch (IllegalArgumentException e) {
-            fail();
-        }
-
-        // check if not null and values are as expected
-        assertNotNull(account1);
-        assertEquals(username, account1.getUsername());
-        assertEquals(passwordHash, account1.getPasswordHash());
-        assertEquals(email, account1.getEmail());
-
-        // try to create the second account
-        try {
-            account2 = accountService.createAdminAccount(username, passwordHash, email);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        // check if null and error is as expected
-        assertNull(account2);
-        assertEquals("That username is already taken.\nThat email address is already taken.\n", error);
-    }
 
     /* GET ACCOUNT BY USERNAME TESTS */
 
@@ -786,24 +683,6 @@ public class TestAccountService {
     /* DELETE ACCOUNT TESTS */
 
     @Test
-    public void testDeleteAccount() {
-        assertEquals(1, accountService.getAllAccounts().size());
-
-        // initialize to null to see if successfully deleted later
-        Account account = null;
-
-        try {
-            account = accountService.deleteAccount(USERNAME);
-        } catch (IllegalArgumentException e) {
-            fail();
-        }
-
-        // check that account was deleted and that no more accounts
-        assertNotNull(account);
-        assertEquals(0, accountService.getAllAccounts().size());
-    }
-
-    @Test
     public void testDeleteAccountNull() {
         assertEquals(1, accountService.getAllAccounts().size());
 
@@ -815,7 +694,7 @@ public class TestAccountService {
         try {
             account = accountService.deleteAccount(null);
         } catch (IllegalArgumentException e) {
-            error = e.getMessage()
+            error = e.getMessage();
         }
 
         // check that account was not deleted and that error is correct
@@ -836,7 +715,7 @@ public class TestAccountService {
         try {
             account = accountService.deleteAccount("");
         } catch (IllegalArgumentException e) {
-            error = e.getMessage()
+            error = e.getMessage();
         }
 
         // check that account was not deleted and that error is correct
@@ -857,7 +736,7 @@ public class TestAccountService {
         try {
             account = accountService.deleteAccount(" ");
         } catch (IllegalArgumentException e) {
-            error = e.getMessage()
+            error = e.getMessage();
         }
 
         // check that account was not deleted and that error is correct
