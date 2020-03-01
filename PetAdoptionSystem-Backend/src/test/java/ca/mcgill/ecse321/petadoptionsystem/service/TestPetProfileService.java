@@ -144,6 +144,7 @@ public class TestPetProfileService {
                         petProf.setDescription(DESCRIPTION);
                         petProf.setReasonForPosting(REASON);
                         petProf.setIsAvailable(ISAVAILABLE);
+                        petProf.setPetType(PETTYPE);
                         images.add(
                                 "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
                         images.add(
@@ -403,11 +404,90 @@ public class TestPetProfileService {
         } catch (Exception e) {
             String error = e.getMessage();
             assertEquals("No user associated with this username", error);
-        }
-
-        
+        }  
     }
 
+    @Test 
+    public void testGetAllPetProfileByIsAvailable(){
+        List<PetProfile> petProfiles = new ArrayList<>();
+        createPetProfile();
+       
+       
+        try {
+            petProfiles = petProfileService.getAllPetProfilesByIsAvailable(ISAVAILABLE);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        assertNotEquals(0, petProfiles.size());
+        assertEquals(ISAVAILABLE, petProfiles.get(0).isIsAvailable());
+    }
+
+    @Test 
+    public void testGetAllPetProfileByNotIsAvailable(){
+        List<PetProfile> petProfiles = new ArrayList<>();
+        createPetProfile();
+        
+
+        try {
+            petProfiles = petProfileService.getAllPetProfilesByIsAvailable(!ISAVAILABLE);
+        } catch (Exception e) {
+             String error = e.getMessage();
+            
+            assertEquals("No Pet Profiles with the selected availability", error);
+        }
+    }
+
+    @Test
+    public void testGetAllPetProfileByBreed(){
+        List<PetProfile> petProfiles = new ArrayList<>();
+        createPetProfile();
+       
+       
+        try {
+            petProfiles = petProfileService.getAllPetProfilesByBreed(BREED_KEY);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        assertNotEquals(0, petProfiles.size());
+        assertEquals(BREED_KEY, petProfiles.get(0).getBreed());
+    }
+    @Test
+    public void testGetAllPetProfilesByNonExistingBreed(){
+        List<PetProfile> petProfiles = new ArrayList<>();
+        createPetProfile();
+        
+        String nonExistingBreed = "TYPE";
+        try {
+            petProfiles = petProfileService.getAllPetProfilesByBreed(nonExistingBreed);
+        } catch (Exception e) {
+             String error = e.getMessage();
+            
+            assertEquals("There is no such breed in our database", error);
+        }
+    }
+
+    @Test
+    public void testGetAllPetProfileByPetType(){
+        List<PetProfile> petProfiles = new ArrayList<>();
+        createPetProfile();
+       
+       
+        try {
+            petProfiles = petProfileService.getAllPetProfilesByPetType(PETTYPE);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        assertNotEquals(0, petProfiles.size());
+        assertEquals(PETTYPE, petProfiles.get(0).getPetType());
+    }
+
+    
 
 
     public void createPetProfile() {
