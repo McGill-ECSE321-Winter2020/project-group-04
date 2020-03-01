@@ -20,7 +20,7 @@ import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 @Service
 public class DonationService {
     @Autowired
-    private DonationRepository donationRepository;
+    private DonationRepository donationRepo;
 
     @Autowired
     private AccountRepository actRepo;
@@ -39,26 +39,32 @@ public class DonationService {
         RegularUser regUser = regUserRepo.findRegularUserByUser(act);
         donation.setUser(regUser);
 
-        donationRepository.save(donation);
+        donationRepo.save(donation);
 
         return donation;
     }
     @Transactional 
     public List<Donation> getAllDonation(){
-        return toList(donationRepository.findAll());
+        return toList(donationRepo.findAll());
     }
 
     @Transactional
     public List<Donation> getDonationsByUsername(String username){
-        List<Donation> donationsByUser = new ArrayList<>();
+
+        String error = "";
+        if (username == null || username.trim().length() == 0)
+            error += "The username cannot be empty or have spaces.\n";
+        if (actRepo.findAccountByUsername(username) == null)
+            error += "No user associated with this username.\n";
+        if(error.length() > 0) throw new IllegalArgumentException(error);
+
         Account act =  actRepo.findAccountByUsername(username);
         RegularUser regUser = regUserRepo.findRegularUserByUser(act);
-        
-        for(Donation d : donationRepository.findDonationByUser_id(regUser.getId())){
-            donationsByUser.add(d);
-        }
+        if(donationRepo.findDonationsByUser(regUser) == null)
+            error += "No donations associated with this username.\n";
+        if(error.length() > 0) throw new IllegalArgumentException(error);
 
-        return donationsByUser;
+        return toList(donationRepo.findDonationsByUser(regUser));
     }
 
     private <T> List<T> toList(Iterable<T> iterable){
