@@ -113,7 +113,7 @@ public class TestAccountService {
 
     @Test
     public void testCreateRegularUserAccount() {
-        assertEquals(0, accountService.getAllAccounts().size());
+        assertEquals(1, accountService.getAllAccounts().size());
 
         String username = "xXx_mike_xXx";
     }
