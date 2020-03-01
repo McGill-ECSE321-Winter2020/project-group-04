@@ -28,7 +28,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
-import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
+import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import ca.mcgill.ecse321.petadoptionsystem.model.UserRole;
 
 @ExtendWith(MockitoExtension.class)
@@ -119,6 +119,8 @@ public class TestAccountService {
     public void clearDataBase(){
         accountDAO.deleteAll();
     }
+
+    /* CREATE REGULAR USER ACCOUNT TESTS */
 
     @Test
     public void testCreateRegularUserAccount() {
@@ -253,6 +255,149 @@ public class TestAccountService {
         // try to create the second account
         try {
             account2 = accountService.createRegularUserAccount(username, passwordHash, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        // check if null and error is as expected
+        assertNull(account2);
+        assertEquals("That username is already taken.\nThat email address is already taken.\n", error);
+    }
+
+    /* CREATE ADMIN ACCOUNT TESTS */
+
+    @Test
+    public void testCreateAdminAccount() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // create test account params
+        String username = "xXx_mike_xXx";
+        String passwordHash = "hashedpotatoes";
+        String email = "mikey.mike@hotmail.com";
+
+        // initialize account to null, so we can see if account creation was successful
+        Account account = null;
+        
+        try {
+            account = accountService.createAdminAccount(username, passwordHash, email);
+        } catch (IllegalArgumentException e) {
+            // no error should have occurred here
+            fail();
+        }
+
+        // check if not null and values are as expected
+        assertNotNull(account);
+        assertEquals(username, account.getUsername());
+        assertEquals(passwordHash, account.getPasswordHash());
+        assertEquals(email, account.getEmail());
+
+    }
+
+    @Test
+    public void testCreateAdminAccountNull() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // create test account params
+        String username = null;
+        String passwordHash = null;
+        String email = null;
+
+        // initialize account to null, so we can see if account creation was successful
+        Account account = null;
+
+        String error = null;
+        
+        try {
+            account = accountService.createAdminAccount(username, passwordHash, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check if null and error is as expected
+        assertNull(account);
+        assertEquals("The username cannot be empty.\nThe password hash cannot be empty.\nThe email address cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testCreateAdminAccountEmpty() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // create test account params
+        String username = "";
+        String passwordHash = "";
+        String email = "";
+
+        // initialize account to null, so we can see if account creation was successful
+        Account account = null;
+
+        String error = null;
+        
+        try {
+            account = accountService.createAdminAccount(username, passwordHash, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check if null and error is as expected
+        assertNull(account);
+        assertEquals("The username cannot be empty.\nThe password hash cannot be empty.\nThe email address cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testCreateAdminAccountSpaces() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // create test account params
+        String username = " ";
+        String passwordHash = " ";
+        String email = " ";
+
+        // initialize account to null, so we can see if account creation was successful
+        Account account = null;
+
+        String error = null;
+        
+        try {
+            account = accountService.createAdminAccount(username, passwordHash, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check if null and error is as expected
+        assertNull(account);
+        assertEquals("The username cannot be empty.\nThe password hash cannot be empty.\nThe email address cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testCreateAdminAccountDuplicate() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // create test account params
+        String username = "xXx_mike_xXx";
+        String passwordHash = "hashedpotatoes";
+        String email = "mikey.mike@hotmail.com";
+
+        // initialize accounts to null, so we can see if account creation was successful
+        Account account1 = null;
+        Account account2 = null;
+
+        String error = null;
+        
+        // try to make the first account
+        try {
+            account1 = accountService.createAdminAccount(username, passwordHash, email);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+
+        // check if not null and values are as expected
+        assertNotNull(account1);
+        assertEquals(username, account1.getUsername());
+        assertEquals(passwordHash, account1.getPasswordHash());
+        assertEquals(email, account1.getEmail());
+
+        // try to create the second account
+        try {
+            account2 = accountService.createAdminAccount(username, passwordHash, email);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
