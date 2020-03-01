@@ -44,8 +44,7 @@ public class AdoptionApplicationService {
      * @return created application
      */
     @Transactional
-    public AdoptionApplication createApplication(Date postDate, Time postTime, String username,
-            int petId) {
+    public AdoptionApplication createApplication(Date postDate, Time postTime, String username, int petId) {
         String error = "";
         if (postDate == null) {
             error = error + "Application date cannot be empty.";
@@ -53,18 +52,18 @@ public class AdoptionApplicationService {
         if (postTime == null) {
             error = error + "Application time cannot be empty.";
         }
-        if (username == null || username.trim().length()==0) {
+        if (username == null || username.trim().length() == 0) {
             error = error + "The username cannot be empty or have spaces.";
         }
         PetProfile petprof = ppRepository.findPetProfileById(petId);
-
         Account ac = acRepository.findAccountByUsername(username);
-        if(ac == null){
+
+        if (username != null && ac == null) {
             error = error + "No account associated with this username.";
         }
         RegularUser ru = regRepository.findRegularUserByUser(ac);
 
-        AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(ru,petprof);
+        AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(ru, petprof);
         if (adoptApp != null) {
             error = error + "This application already exists.";
         }
@@ -119,11 +118,11 @@ public class AdoptionApplicationService {
     @Transactional
     public List<AdoptionApplication> getApplicationsByUser(String username) {
         String error = "";
-        if (username == null || username.trim().length()==0) {
+        if (username == null || username.trim().length() == 0) {
             error = error + "The username cannot be empty or have spaces.";
         }
         Account ac = acRepository.findAccountByUsername(username);
-        if(ac == null){
+        if (ac == null) {
             error = error + "No account associated with this username.";
         }
         RegularUser ru = regRepository.findRegularUserByUser(ac);
@@ -139,8 +138,8 @@ public class AdoptionApplicationService {
      * @return list of applications to a petprofile
      */
     @Transactional
-    public List<AdoptionApplication> getApplicationsByPetProfile(int petId) {//name of pet and string of username
-        
+    public List<AdoptionApplication> getApplicationsByPetProfile(int petId) {// name of pet and string of username
+
         PetProfile petprof = ppRepository.findPetProfileById(petId);
         if (petprof == null) {
             throw new NullPointerException("Pet profile is required to get its application.");
@@ -161,7 +160,7 @@ public class AdoptionApplicationService {
     public AdoptionApplication getAppbyAdopterAndPetProfile(String username, int petId) {
         String error = "";
         Account ac = acRepository.findAccountByUsername(username);
-        if(ac == null){
+        if (ac == null) {
             error = error + "No account associated with this username.";
         }
         PetProfile petprof = ppRepository.findPetProfileById(petId);
@@ -182,6 +181,7 @@ public class AdoptionApplicationService {
 
     /**
      * Get an application by id
+     * 
      * @param id
      * @return adoption application
      */

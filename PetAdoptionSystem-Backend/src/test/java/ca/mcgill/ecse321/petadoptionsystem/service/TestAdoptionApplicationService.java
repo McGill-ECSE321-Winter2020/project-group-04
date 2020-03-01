@@ -11,6 +11,7 @@ import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -169,6 +170,30 @@ public class TestAdoptionApplicationService {
 
 	}
 
+	@Test
+	public void testCreateApplicationNoUsername(){
+		String error = "";
+		Calendar c = Calendar.getInstance();
+		c.set(2017, Calendar.MARCH, 16, 9, 0, 0);
+		Date postDate = new Date(c.getTimeInMillis());
+		Time postTime = new Time(c.getTimeInMillis());
+
+		AdoptionApplication app = null;
+
+		String curUser = null;
+		int petId = 2;
+
+		try {
+			app = appService.createApplication(postDate, postTime, curUser, petId);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage(); // Check that no error occurred
+		}
+		assertNull(app);
+		assertEquals("The username cannot be empty or have spaces.", error);
+	}
+
+
+	
 	/**
 	 * Helper methods to create stubs and setup Mockito for Dao
 	 * 
