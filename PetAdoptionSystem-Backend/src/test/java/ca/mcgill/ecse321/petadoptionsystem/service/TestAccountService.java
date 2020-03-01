@@ -171,4 +171,29 @@ public class TestAccountService {
         assertNull(account);
         assertEquals("The username cannot be empty.\nThe password hash cannot be empty.\nThe email address cannot be empty.\n", error);
     }
+
+    @Test
+    public void testCreateRegularUserAccountEmpty() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // create test account params
+        String username = "";
+        String passwordHash = "";
+        String email = "";
+
+        // initialize account to null, so we can see if account creation was successful
+        Account account = null;
+
+        String error = null;
+        
+        try {
+            account = accountService.createRegularUserAccount(username, passwordHash, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check if null and error is as expected
+        assertNull(account);
+        assertEquals("The username cannot be empty.\nThe password hash cannot be empty.\nThe email address cannot be empty.\n", error);
+    }
 }
