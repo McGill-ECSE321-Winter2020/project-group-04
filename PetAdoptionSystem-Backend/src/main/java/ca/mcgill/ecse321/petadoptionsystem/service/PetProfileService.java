@@ -48,7 +48,7 @@ public class PetProfileService {
 
     @Transactional
     public PetProfile createPetProfile(String breed, String description, String name,
-                                       PetType pettype, Time posttime, Date postdate, String username, String reason, boolean isAvailable, HashSet<String> images, RegularUser regUser)
+                                       PetType pettype, Time posttime, Date postdate, String username, String reason, boolean isAvailable, HashSet<String> images)
             throws IllegalArgumentException {
 
         String error = "";
@@ -78,18 +78,18 @@ public class PetProfileService {
             throw new IllegalArgumentException(error);
         } 
 
-        // if (!accountRepository.existsByUsername(username))
-        //     error += "No user associated with this username";
+        if (!accountRepository.existsByUsername(username))
+           error += "No user associated with this username";
     
         if (error.length() > 0) throw new IllegalArgumentException(error);
         
-        // Account account = accountRepository.findAccountByUsername(username);
-        // RegularUser userRole = regularUserRepository.findRegularUserByUser(account);
+         Account account = accountRepository.findAccountByUsername(username);
+         RegularUser userRole = regularUserRepository.findRegularUserByUser(account);
 
         // // Check if the user has another pet with that same name (not possible)
 
-        // if (petprofilerepository.existsByNameAndPoster(name, regularUserRepository.findRegularUserByUser(account)))
-        //     error += "Cannot have two pets with the same exact name.\n" ;
+         if (petprofilerepository.existsByNameAndPoster(name, regularUserRepository.findRegularUserByUser(account)))
+             error += "Cannot have two pets with the same exact name.\n" ;
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
@@ -108,7 +108,7 @@ public class PetProfileService {
 
         pet.setPostDate(postdate);
 
-        pet.setPoster(regUser);
+        pet.setPoster(userRole);
 
         pet.setReasonForPosting(reason);
 

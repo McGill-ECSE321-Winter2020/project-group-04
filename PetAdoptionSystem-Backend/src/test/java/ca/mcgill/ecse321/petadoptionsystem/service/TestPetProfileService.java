@@ -316,7 +316,7 @@ public class TestPetProfileService {
         try {
 
             petProf = petProfileService.createPetProfile(BREED_KEY, DESCRIPTION, NAME, PETTYPE, postTime, postDate,
-                    USERNAME, REASON, ISAVAILABLE, images, regUser);
+                    USERNAME, REASON, ISAVAILABLE, images);
 
         } catch (IllegalArgumentException e) {
             fail();
@@ -325,7 +325,6 @@ public class TestPetProfileService {
         assertNotNull(petProf);
         assertEquals(BREED_KEY, petProf.getBreed());
         assertEquals(NAME, petProf.getName());
-        assertEquals(regUser, petProf.getPoster());
         assertEquals(DESCRIPTION, petProf.getDescription());
         assertEquals(PETTYPE, petProf.getPetType());
         assertEquals(REASON, petProf.getReasonForPosting());
@@ -357,7 +356,7 @@ public class TestPetProfileService {
         try {
 
             petProf = petProfileService.createPetProfile(BREED_KEY, DESCRIPTION, NAME, PETTYPE, postTime, postDate,
-                    USERNAME, REASON, ISAVAILABLE, images, regUser);
+                    USERNAME, REASON, ISAVAILABLE, images);
 
         } catch (Exception e) {
             fail();
@@ -539,7 +538,7 @@ public class TestPetProfileService {
         PetProfile petProf = null;
         try {
             petProf = petProfileService.createPetProfile(BREED_KEY, DESCRIPTION, NAME, PETTYPE, postTime, postDate,
-                    USERNAME, REASON, ISAVAILABLE, images, regUser);
+                    USERNAME, REASON, ISAVAILABLE, images);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
