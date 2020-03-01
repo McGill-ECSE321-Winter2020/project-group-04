@@ -130,7 +130,7 @@ public class AccountService {
 
         if (accountRepository.existsByEmail(newEmail)) error += "That email address is already taken.\n";
         if (error.length() > 0) throw new IllegalArgumentException(error);
-        
+
         Account account = null;
 
         // try to retrieve the correct account and update email address
@@ -148,22 +148,19 @@ public class AccountService {
     }
 
     @Transactional
-    public void deleteAccount(String username) {
-        String error = "";
+    public Account deleteAccount(String username) {
 
-        // check if valid username
-        if (username == null || username.trim().length() == 0) error += "The username cannot be empty.\n";
-        if (error.length() > 0) throw new IllegalArgumentException(error);
+        Account account = null;
 
         // try to retrieve the correct account and delete it
         try {
-            Account account = this.getAccountByUsername(username);
+            account = this.getAccountByUsername(username);
             accountRepository.delete(account);
         } catch (IllegalArgumentException e) {
             throw e;
         }
 
-        return;
+        return account;
     }
 
     private static <T> List<T> toList(Iterable<T> iterable) {
