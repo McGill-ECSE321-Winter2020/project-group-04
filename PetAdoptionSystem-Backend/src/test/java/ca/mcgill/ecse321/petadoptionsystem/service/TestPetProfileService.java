@@ -4,6 +4,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
@@ -213,6 +214,7 @@ public class TestPetProfileService {
             petProf.setDescription(DESCRIPTION);
             petProf.setReasonForPosting(REASON);
             petProf.setIsAvailable(ISAVAILABLE);
+            petProf.setPetType(PETTYPE);
             images.add(
                     "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
             images.add(
@@ -263,8 +265,85 @@ public class TestPetProfileService {
     }
 
     @Test
-    public void testCreatePetProfile(){
-        
+    public void testCreatePetProfile() {
+        Calendar c = Calendar.getInstance();
+        c.set(2020, Calendar.MARCH, 16, 9, 0, 0);
+        Date postDate = new Date(c.getTimeInMillis());
+        Time postTime = new Time(c.getTimeInMillis());
+        Account account = new Account();
+        account.setUsername(USERNAME);
+        RegularUser regUser = new RegularUser();
+        regUser.setUser(account);
+        regUser.setName(USERNAME);
+        regUser.setHomeDescription(HOUSE);
+        regUser.setPhoneNumber(PHONE);
+        images.add(
+                "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
+        images.add(
+                "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/reference_guide/cats_and_excessive_meowing_ref_guide/1800x1200_cats_and_excessive_meowing_ref_guide.jpg");
+
+        accountRepository.save(account);
+        regularUserRepository.save(regUser);
+        PetProfile petProf = null;
+       
+        try {
+
+            petProf = petProfileService.createPetProfile(BREED_KEY, DESCRIPTION, NAME, PETTYPE, postTime, postDate,
+                    USERNAME, REASON, ISAVAILABLE, images, regUser);
+            
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+
+        assertNotNull(petProf);
+        assertEquals(BREED_KEY, petProf.getBreed());
+        assertEquals(NAME, petProf.getName());
+        assertEquals(regUser, petProf.getPoster());
+        assertEquals(DESCRIPTION, petProf.getDescription());
+        assertEquals(PETTYPE, petProf.getPetType());
+        assertEquals(REASON, petProf.getReasonForPosting());
+        assertEquals(postDate, petProf.getPostDate());
+        assertEquals(postTime, petProf.getPostTime());
+    }
+
+    @Test
+    public void testGetAllPetProf(){
+        Calendar c = Calendar.getInstance();
+        c.set(2020, Calendar.MARCH, 16, 9, 0, 0);
+        Date postDate = new Date(c.getTimeInMillis());
+        Time postTime = new Time(c.getTimeInMillis());
+        Account account = new Account();
+        account.setUsername(USERNAME);
+        RegularUser regUser = new RegularUser();
+        regUser.setUser(account);
+        regUser.setName(USERNAME);
+        regUser.setHomeDescription(HOUSE);
+        regUser.setPhoneNumber(PHONE);
+        images.add(
+                "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
+        images.add(
+                "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/reference_guide/cats_and_excessive_meowing_ref_guide/1800x1200_cats_and_excessive_meowing_ref_guide.jpg");
+
+        accountRepository.save(account);
+        regularUserRepository.save(regUser);
+        PetProfile petProf = null;
+        try {
+
+            petProf = petProfileService.createPetProfile(BREED_KEY, DESCRIPTION, NAME, PETTYPE, postTime, postDate,
+                    USERNAME, REASON, ISAVAILABLE, images, regUser);
+            
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+        List<PetProfile> petProfiles = petProfileService.getAllPetProfiles();
+        assertEquals(1, petProfiles.size());
+        assertEquals(petProf.getBreed(), petProfiles.get(0).getBreed());
+        assertEquals(petProf.getName(), petProfiles.get(0).getName());
+        assertEquals(petProf.getDescription(), petProfiles.get(0).getDescription());
+        assertEquals(petProf.getId(), petProfiles.get(0).getId());
+        assertEquals(petProf.getPetType(), petProfiles.get(0).getPetType());
+        assertEquals(petProf.getReasonForPosting(), petProfiles.get(0).getReasonForPosting());
+
     }
 
 

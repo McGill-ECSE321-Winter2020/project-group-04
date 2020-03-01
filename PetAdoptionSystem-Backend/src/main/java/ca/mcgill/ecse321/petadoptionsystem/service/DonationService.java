@@ -69,12 +69,12 @@ public class DonationService {
 
     @Transactional
     public List<Donation> getDonationsByUsername(String username){
-        if(username == null || username.trim()=="") throw new NullUsernameException("The username cannot be empty or have spaces.\n");
+        if(username == null || username.trim()=="") throw new IllegalArgumentException("The username cannot be empty or have spaces.\n");
 
         Account act =  actRepo.findAccountByUsername(username);
         RegularUser regUser = regUserRepo.findRegularUserByUser(act);
         if(donationRepo.findDonationsByUser(regUser) == null)
-            throw new NullUsernameException("No donations associated with this username.\n");
+            throw new IllegalArgumentException("No donations associated with this username.\n");
 
         return toList(donationRepo.findDonationsByUser(regUser));
     }

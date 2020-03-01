@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.petadoptionsystem.service;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.DonationRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
+import ca.mcgill.ecse321.petadoptionsystem.exception.NullUsernameException;
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.Donation;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
@@ -132,7 +133,8 @@ public class TestDonationService {
         } catch(IllegalArgumentException e){
             error = e.getMessage();
         }
-        assertNull(donation);
+
+        
         assertEquals("No user associated with this username.\n", error);
 
     }
