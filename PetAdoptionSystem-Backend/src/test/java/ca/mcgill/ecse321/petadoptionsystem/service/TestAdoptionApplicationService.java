@@ -268,10 +268,22 @@ public class TestAdoptionApplicationService {
 		assertEquals(id, apps.get(0).getId());
 	}
 
-	// @Test
-	// public void testGetApplicationsNoPetProfile(){
+	@Test
+	public void testGetApplicationsNoPetProfile(){
+		String error = "";
+		int petId = ppId;
+		List<AdoptionApplication> apps = new ArrayList<>();
 
-	// }
+		try {
+			apps = appService.getApplicationsByPetProfile(petId);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage(); // Check that no error occurred
+		}
+
+		// assertNotNull(apps);
+		assertEquals(0, apps.size());
+		assertEquals("Pet profile is required to get its application.", error);
+	}
 
 	// @Test
 	// public void testGetAllApplicationsToProfile(){

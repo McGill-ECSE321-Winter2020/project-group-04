@@ -146,7 +146,7 @@ public class AdoptionApplicationService {
 
         PetProfile petprof = ppRepository.findPetProfileById(petId);
         if (petprof == null) {
-            throw new NullPointerException("Pet profile is required to get its application.");
+            throw new IllegalArgumentException("Pet profile is required to get its application.");
         }
         List<AdoptionApplication> petprofApps = appRepository.findByPetProfile(petprof);
 
