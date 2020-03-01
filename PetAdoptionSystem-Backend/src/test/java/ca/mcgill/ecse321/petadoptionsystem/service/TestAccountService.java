@@ -221,4 +221,43 @@ public class TestAccountService {
         assertNull(account);
         assertEquals("The username cannot be empty.\nThe password hash cannot be empty.\nThe email address cannot be empty.\n", error);
     }
+
+    @Test
+    public void testCreateRegularUserAccountDuplicate() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // create test account params
+        String username = "xXx_mike_xXx";
+        String passwordHash = "hashedpotatoes";
+        String email = "mikey.mike@hotmail.com";
+
+        // initialize accounts to null, so we can see if account creation was successful
+        Account account1 = null;
+        Account account2 = null;
+
+        String error = null;
+        
+        // try to make the first account
+        try {
+            account1 = accountService.createRegularUserAccount(username, passwordHash, email);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+
+        // check if not null and values are as expected
+        assertNotNull(account1);
+        assertEquals(username, account1.getUsername());
+        assertEquals(passwordHash, account1.getPasswordHash());
+        assertEquals(email, account1.getEmail());
+
+        // try to create the second account
+        try {
+            account2 = accountService.createRegularUserAccount(username, passwordHash, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+        // check if null and error is as expected
+        assertNull(account2);
+        assertEquals("That username is already taken.\nThat email address is already taken.\n", error);
+    }
 }
