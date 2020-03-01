@@ -405,4 +405,103 @@ public class TestAccountService {
         assertNull(account2);
         assertEquals("That username is already taken.\nThat email address is already taken.\n", error);
     }
+
+    /* GET ACCOUNT BY USERNAME TESTS */
+
+    @Test
+    public void testGetAccountByUsername() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // initialize as null to check if user was found
+        Account account = null;
+
+        // there should be one account with USERNAME as the username
+        try {
+            account = accountService.getAccountByUsername(USERNAME);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+
+        // check if non-null and everything correct
+        assertNotNull(account);
+        assertEquals(USERNAME, account.getUsername());
+        assertEquals(PASSWORDHASH, account.getPasswordHash());
+        assertEquals(EMAIL, account.getEmail());
+    }
+
+    @Test
+    public void testGetAccountByUsernameNull() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        String error = null;
+
+        try {
+            account = accountService.getAccountByUsername(null);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check if null and for right error
+        assertNull(account);
+        assertEquals("The username cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testGetAccountByUsernameEmpty() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        String error = null;
+
+        try {
+            account = accountService.getAccountByUsername("");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check if null and for right error
+        assertNull(account);
+        assertEquals("The username cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testGetAccountByUsernameSpaces() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        String error = null;
+
+        try {
+            account = accountService.getAccountByUsername(" ");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check if null and for right error
+        assertNull(account);
+        assertEquals("The username cannot be empty.\n", error);
+    }
+
+    @Test
+    public void testGetAccountByUsernameNonExistant() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        Account account = null;
+
+        String error = null;
+
+        try {
+            account = accountService.getAccountByUsername("xXx_mike_xXx");
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check if null and for right error
+        assertNull(account);
+        assertEquals("No user associated with that username.\n", error);
+    }
 }

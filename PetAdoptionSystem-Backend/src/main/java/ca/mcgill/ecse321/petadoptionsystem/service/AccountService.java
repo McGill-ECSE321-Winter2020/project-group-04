@@ -87,13 +87,12 @@ public class AccountService {
 
         String error = "";
 
-        if (!accountRepository.existsByUsername(username))
-            error += "No user associated with that username.\n";
-        if (error.length() > 0) throw new IllegalArgumentException(error);
-
         // check if valid username
         if (username == null || username.trim().length() == 0) error += "The username cannot be empty.\n";
+        if (error.length() > 0) throw new IllegalArgumentException(error);
 
+        if (!accountRepository.existsByUsername(username))
+            error += "No user associated with that username.\n";
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         return accountRepository.findAccountByUsername(username);
@@ -104,13 +103,12 @@ public class AccountService {
 
         String error = "";
 
-        if (!accountRepository.existsByEmail(email))
-            error += "No user associated with that email.\n";
-        if (error.length() > 0) throw new IllegalArgumentException(error);
-
         // check if valid username
         if (email == null || email.trim().length() == 0) error += "The email address cannot be empty.\n";
+        if (error.length() > 0) throw new IllegalArgumentException(error);
 
+        if (!accountRepository.existsByEmail(email))
+            error += "No user associated with that email.\n";
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         return accountRepository.findAccountByEmail(email);
@@ -126,12 +124,12 @@ public class AccountService {
         
         String error = "";
 
-        if (!accountRepository.existsByUsername(username))
-            error += "No user associated with that username.\n";
+        // check if valid email
+        if (newEmail == null || newEmail.trim().length() == 0) error += "The email address cannot be empty.\n";
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        if (newEmail == null || newEmail.trim().length() == 0) error += "The email address cannot be empty.\n";
-
+        if (!accountRepository.existsByUsername(username))
+            error += "No user associated with that username.\n";
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         // retrieve the correct account and update email address
@@ -145,6 +143,10 @@ public class AccountService {
     @Transactional
     public void deleteAccount(String username) {
         String error = "";
+
+        // check if valid username
+        if (username == null || username.trim().length() == 0) error += "The username cannot be empty.\n";
+        if (error.length() > 0) throw new IllegalArgumentException(error);
 
         if (!accountRepository.existsByUsername(username))
             error += "No user associated with that username.\n";
