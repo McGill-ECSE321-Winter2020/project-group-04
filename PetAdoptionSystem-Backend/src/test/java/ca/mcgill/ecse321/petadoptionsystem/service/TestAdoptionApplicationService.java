@@ -129,11 +129,11 @@ public class TestAdoptionApplicationService {
 		});
 		lenient().when(ruDao.findRegularUserByUser(any(Account.class))).thenAnswer((InvocationOnMock invocation) -> {
 			RegularUser ru = setUpRegularUser(Username1, ruName1, ruDesc1, phoneNum1);
-			if (invocation.getArgument(0).equals(ru.getUser())) {
-				return ru;
-			} else {
-				return null;
-			}
+			// if (invocation.getArgument(0).equals(ru.getUser().getUsername())) {
+			return ru;
+			// } else {
+			// return null;
+			// }
 		});
 		lenient().when(ppDao.findPetProfileById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(ppId2)) {
@@ -219,10 +219,22 @@ public class TestAdoptionApplicationService {
 
 	}
 
-	// @Test
-	// public void testGetApplicationsbyUser(){
+	@Test
+	public void testGetApplicationsbyUser() {
+		String user = Username1;
+		List<AdoptionApplication> apps = new ArrayList<>();
 
-	// }
+		try {
+			apps = appService.getApplicationsByUser(user);
+		} catch (IllegalArgumentException e) {
+			fail(); // Check that no error occurred
+		}
+
+		assertNotNull(apps);
+		assertEquals(1, apps.size());
+		int id = appService.getApplicationbyId(appId).getId();
+		assertEquals(id, apps.get(0).getId());
+	}
 
 	// @Test
 	// public void testGetApplicationsNoUser(){

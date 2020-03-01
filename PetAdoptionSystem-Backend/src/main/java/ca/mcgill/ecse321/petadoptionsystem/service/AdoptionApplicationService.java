@@ -125,6 +125,7 @@ public class AdoptionApplicationService {
         if (ac == null) {
             error = error + "No account associated with this username.";
         }
+    
         RegularUser ru = regRepository.findRegularUserByUser(ac);
         List<AdoptionApplication> userApplications = appRepository.findByApplicant(ru);
 
