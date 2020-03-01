@@ -9,7 +9,13 @@ public class DonationDTO {
     private Date date;
     private float amnt;
     public DonationDTO(){};
-
+    /**
+     * 
+     * @param regUserDto
+     * @param time
+     * @param date
+     * @param amount
+     */
     public DonationDTO(RegularUserDTO regUserDto, Time time, Date date, float amount){
         this.time = time;
         this.regularUserDto = regUserDto;
