@@ -60,12 +60,13 @@ public class DonationService {
 
         Account act =  actRepo.findAccountByUsername(username);
         RegularUser regUser = regUserRepo.findRegularUserByUser(act);
-        if(donationRepo.findDonationsByUser(regUser) == null)
+        if(donationRepo.getDonationsByUser(regUser) == null)
             error += "No donations associated with this username.\n";
         if(error.length() > 0) throw new IllegalArgumentException(error);
 
-        return toList(donationRepo.findDonationsByUser(regUser));
+        return toList(donationRepo.getDonationsByUser(regUser));
     }
+
 
     private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();

@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Time;
@@ -72,7 +73,7 @@ public class TestDonationService {
             return regularUser;
         });
 
-        lenient().when(donationDao.findDonationsByUser(any(RegularUser.class))).thenAnswer((InvocationOnMock invocation) ->
+        lenient().when(donationDao.getDonationsByUser(any(RegularUser.class))).thenAnswer((InvocationOnMock invocation) ->
         {
             Account account = new Account();
             account.setUsername(USERNAME1);
@@ -80,9 +81,12 @@ public class TestDonationService {
             regularUser.setUser(account);
             Donation donation = new Donation();
             donation.setAmount(AMOUNT1);
+            donation.setUser(regularUser);
+
             Set<Donation> donations = new HashSet<Donation>();
             donations.add(donation);
             regularUser.setDonation(donations);
+            //return donation;
             return toList(donations);
         });
 
@@ -130,7 +134,17 @@ public class TestDonationService {
             return toList(donations2);
         });
 
+        Answer<?> returnParam = (InvocationOnMock invocation) -> {
+            return invocation.getArgument(0);
+        };
+        lenient().when(donationDao.save(any(Donation.class))).thenAnswer(returnParam);
+
     }
+
+//    @Test
+//    public void testExistingDonation(){
+//        assertEquals(donationService.getDonationsByUsername(USERNAME1).get(0).getUser().getUser().getUsername(), USERNAME1);
+//    }
 
     @Test
     public void testExistingDonation(){
@@ -139,15 +153,17 @@ public class TestDonationService {
 
     @Test
     public void createDonation(){
-        String username = "Bill";
+        //String username = "Bill";
         float amount = 150;
-        Time time = new Time(12, 0, 0);
-        Date date = new Date(2020, 3,1);
+        Calendar cal = Calendar.getInstance();
+        cal.set(2020, Calendar.MARCH, 1, 12, 0, 0);
+        Date date = new Date(cal.getTimeInMillis());
+        Time time = new Time(cal.getTimeInMillis());
         int donId = 0;
 
         Donation donation = null;
         try {
-            donation = donationService.createDonation(amount, date, time, username);
+            donation = donationService.createDonation(amount, date, time, USERNAME1);
             donId = donation.getId();
         }catch(IllegalArgumentException e){
             fail();
@@ -157,7 +173,7 @@ public class TestDonationService {
         assertEquals(amount, donation.getAmount());
         assertEquals(time, donation.getTime());
         assertEquals(date, donation.getDate());
-        assertEquals(username, donation.getUser().getUser().getUsername());
+        assertEquals(USERNAME1, donation.getUser().getUser().getUsername());
         assertEquals(donId, donation.getId());
 
     }
