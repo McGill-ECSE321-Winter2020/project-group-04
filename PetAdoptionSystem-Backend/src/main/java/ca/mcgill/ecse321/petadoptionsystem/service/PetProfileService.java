@@ -161,24 +161,24 @@ public class PetProfileService {
 
     /**
      *
-     * @param breed of the pet
+     * @param bREED_KEY of the pet
      * @return get all pet profiles from this breed
      */
     @Transactional
-    public List<PetProfile> getAllPetProfilesByBreed(String breed){
+    public List<PetProfile> getAllPetProfilesByBreed(String bREED_KEY){
 
         String error = "";
-        if (!petprofilerepository.existsByBreed(breed))
+        if (!petprofilerepository.existsByBreed(bREED_KEY))
             error += "There is no such breed in our database";
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        if (petprofilerepository.findAllPetProfileByBreed(breed) == null )
+        if (petprofilerepository.findAllPetProfileByBreed(bREED_KEY) == null )
             error += "No Pet Profiles associated with this breed";
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        return toList(petprofilerepository.findAllPetProfileByBreed(breed));
+        return toList(petprofilerepository.findAllPetProfileByBreed(bREED_KEY));
     }
 
     /**
@@ -228,7 +228,7 @@ public class PetProfileService {
 
         //Get the PosterId from the account username
 
-        String error = "error";
+        String error = "";
         if (username == null || username.trim().length() == 0)
             error += "The username cannot be empty or have spaces.\n";
 
@@ -236,18 +236,18 @@ public class PetProfileService {
             error += "No user associated with username" + username;
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
-
-        if (petprofilerepository.existsByName(name)) error += "No pet of name " + name + "in the data base";
+      
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         if(images==null || images.size()==0) 
-            throw new ImageStorageException("You need to submit at least one image url");
+           throw new ImageStorageException("You need to submit at least one image url");
 
         Account account = accountRepository.findAccountByUsername(username);
         UserRole poster = regularUserRepository.findRegularUserByUser(account);
-
+                               
         //Find the PetProfile with the posterid and the pet's name
         PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(name, poster);
+        
 
         if (reason != null) {
             pet.setReasonForPosting(reason);
@@ -268,7 +268,8 @@ public class PetProfileService {
         if (isAvailable != null) {
             pet.setIsAvailable(isAvailable);
         }
-        pet.setImages(images);
+        if(images.size() > 0)
+            pet.setImages(images);
         petprofilerepository.save(pet);
         return pet;
 
