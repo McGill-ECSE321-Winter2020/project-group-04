@@ -20,8 +20,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,9 +39,6 @@ public class TestAdminService {
     @InjectMocks
     private AdminService adminService;
 
-//    @InjectMocks
-//    private AccountService accountService;
-
     @AfterEach
     public void clearDataBase(){
         accountDao.deleteAll();
@@ -52,40 +48,56 @@ public class TestAdminService {
 
     @BeforeEach
     public void setMockOutput(){
+        lenient().when(accountDao.findAccountByUsername(USERNAME1)).thenAnswer((InvocationOnMock invocation) ->
+        {
+            Account account = new Account();
+            account.setUsername(USERNAME1);
+            return account;
+        });
+
         lenient().when(adminDao.findAdminByUser(any(Account.class))).thenAnswer((InvocationOnMock invocation) ->
         {
-            if (invocation.getArgument(0).equals(anyInt())){
-                Account account = new Account();
-                account.setUsername(USERNAME1);
-                Admin admin = new Admin();
-                admin.setUser(account);
-                return admin;
-            } else {
-                return null;
-            }
+            Account account = new Account();
+            account.setUsername(USERNAME1);
+            Admin admin = new Admin();
+            admin.setUser(account);
+            return admin;
         });
+
+        lenient().when(adminDao.findAll()).thenAnswer((InvocationOnMock invocation) ->
+        {
+            Account account = new Account();
+            account.setUsername(USERNAME1);
+            Admin admin = new Admin();
+            admin.setUser(account);
+            List<Admin> admins = new ArrayList<Admin>();
+            admins.add(admin);
+            return admins;
+        });
+
         Answer<?> returnParam = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
         lenient().when(adminDao.save(any(Admin.class))).thenAnswer(returnParam);
     }
 
+
     @Test
     public void testExistingAdmin(){
-        //assertEquals(adminService.getAdminByUsername(USERNAME1).getUser().getUsername(), USERNAME1);
+        assertEquals(adminService.getAdminByUsername(USERNAME1).getUser().getUsername(), USERNAME1);
     }
 
     @Test
     public void testGetAllAdmin(){
-//        List<Admin> admins = adminService.getAllAdmins();
-//        assertEquals(1, admins.size());
-//        int adId = adminService.getAdminByUsername(USERNAME1).getId();
-//        assertEquals(admins.get(0).getId(), adId);
+        List<Admin> admins = adminService.getAllAdmins();
+        assertEquals(1, admins.size());
+        int adId = adminService.getAdminByUsername(USERNAME1).getId();
+        assertEquals(admins.get(0).getId(), adId);
     }
 
     @Test
     public void testNonExistingAdmin(){
-        //assertNull(adminService.getAdminByUsername(NON_EXISTING_USERNAME));
+        assertNull(adminService.getAdminByUsername(NON_EXISTING_USERNAME));
     }
 
 }
