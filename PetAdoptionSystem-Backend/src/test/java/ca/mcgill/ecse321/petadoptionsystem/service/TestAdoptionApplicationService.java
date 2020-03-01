@@ -100,6 +100,13 @@ public class TestAdoptionApplicationService {
 			apps.add(app);
 			return apps;
 		});
+		lenient().when(appDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+			AdoptionApplication app = setUpApplication();
+			List<AdoptionApplication> applst = new ArrayList<AdoptionApplication>();
+			applst.add(app);
+			return applst;
+
+		});
 
 		lenient().when(appDao.findByPetProfile(any(PetProfile.class))).thenAnswer((InvocationOnMock invocation) -> {
 
@@ -171,7 +178,7 @@ public class TestAdoptionApplicationService {
 	}
 
 	@Test
-	public void testCreateApplicationNoUsername(){
+	public void testCreateApplicationNoUsername() {
 		String error = "";
 		Calendar c = Calendar.getInstance();
 		c.set(2017, Calendar.MARCH, 16, 9, 0, 0);
@@ -192,8 +199,16 @@ public class TestAdoptionApplicationService {
 		assertEquals("The username cannot be empty or have spaces.", error);
 	}
 
+	@Test
+    public void testGetAllApplications() {
+        List<AdoptionApplication> apps = appService.getAllApplications();
 
-	
+        assertEquals(1, apps.size());
+        int id = appService.getApplicationbyId(appId).getId();
+        assertEquals(id, apps.get(0).getId());
+
+    }
+
 	/**
 	 * Helper methods to create stubs and setup Mockito for Dao
 	 * 
