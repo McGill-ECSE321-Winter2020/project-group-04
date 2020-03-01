@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.petadoptionsystem.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -144,5 +145,30 @@ public class TestAccountService {
         assertEquals(passwordHash, account.getPasswordHash());
         assertEquals(email, account.getEmail());
 
+    }
+
+    @Test
+    public void testCreateRegularUserAccountNull() {
+        assertEquals(1, accountService.getAllAccounts().size());
+
+        // create test account params
+        String username = null;
+        String passwordHash = null;
+        String email = null;
+
+        // initialize account to null, so we can see if account creation was successful
+        Account account = null;
+
+        String error = null;
+        
+        try {
+            account = accountService.createRegularUserAccount(username, passwordHash, email);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        // check if null and error is as expected
+        assertNull(account);
+        assertEquals("The username cannot be empty.\nThe password hash cannot be empty.\nThe email address cannot be empty.\n", error);
     }
 }
