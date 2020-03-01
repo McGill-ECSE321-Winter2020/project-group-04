@@ -4,6 +4,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -116,6 +117,23 @@ public class TestPetProfileService {
                         return null;
                     }
                 });
+        lenient().when(accountRepository.existsByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(USERNAME)) {
+                return true;
+            }
+            return false;
+        });
+        lenient().when(regularUserRepository.findRegularUserByUser(any(Account.class))).thenAnswer((InvocationOnMock invocation) ->
+        {
+                Account account = new Account();
+                account.setUsername(USERNAME);
+                RegularUser regUser = new RegularUser();
+                regUser.setUser(account);
+                regUser.setName(USERNAME);
+                regUser.setHomeDescription(HOUSE);
+                regUser.setPhoneNumber(PHONE);
+                return regUser;
+        });
 
         lenient().when((petprofilerepository.findAllPetProfileByPetType(any(PetType.class))))
                 .thenAnswer((InvocationOnMock invocation) -> {
@@ -240,7 +258,18 @@ public class TestPetProfileService {
             return false;
 
         });
+        lenient().when(accountRepository.findAccountByUsername(anyString()))
+                .thenAnswer((InvocationOnMock invocation) -> {
+                    Account account = new Account();
+                    account.setUsername(USERNAME);
+                    RegularUser regUser = new RegularUser();
+                    regUser.setUser(account);
+                    regUser.setName(NAME);
+                    regUser.setHomeDescription(HOUSE);
+                    regUser.setPhoneNumber(PHONE);
+                    return account;
 
+                });
         lenient().when(petprofilerepository.existsByNameAndPoster(anyString(), any(UserRole.class)))
                 .thenAnswer((InvocationOnMock invocation) -> {
                     Account account = new Account();
@@ -285,12 +314,12 @@ public class TestPetProfileService {
         accountRepository.save(account);
         regularUserRepository.save(regUser);
         PetProfile petProf = null;
-       
+
         try {
 
             petProf = petProfileService.createPetProfile(BREED_KEY, DESCRIPTION, NAME, PETTYPE, postTime, postDate,
                     USERNAME, REASON, ISAVAILABLE, images, regUser);
-            
+
         } catch (IllegalArgumentException e) {
             fail();
         }
@@ -307,7 +336,7 @@ public class TestPetProfileService {
     }
 
     @Test
-    public void testGetAllPetProf(){
+    public void testGetAllPetProf() {
         Calendar c = Calendar.getInstance();
         c.set(2020, Calendar.MARCH, 16, 9, 0, 0);
         Date postDate = new Date(c.getTimeInMillis());
@@ -331,8 +360,8 @@ public class TestPetProfileService {
 
             petProf = petProfileService.createPetProfile(BREED_KEY, DESCRIPTION, NAME, PETTYPE, postTime, postDate,
                     USERNAME, REASON, ISAVAILABLE, images, regUser);
-            
-        } catch (IllegalArgumentException e) {
+
+        } catch (Exception e) {
             fail();
         }
         List<PetProfile> petProfiles = petProfileService.getAllPetProfiles();
@@ -346,5 +375,69 @@ public class TestPetProfileService {
 
     }
 
+    @Test
+    public void testGetAllPetProfileByUsername() {
+        List<PetProfile> petProfiles = new ArrayList<>();
+        createPetProfile();
+       
+       
+        try {
+            petProfiles = petProfileService.getAllPetProfilesByUsername(USERNAME);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        assertNotEquals(0, petProfiles.size());
+        assertEquals(NAME, petProfiles.get(0).getName());
+
+    }
+    @Test
+    public void testGetAllProfileByNoneExistingUsername(){
+        List<PetProfile> petProfiles = new ArrayList<>();
+        createPetProfile();
+    
+        String nonExistingUsername = "2PAC";
+        try {
+            petProfiles = petProfileService.getAllPetProfilesByUsername(nonExistingUsername);
+        } catch (Exception e) {
+            String error = e.getMessage();
+            assertEquals("No user associated with this username", error);
+        }
+
+        
+    }
+
+
+
+    public void createPetProfile() {
+        Calendar c = Calendar.getInstance();
+        c.set(2020, Calendar.MARCH, 16, 9, 0, 0);
+        Date postDate = new Date(c.getTimeInMillis());
+        Time postTime = new Time(c.getTimeInMillis());
+        Account account = new Account();
+        account.setUsername(USERNAME);
+
+        RegularUser regUser = new RegularUser();
+        regUser.setUser(account);
+        regUser.setName(USERNAME);
+        regUser.setHomeDescription(HOUSE);
+        regUser.setPhoneNumber(PHONE);
+        images.add(
+                "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500");
+        images.add(
+                "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/reference_guide/cats_and_excessive_meowing_ref_guide/1800x1200_cats_and_excessive_meowing_ref_guide.jpg");
+
+        accountRepository.save(account);
+        regularUserRepository.save(regUser);
+        PetProfile petProf = null;
+        try {
+            petProf = petProfileService.createPetProfile(BREED_KEY, DESCRIPTION, NAME, PETTYPE, postTime, postDate,
+                    USERNAME, REASON, ISAVAILABLE, images, regUser);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }
