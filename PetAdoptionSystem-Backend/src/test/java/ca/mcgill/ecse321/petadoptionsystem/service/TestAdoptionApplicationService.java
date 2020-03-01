@@ -26,6 +26,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.aspectj.lang.annotation.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -153,6 +155,14 @@ public class TestAdoptionApplicationService {
 		lenient().when(ruDao.save(any(RegularUser.class))).thenAnswer(returnParameterAsAnswer);
 	}
 
+	@AfterEach
+	public void clearDabase() {
+		appDao.deleteAll();
+		acDao.deleteAll();
+		ppDao.deleteAll();
+		ruDao.deleteAll();
+	}
+
 	@Test
 	public void testCreateApplication() {
 		Calendar c = Calendar.getInstance();
@@ -200,14 +210,52 @@ public class TestAdoptionApplicationService {
 	}
 
 	@Test
-    public void testGetAllApplications() {
-        List<AdoptionApplication> apps = appService.getAllApplications();
+	public void testGetAllApplications() {
+		List<AdoptionApplication> apps = appService.getAllApplications();
 
-        assertEquals(1, apps.size());
-        int id = appService.getApplicationbyId(appId).getId();
-        assertEquals(id, apps.get(0).getId());
+		assertEquals(1, apps.size());
+		int id = appService.getApplicationbyId(appId).getId();
+		assertEquals(id, apps.get(0).getId());
 
-    }
+	}
+
+	// @Test
+	// public void testGetApplicationsbyUser(){
+
+	// }
+
+	// @Test
+	// public void testGetApplicationsNoUser(){
+
+	// }
+
+	// @Test
+	// public void testGetApplicationsbyPetProfile(){
+
+	// }
+
+	// @Test
+	// public void testGetApplicationsNoPetProfile(){
+
+	// }
+
+	// @Test
+	// public void testGetAllApplicationsToProfile(){
+
+	// }
+
+	// @Test
+	// public void testGetAllApplicationsOfUser(){
+
+	// }
+	// @Test
+	// public void testGetApplicationNoUserNoProfile(){
+
+	// }
+	// @Test
+	// public void updateApplication(){
+
+	// }
 
 	/**
 	 * Helper methods to create stubs and setup Mockito for Dao
