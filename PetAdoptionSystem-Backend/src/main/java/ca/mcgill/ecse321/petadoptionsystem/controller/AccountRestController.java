@@ -59,12 +59,6 @@ public class AccountRestController {
         return;
     }
 
-    @PutMapping(value = {"/account/updatepassword/{username}+{newPasswordHash}", "/account/updatepassword/{username}+{newPasswordHash}/"})
-    public void updatePassword(@PathVariable("username") String username, @PathVariable("newPasswordHash") String newPasswordHash) {
-        accountService.updatePassword(username, newPasswordHash);
-        return;
-    }
-
     @PostMapping(value = {"/account/delete/{username}", "/account/delete/{username}/"})
     public void deleteAccount(@PathVariable("username") String username) {
         accountService.deleteAccount(username);
