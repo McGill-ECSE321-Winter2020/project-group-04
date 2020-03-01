@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -123,17 +124,17 @@ public class TestPetProfileService {
             }
             return false;
         });
-        lenient().when(regularUserRepository.findRegularUserByUser(any(Account.class))).thenAnswer((InvocationOnMock invocation) ->
-        {
-                Account account = new Account();
-                account.setUsername(USERNAME);
-                RegularUser regUser = new RegularUser();
-                regUser.setUser(account);
-                regUser.setName(USERNAME);
-                regUser.setHomeDescription(HOUSE);
-                regUser.setPhoneNumber(PHONE);
-                return regUser;
-        });
+        lenient().when(regularUserRepository.findRegularUserByUser(any(Account.class)))
+                .thenAnswer((InvocationOnMock invocation) -> {
+                    Account account = new Account();
+                    account.setUsername(USERNAME);
+                    RegularUser regUser = new RegularUser();
+                    regUser.setUser(account);
+                    regUser.setName(USERNAME);
+                    regUser.setHomeDescription(HOUSE);
+                    regUser.setPhoneNumber(PHONE);
+                    return regUser;
+                });
 
         lenient().when((petprofilerepository.findAllPetProfileByPetType(any(PetType.class))))
                 .thenAnswer((InvocationOnMock invocation) -> {
@@ -210,9 +211,8 @@ public class TestPetProfileService {
                     images.add(
                             "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/reference_guide/cats_and_excessive_meowing_ref_guide/1800x1200_cats_and_excessive_meowing_ref_guide.jpg");
                     petProf.setImages(images);
-                    List<PetProfile> list = new ArrayList<>();
-                    list.add(petProf);
-                    return list;
+                    
+                    return petProf;
 
                 });
 
@@ -286,6 +286,13 @@ public class TestPetProfileService {
                     return false;
 
                 });
+        lenient().when(accountRepository.existsByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(USERNAME)) {
+                return true;
+            } else {
+                return false;
+            }
+        });
         Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
@@ -380,8 +387,7 @@ public class TestPetProfileService {
     public void testGetAllPetProfileByUsername() {
         List<PetProfile> petProfiles = new ArrayList<>();
         createPetProfile();
-       
-       
+
         try {
             petProfiles = petProfileService.getAllPetProfilesByUsername(USERNAME);
         } catch (Exception e) {
@@ -393,26 +399,26 @@ public class TestPetProfileService {
         assertEquals(NAME, petProfiles.get(0).getName());
 
     }
+
     @Test
-    public void testGetAllProfileByNoneExistingUsername(){
+    public void testGetAllProfileByNoneExistingUsername() {
         List<PetProfile> petProfiles = new ArrayList<>();
         createPetProfile();
-    
+
         String nonExistingUsername = "2PAC";
         try {
             petProfiles = petProfileService.getAllPetProfilesByUsername(nonExistingUsername);
         } catch (Exception e) {
             String error = e.getMessage();
             assertEquals("No user associated with this username", error);
-        }  
+        }
     }
 
-    @Test 
-    public void testGetAllPetProfileByIsAvailable(){
+    @Test
+    public void testGetAllPetProfileByIsAvailable() {
         List<PetProfile> petProfiles = new ArrayList<>();
         createPetProfile();
-       
-       
+
         try {
             petProfiles = petProfileService.getAllPetProfilesByIsAvailable(ISAVAILABLE);
         } catch (Exception e) {
@@ -424,27 +430,25 @@ public class TestPetProfileService {
         assertEquals(ISAVAILABLE, petProfiles.get(0).isIsAvailable());
     }
 
-    @Test 
-    public void testGetAllPetProfileByNotIsAvailable(){
+    @Test
+    public void testGetAllPetProfileByNotIsAvailable() {
         List<PetProfile> petProfiles = new ArrayList<>();
         createPetProfile();
-        
 
         try {
             petProfiles = petProfileService.getAllPetProfilesByIsAvailable(!ISAVAILABLE);
         } catch (Exception e) {
-             String error = e.getMessage();
-            
+            String error = e.getMessage();
+
             assertEquals("No Pet Profiles with the selected availability", error);
         }
     }
 
     @Test
-    public void testGetAllPetProfileByBreed(){
+    public void testGetAllPetProfileByBreed() {
         List<PetProfile> petProfiles = new ArrayList<>();
         createPetProfile();
-       
-       
+
         try {
             petProfiles = petProfileService.getAllPetProfilesByBreed(BREED_KEY);
         } catch (Exception e) {
@@ -455,27 +459,27 @@ public class TestPetProfileService {
         assertNotEquals(0, petProfiles.size());
         assertEquals(BREED_KEY, petProfiles.get(0).getBreed());
     }
+
     @Test
-    public void testGetAllPetProfilesByNonExistingBreed(){
+    public void testGetAllPetProfilesByNonExistingBreed() {
         List<PetProfile> petProfiles = new ArrayList<>();
         createPetProfile();
-        
+
         String nonExistingBreed = "TYPE";
         try {
             petProfiles = petProfileService.getAllPetProfilesByBreed(nonExistingBreed);
         } catch (Exception e) {
-             String error = e.getMessage();
-            
+            String error = e.getMessage();
+
             assertEquals("There is no such breed in our database", error);
         }
     }
 
     @Test
-    public void testGetAllPetProfileByPetType(){
+    public void testGetAllPetProfileByPetType() {
         List<PetProfile> petProfiles = new ArrayList<>();
         createPetProfile();
-       
-       
+
         try {
             petProfiles = petProfileService.getAllPetProfilesByPetType(PETTYPE);
         } catch (Exception e) {
@@ -487,9 +491,42 @@ public class TestPetProfileService {
         assertEquals(PETTYPE, petProfiles.get(0).getPetType());
     }
 
+    @Test
+    public void testUpdatePetProf() {
+        
+
+        String newBreed = "OMLETT";
+        String newDescription = "HE IS BLACK AND CUTE";
+        PetType newPetType = PetType.AMPHIBIAN;
+        String newReason = "new reason";
+        createPetProfile();
+        PetProfile petProf = null;
+
+
+        try {
+            petProf = petProfileService.updatePetProfile(USERNAME, newBreed, newDescription, newReason, newPetType, NAME,
+                    !ISAVAILABLE, images);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+
+        assertNotNull(petProf);
+        assertEquals(newBreed, petProf.getBreed());
+        assertEquals(newDescription, petProf.getDescription());
+        assertEquals(newPetType, petProf.getPetType());
+        assertNotEquals(0, petProf.getImages().size());
+    }
+
     
+    @AfterEach
+    public void clearDatabase() {
 
-
+        petprofilerepository.deleteAll();
+        regularUserRepository.deleteAll();
+        accountRepository.deleteAll();
+      
+    }
     public void createPetProfile() {
         Calendar c = Calendar.getInstance();
         c.set(2020, Calendar.MARCH, 16, 9, 0, 0);
