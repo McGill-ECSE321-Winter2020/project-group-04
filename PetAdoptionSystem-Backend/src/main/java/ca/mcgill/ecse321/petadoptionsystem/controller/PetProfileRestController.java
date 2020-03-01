@@ -36,8 +36,6 @@ public class PetProfileRestController {
     private RegularUserRepository regularUserRepository;
 
 
-
-
     /**
      *
      * @param petProfileDTO union of both classes RegularUser and PetProfile
