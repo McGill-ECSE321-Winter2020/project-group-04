@@ -23,6 +23,9 @@ import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionsystem.service.DonationService;
 import ca.mcgill.ecse321.petadoptionsystem.service.RegularUserService;
 
+/**
+ * @author Ousmane Baricisse
+ */
 @CrossOrigin(origins = "*")
 @RestController
 public class DonationRestController {
@@ -32,7 +35,16 @@ public class DonationRestController {
 
     // @Autowired
     // private RegularUserService reguserService;
-
+    /**
+     * 
+     * @param name
+     * @param date
+     * @param amount
+     * @param startTime
+     * @param regUserDTO
+     * @return
+     * @throws IllegalArgumentException
+     */
     @PostMapping(value = { "/donations/{name}", "/donation/{name}" })
     public DonationDTO createDonation(@PathVariable("name") String name, @RequestParam Date date,
             @RequestParam float amount,
@@ -43,7 +55,10 @@ public class DonationRestController {
 
         return convertDonationToDTO(d);
     }
-
+    /**
+     * 
+     * @return list of donations
+     */
     @GetMapping(value = { "/donations", "/donations/" })
     public List<DonationDTO> getAllDonations() {
         List<DonationDTO> donationDtos = new ArrayList<>();
@@ -61,7 +76,10 @@ public class DonationRestController {
         return userDonationDtos;
     }
     
-    
+    /**
+     * @param d
+     * @throws IllegalArgumentException
+     */
     public DonationDTO convertDonationToDTO(Donation d) {
         if (d == null)
             throw new IllegalArgumentException("There is no such Donation!");

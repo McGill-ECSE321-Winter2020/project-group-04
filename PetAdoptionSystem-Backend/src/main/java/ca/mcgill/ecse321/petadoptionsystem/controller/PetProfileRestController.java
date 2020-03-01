@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -46,7 +47,7 @@ public class PetProfileRestController {
 
         PetProfile pet = petProfileService.createPetProfile(petProfileDTO.getBreed(), petProfileDTO.getDescription(), petProfileDTO.getName(),
                 petProfileDTO.getPetType(), Time.valueOf(postTime), date, name,
-                petProfileDTO.getReasonForPosting(), petProfileDTO.getIsAvailable());
+                petProfileDTO.getReasonForPosting(), petProfileDTO.getIsAvailable(), petProfileDTO.getImages());
 
 
         return convertToDto(pet);
@@ -69,7 +70,7 @@ public class PetProfileRestController {
 
 
         PetProfile pet = petProfileService.updatePetProfile(name, petProfileDTO.getBreed(), petProfileDTO.getDescription(),
-                petProfileDTO.getReasonForPosting(), petProfileDTO.getPetType(), petname, petProfileDTO.getIsAvailable());
+                petProfileDTO.getReasonForPosting(), petProfileDTO.getPetType(), petname, petProfileDTO.getIsAvailable(), petProfileDTO.getImages());
 
 
        return convertToDto(pet);
