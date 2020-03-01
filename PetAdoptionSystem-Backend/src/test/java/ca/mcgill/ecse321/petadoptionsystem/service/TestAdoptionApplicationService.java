@@ -1,14 +1,20 @@
 package ca.mcgill.ecse321.petadoptionsystem.service;
 
+import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AdoptionApplicationRepository;
+import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
+import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
+import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 
 import java.sql.Date;
@@ -28,99 +34,105 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
-
 @ExtendWith(MockitoExtension.class)
 public class TestAdoptionApplicationService {
 
-    @Mock
-    private AdoptionApplicationRepository appDao;
+	@Mock
+	private AdoptionApplicationRepository appDao;
 
-	private static final String ruName = "John";
-	
-	private static final String ppName = "Bingo";
-	private static final String ruDesc = "Hardworking champ";
-	private static final String ppDesc = "Bad doggy for adoption";
-	
-    private static final int phoneNum = 123456789;
+	@Mock
+	private AccountRepository acDao;
+	@Mock
+	private PetProfileRepository ppDao;
+	@Mock
+	private RegularUserRepository ruDao;
 
-    private static final Integer appId = 2;
+	// Applicant Profile params
+	private static final String Username1 = "John316";
+	private static final String ruName1 = "John";
+	private static final String ruDesc1 = "Hardworking champ";
+	private static final int phoneNum1 = 123456789;
+	// Poster Profile params
+	private static final String Username2 = "Achmed316";
+	private static final String ruName2 = "Achmed";
+	private static final String ruDesc2 = "Generous champ";
+	private static final int phoneNum2 = 987654321;
 
-	private static final String ppBreed = "chihuahua";
-
+	// application params
+	private static final int appId = 2;
 	private static final boolean isApproved = false;
 	private static final boolean isConfirmed = false;
 
-    @InjectMocks
-    private AdoptionApplicationService appService;
+	// pet profile params
+	private static final int ppId = 2;
+	private static final int ppId2 = 3;
+	private static final String ppBreed = "chihuahua";
+	private static final String ppName = "Bingo";
+	private static final String ppDesc = "Bad doggy up for adoption";
 
+	@InjectMocks
+	private AdoptionApplicationService appService;
 
-    @BeforeEach
-    public void setMockOutput(){
-        lenient().when(appDao.findAdoptionById((anyInt()))).thenAnswer((InvocationOnMock invocation) -> {
-			
-				AdoptionApplication aa = new AdoptionApplication();
-				aa.setId(appId);
-				return aa;
-			
+	@BeforeEach
+	public void setMockOutput() {
+		lenient().when(appDao.findAdoptionById((anyInt()))).thenAnswer((InvocationOnMock invocation) -> {
+			AdoptionApplication aa = new AdoptionApplication();
+			aa.setId(appId);
+			return aa;
+
 		});
-		lenient().when(appDao.findByApplicantAndPetProfile(any(RegularUser.class),any(PetProfile.class))).thenAnswer((InvocationOnMock invocation) -> {
-			RegularUser ru = new RegularUser();
-			ru.setName(ruName);
-			ru.setHomeDescription(ruDesc);
-			ru.setPhoneNumber(phoneNum);
+		lenient().when(appDao.findByApplicantAndPetProfile(any(RegularUser.class), any(PetProfile.class)))
+				.thenAnswer((InvocationOnMock invocation) -> {
+					AdoptionApplication app = setUpApplication();
+					if (invocation.getArgument(0).equals(app.getApplicant())
+							&& invocation.getArgument(1).equals(app.getPetProfile())) {
+						return app;
+					} else {
+						return null;
+					}
+				});
 
-			PetProfile pp = new PetProfile();
-			pp.setName(ppName);
-			pp.setDescription(ppDesc);
-			pp.setBreed(ppBreed);
-
-			AdoptionApplication app = new AdoptionApplication();
-			app.setApplicant(ru);
-			app.setPetProfile(pp);
-			app.setIsApproved(isApproved);
-			app.setIsConfirmed(isConfirmed);
-
-			return app;
-		});
-		
 		lenient().when(appDao.findByApplicant(any(RegularUser.class))).thenAnswer((InvocationOnMock invocation) -> {
-			RegularUser ru = new RegularUser();
-			ru.setName(ruName);
-			ru.setHomeDescription(ruDesc);
-			ru.setPhoneNumber(phoneNum);
-
-			PetProfile pp = new PetProfile();
-			pp.setName(ppName);
-			pp.setDescription(ppDesc);
-			pp.setBreed(ppBreed);
 
 			List<AdoptionApplication> apps = new ArrayList<AdoptionApplication>();
-			AdoptionApplication app = new AdoptionApplication();
-			app.setApplicant(ru);
-			app.setPetProfile(pp);
+			AdoptionApplication app = setUpApplication();
 			apps.add(app);
 			return apps;
 		});
 
 		lenient().when(appDao.findByPetProfile(any(PetProfile.class))).thenAnswer((InvocationOnMock invocation) -> {
-			RegularUser ru = new RegularUser();
-			ru.setName(ruName);
-			ru.setHomeDescription(ruDesc);
-			ru.setPhoneNumber(phoneNum);
-
-			PetProfile pp = new PetProfile();
-			pp.setName(ppName);
-			pp.setDescription(ppDesc);
-			pp.setBreed(ppBreed);
 
 			List<AdoptionApplication> apps = new ArrayList<AdoptionApplication>();
-			AdoptionApplication app = new AdoptionApplication();
-			app.setApplicant(ru);
-			app.setPetProfile(pp);
-			app.setIsApproved(isApproved);
-			app.setIsConfirmed(isConfirmed);
+			AdoptionApplication app = setUpApplication();
 			apps.add(app);
 			return apps;
+		});
+
+		lenient().when(acDao.findAccountByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+			RegularUser ru = setUpRegularUser(Username1, ruName1, ruDesc1, phoneNum1);
+			if (invocation.getArgument(0).equals(Username1)) {
+				Account ac = ru.getUser();
+				return ac;
+			} else {
+				return null;
+			}
+		});
+		lenient().when(ruDao.findRegularUserByUser(any(Account.class))).thenAnswer((InvocationOnMock invocation) -> {
+			RegularUser ru = setUpRegularUser(Username1, ruName1, ruDesc1, phoneNum1);
+			if (invocation.getArgument(0).equals(ru.getUser())) {
+				return ru;
+			} else {
+				return null;
+			}
+		});
+		lenient().when(ppDao.findPetProfileById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+			if (invocation.getArgument(0).equals(ppId2)) {
+				RegularUser poster = setUpRegularUser(Username2, ruName2, ruDesc2, phoneNum2);
+				PetProfile pp = setUpPetProfile(poster, ppId2, ppName, ppDesc, ppBreed);
+				return pp;
+			} else {
+				return null;
+			}
 		});
 
 		// Whenever anything is saved, just return the parameter object
@@ -128,49 +140,73 @@ public class TestAdoptionApplicationService {
 			return invocation.getArgument(0);
 		};
 		lenient().when(appDao.save(any(AdoptionApplication.class))).thenAnswer(returnParameterAsAnswer);
-		// lenient().when(eventDao.save(any(Event.class))).thenAnswer(returnParameterAsAnswer);
-		// lenient().when(registrationDao.save(any(Registration.class))).thenAnswer(returnParameterAsAnswer);
-    }
+		lenient().when(acDao.save(any(Account.class))).thenAnswer(returnParameterAsAnswer);
+		lenient().when(ppDao.save(any(PetProfile.class))).thenAnswer(returnParameterAsAnswer);
+		lenient().when(ruDao.save(any(RegularUser.class))).thenAnswer(returnParameterAsAnswer);
+	}
 
-    @Test
-    public void testApply(){
+	@Test
+	public void testCreateApplication() {
+		Calendar c = Calendar.getInstance();
+		c.set(2017, Calendar.MARCH, 16, 9, 0, 0);
+		Date postDate = new Date(c.getTimeInMillis());
+		Time postTime = new Time(c.getTimeInMillis());
 
-	// 	Calendar c = Calendar.getInstance();
-	// 	c.set(2017, Calendar.MARCH, 16, 9, 0, 0);
-	// 	Date postDate = new Date(c.getTimeInMillis());
-	// 	Time postTime = new Time(c.getTimeInMillis());
-	   
-	// 	AdoptionApplication app = null;
+		AdoptionApplication app = null;
 
-	// 	String curUser = "Edem";
-	// 	int petId = 2;
-	
-	// 	try {
-    //         app = appService.createApplication(postDate, postTime, curUser, petId);
-    //     } catch (IllegalArgumentException e) {
-    //         // Check that no error occurred
-    //         fail();
-    //     }
+		String curUser = Username1;
+		int petId = 3;
 
-    //     // Comparing the newly updated ones
-    //     assertNotNull(app);
-    //     // assertEquals(postDate, app.getPostDate()
-    //     assertEquals(homedescription, regularUser.getHomeDescription());
-    //     assertEquals(phonenumber, regularUser.getPhoneNumber());
-	
+		try {
+			app = appService.createApplication(postDate, postTime, curUser, petId);
+		} catch (IllegalArgumentException e) {
+			fail(); // Check that no error occurred
+		}
+		assertNotNull(app);
+		assertEquals(postDate, app.getPostDate());
+		assertEquals(postTime, app.getPostTime());
+		assertEquals(petId, app.getPetProfile().getId());
 
-	// 	checkResultRegister(registration, nameP, nameE, eventDate, startTime, endTime);
-	// }
+	}
 
-	// private void checkResultRegister(Registration registration, String nameP, String nameE, Date eventDate,
-	// 		Time startTime, Time endTime) {
-	// 	assertNotNull(registration);
-	// 	assertEquals(nameP, registration.getPerson().getName());
-	// 	assertEquals(nameE, registration.getEvent().getName());
-	// 	assertEquals(eventDate.toString(), registration.getEvent().getDate().toString());
-	// 	assertEquals(startTime.toString(), registration.getEvent().getStartTime().toString());
-	// 	assertEquals(endTime.toString(), registration.getEvent().getEndTime().toString());
-	// }
+	/**
+	 * Helper methods to create stubs and setup Mockito for Dao
+	 * 
+	 * @return
+	 */
+	private AdoptionApplication setUpApplication() {
+		RegularUser applicant = setUpRegularUser(Username1, ruName1, ruDesc1, phoneNum1);
+		RegularUser poster = setUpRegularUser(Username2, ruName2, ruDesc2, phoneNum2);
+		PetProfile petprof = setUpPetProfile(poster, ppId, ppName, ppDesc, ppBreed);
 
-    }
+		AdoptionApplication app = new AdoptionApplication();
+		app.setId(appId);
+		app.setApplicant(applicant);
+		app.setPetProfile(petprof);
+		app.setIsApproved(isApproved);
+		app.setIsConfirmed(isConfirmed);
+		return app;
+	}
+
+	private PetProfile setUpPetProfile(RegularUser poster, int id, String ppname2, String ppdesc2, String ppbreed2) {
+		PetProfile pp = new PetProfile();
+		pp.setId(id);
+		pp.setName(ppName);
+		pp.setDescription(ppDesc);
+		pp.setBreed(ppBreed);
+		pp.setPoster(poster);
+		return pp;
+	}
+
+	private RegularUser setUpRegularUser(String username, String regName, String desc, int phoneNum) {
+		Account acc = new Account();
+		acc.setUsername(username);
+		RegularUser ru = new RegularUser();
+		ru.setName(regName);
+		ru.setHomeDescription(desc);
+		ru.setPhoneNumber(phoneNum);
+		ru.setUser(acc);
+		return ru;
+	}
+
 }
