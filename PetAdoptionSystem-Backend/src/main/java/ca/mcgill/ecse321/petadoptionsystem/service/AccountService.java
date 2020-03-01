@@ -26,9 +26,9 @@ public class AccountService {
         String error = "";
 
         // check if valid inputs
-        if (username == null || username.length() == 0) error += "The username cannot be empty.\n";
-        if (passwordHash == null || passwordHash.length() == 0) error += "The password hash cannot be empty.\n";
-        if (email == null || email.length() == 0) error += "The email address cannot be empty.\n";
+        if (username == null || username.trim().length() == 0) error += "The username cannot be empty.\n";
+        if (passwordHash == null || passwordHash.trim().length() == 0) error += "The password hash cannot be empty.\n";
+        if (email == null || email.trim().length() == 0) error += "The email address cannot be empty.\n";
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
@@ -92,7 +92,7 @@ public class AccountService {
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         // check if valid username
-        if (username == null || username.length() == 0) error += "The username cannot be empty.\n";
+        if (username == null || username.trim().length() == 0) error += "The username cannot be empty.\n";
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
@@ -109,7 +109,7 @@ public class AccountService {
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         // check if valid username
-        if (email == null || email.length() == 0) error += "The email address cannot be empty.\n";
+        if (email == null || email.trim().length() == 0) error += "The email address cannot be empty.\n";
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
@@ -130,7 +130,7 @@ public class AccountService {
             error += "No user associated with username" + username;
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        if (newEmail == null || newEmail.length() == 0) error += "The email address cannot be empty.\n";
+        if (newEmail == null || newEmail.trim().length() == 0) error += "The email address cannot be empty.\n";
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
