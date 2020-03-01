@@ -60,11 +60,11 @@ public class DonationService {
 
         Account act =  actRepo.findAccountByUsername(username);
         RegularUser regUser = regUserRepo.findRegularUserByUser(act);
-        if(donationRepo.getDonationsByUser(regUser) == null)
+        if(donationRepo.findDonationsByUser(regUser) == null)
             error += "No donations associated with this username.\n";
         if(error.length() > 0) throw new IllegalArgumentException(error);
 
-        return toList(donationRepo.getDonationsByUser(regUser));
+        return toList(donationRepo.findDonationsByUser(regUser));
     }
 
 

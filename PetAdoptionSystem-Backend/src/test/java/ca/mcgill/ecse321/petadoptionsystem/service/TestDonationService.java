@@ -4,10 +4,8 @@ import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.DonationRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
-import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import ca.mcgill.ecse321.petadoptionsystem.model.Donation;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,10 +15,8 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Time;
-import java.time.LocalTime;
 import java.util.*;
 import java.sql.Date;
 
@@ -44,9 +40,8 @@ public class TestDonationService {
     private DonationService donationService;
 
     private static final String USERNAME1 = "Will";
-    private static final String USERNAME2 = "Samantha";
+    private static final String NON_EXISTING_USERNAME = "Samantha";
     private static final float AMOUNT1 = 50;
-    private static final float AMOUNT2 = 100;
 
     @AfterEach
     public void clearDataBase(){
@@ -73,7 +68,7 @@ public class TestDonationService {
             return regularUser;
         });
 
-        lenient().when(donationDao.getDonationsByUser(any(RegularUser.class))).thenAnswer((InvocationOnMock invocation) ->
+        lenient().when(donationDao.findDonationsByUser(any(RegularUser.class))).thenAnswer((InvocationOnMock invocation) ->
         {
             Account account = new Account();
             account.setUsername(USERNAME1);
@@ -81,12 +76,12 @@ public class TestDonationService {
             regularUser.setUser(account);
             Donation donation = new Donation();
             donation.setAmount(AMOUNT1);
+
             donation.setUser(regularUser);
 
             Set<Donation> donations = new HashSet<Donation>();
             donations.add(donation);
-            regularUser.setDonation(donations);
-            //return donation;
+
             return toList(donations);
         });
 
@@ -98,9 +93,9 @@ public class TestDonationService {
             regularUser.setUser(account);
             Donation donation = new Donation();
             donation.setAmount(AMOUNT1);
-            Set<Donation> donations = new HashSet<Donation>();
-            donations.add(donation);
-            regularUser.setDonation(donations);
+
+            donation.setUser(regularUser);
+
             return donation;
         });
 
@@ -113,25 +108,12 @@ public class TestDonationService {
             Donation donation1 = new Donation();
             donation1.setAmount(AMOUNT1);
 
+            donation1.setUser(regularUser1);
+
             Set<Donation> donations1 = new HashSet<Donation>();
             donations1.add(donation1);
-            regularUser1.setDonation(donations1);
 
-            Account account2 = new Account();
-            account2.setUsername(USERNAME2);
-            RegularUser regularUser2 = new RegularUser();
-            regularUser2.setUser(account2);
-            Donation donation2 = new Donation();
-            donation2.setAmount(AMOUNT2);
-
-            Set<Donation> donations2 = new HashSet<Donation>();
-            donations2.add(donation2);
-            regularUser2.setDonation(donations2);
-
-//            Set<Donation> allDonations = new HashSet<Donation>();
-//            allDonations.add()
-
-            return toList(donations2);
+            return toList(donations1);
         });
 
         Answer<?> returnParam = (InvocationOnMock invocation) -> {
@@ -141,18 +123,27 @@ public class TestDonationService {
 
     }
 
-//    @Test
-//    public void testExistingDonation(){
-//        assertEquals(donationService.getDonationsByUsername(USERNAME1).get(0).getUser().getUser().getUsername(), USERNAME1);
-//    }
+    @Test
+    public void testNonExistingDonation(){
+        String error = "";
+        List<Donation> donation = null;
+        try {
+            donation = donationService.getDonationsByUsername(NON_EXISTING_USERNAME);
+        } catch(IllegalArgumentException e){
+            error = e.getMessage();
+        }
+        assertNull(donation);
+        assertEquals("No user associated with this username.\n", error);
+
+    }
 
     @Test
     public void testExistingDonation(){
         assertEquals(donationService.getDonationsByUsername(USERNAME1).get(0).getUser().getUser().getUsername(), USERNAME1);
     }
-
+    
     @Test
-    public void createDonation(){
+    public void testCreateDonation(){
         //String username = "Bill";
         float amount = 150;
         Calendar cal = Calendar.getInstance();
@@ -176,6 +167,14 @@ public class TestDonationService {
         assertEquals(USERNAME1, donation.getUser().getUser().getUsername());
         assertEquals(donId, donation.getId());
 
+    }
+
+    @Test
+    public void testGetAllDonation(){
+        List<Donation> donations = donationService.getAllDonation();
+        assertEquals(1, donations.size());
+        int donId = donationService.getDonationsByUsername(USERNAME1).get(0).getId();
+        assertEquals(donations.get(0).getId(), donId);
     }
 
     private <T> List<T> toList(Iterable<T> iterable){
