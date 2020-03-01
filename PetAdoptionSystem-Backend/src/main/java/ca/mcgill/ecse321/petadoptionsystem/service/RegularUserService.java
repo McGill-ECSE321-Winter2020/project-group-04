@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hibernate.internal.util.collections.ArrayHelper.toList;
@@ -34,13 +35,17 @@ public class RegularUserService {
 
         String error = "";
 
-        if (accountRepository.existsByUsername(username)) error += "No existing user with the username" + username;
+        if (username == null || username.trim().length() == 0)
+            error += "Username field cannot be empty !";
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        if (!accountRepository.existsByUsername(username))
+            error += "No existing user with the given username";
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         Account account = accountRepository.findAccountByUsername(username);
-        RegularUser regularuser = regularuserrepository.findRegularUserByUser(account);
 
-        return(regularuser);
+        return(regularuserrepository.findRegularUserByUser(account));
     }
 
     /**
@@ -66,7 +71,12 @@ public class RegularUserService {
 
         String error = "";
 
-        if (accountRepository.existsByUsername(username)) error += "No user associated with username" + username;
+        if (username == null || username.trim().length() == 0)
+            error += "Username field cannot be empty !";
+        if (error.length() > 0) throw new IllegalArgumentException(error);
+
+        if (!accountRepository.existsByUsername(username))
+            error += "No user associated with username" + username;
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         Account account = accountRepository.findAccountByUsername(username);
@@ -87,5 +97,12 @@ public class RegularUserService {
 
     }
 
+    private <T> List<T> toList(Iterable<T> iterable){
+        List<T> resultList = new ArrayList<T>();
+        for (T t : iterable) {
+            resultList.add(t);
+        }
+        return resultList;
+    }
 
 }

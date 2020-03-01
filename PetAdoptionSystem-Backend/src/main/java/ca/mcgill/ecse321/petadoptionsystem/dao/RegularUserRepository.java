@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 
+import java.util.List;
+
 
 @Repository
 public interface RegularUserRepository extends CrudRepository<RegularUser, Integer> {
