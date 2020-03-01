@@ -161,10 +161,12 @@ public class PetProfileService {
         String error = "";
         if (!petprofilerepository.existsByBreed(breed))
             error += "There is no such breed in our database";
+
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         if (petprofilerepository.findAllPetProfileByBreed(breed) == null )
             error += "No Pet Profiles associated with this breed";
+
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         return toList(petprofilerepository.findAllPetProfileByBreed(breed));

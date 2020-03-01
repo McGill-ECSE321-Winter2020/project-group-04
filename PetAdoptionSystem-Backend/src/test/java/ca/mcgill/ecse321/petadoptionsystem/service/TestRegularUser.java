@@ -4,7 +4,6 @@ package ca.mcgill.ecse321.petadoptionsystem.service;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
-import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,20 +19,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 
 @ExtendWith(MockitoExtension.class)
 public class TestRegularUser {
 
     @Mock
-    private AccountRepository accountRepository;
+    private RegularUserRepository regularUserRepository;
 
     @Mock
-    private RegularUserRepository regularUserRepository;
+    private AccountRepository accountRepository;
 
     @InjectMocks
     private RegularUserService regularUserService;
@@ -43,11 +42,11 @@ public class TestRegularUser {
     private static final String House = "little house";
     private static final int phone= 123;
 
+
     @BeforeEach
     public void setMockOutput(){
         lenient().when(regularUserRepository.findRegularUserByUser(any(Account.class))).thenAnswer((InvocationOnMock invocation) ->
         {
-            if (invocation.getArgument(0).equals(anyInt())){
                 Account account = new Account();
                 account.setUsername(Username);
                 RegularUser regUser = new RegularUser();
@@ -56,10 +55,44 @@ public class TestRegularUser {
                 regUser.setHomeDescription(House);
                 regUser.setPhoneNumber(phone);
                 return regUser;
-            } else {
-                return null;
-            }
         });
+
+        lenient().when(accountRepository.existsByUsername(anyString())).thenAnswer((InvocationOnMock invocation) ->
+        {
+            if (invocation.getArgument(0).equals(Username)){
+                return true;
+            }
+            return false;
+        });
+
+        lenient().when(accountRepository.findAccountByUsername(anyString())).thenAnswer((InvocationOnMock invocation) ->
+        {
+                Account account = new Account();
+                account.setUsername(Username);
+                RegularUser regUser = new RegularUser();
+                regUser.setUser(account);
+                regUser.setName(Name);
+                regUser.setHomeDescription(House);
+                regUser.setPhoneNumber(phone);
+                return account;
+
+        });
+
+        lenient().when(regularUserRepository.findAll()).thenAnswer((InvocationOnMock invocation) ->
+        {
+            Account account = new Account();
+            account.setUsername(Username);
+            RegularUser regUser = new RegularUser();
+            regUser.setUser(account);
+            regUser.setName(Name);
+            regUser.setHomeDescription(House);
+            regUser.setPhoneNumber(phone);
+            List<RegularUser> lst = new ArrayList<RegularUser>();
+            lst.add(regUser);
+            return lst;
+
+        });
+
         Answer<?> returnParam = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
@@ -167,7 +200,30 @@ public class TestRegularUser {
     }
 
     @Test
-    public void testgetAllRegularUsers() {
+    public void testUpdateRegularUserNonExistingUsername() {
+
+        String name = null;
+        String username = "Edem";
+        String homedescription = null;
+        int phonenumber = 0;
+        String error = "";
+
+        RegularUser regularUser = null;
+
+        try {
+            regularUser = regularUserService.updateRegularUser(username, name, homedescription, phonenumber);
+        } catch (IllegalArgumentException e) {
+            error += e.getMessage();
+            // Check that no error occurred
+        }
+
+        assertNull(regularUser);
+
+        assertEquals("No user associated with username" + username, error);
+    }
+
+    @Test
+    public void testGetAllRegularUsers() {
         List<RegularUser> regularUsers = regularUserService.getAllRegularUsers();
 
         assertEquals(1, regularUsers.size());
@@ -177,7 +233,7 @@ public class TestRegularUser {
     }
 
     @Test
-    public void testgetRegularUserByUsername() {
+    public void testGetRegularUserByUsername() {
         assertEquals(1, regularUserService.getAllRegularUsers().size());
 
         RegularUser regularUser = null;
@@ -189,11 +245,11 @@ public class TestRegularUser {
         }
 
         assertNotNull(regularUser);
-        assertEquals(regularUser, regularUserService.getRegularUserByUsername(Username));
+        assertEquals(regularUser.getName(), regularUserService.getRegularUserByUsername(Username).getName());
     }
 
     @Test
-    public void testgetRegularUserByUsernameEmptyUsername() {
+    public void testGetRegularUserByUsernameEmptyUsername() {
         assertEquals(1, regularUserService.getAllRegularUsers().size());
 
         String username = "";
@@ -211,7 +267,7 @@ public class TestRegularUser {
     }
 
     @Test
-    public void testgetRegularUserByUsernameSpaceUsername() {
+    public void testGetRegularUserByUsernameSpaceUsername() {
         assertEquals(1, regularUserService.getAllRegularUsers().size());
 
         String username = " ";
@@ -229,7 +285,7 @@ public class TestRegularUser {
     }
 
     @Test
-    public void testgetRegularUserByUsernameNullUsername() {
+    public void testGetRegularUserByUsernameNullUsername() {
         assertEquals(1, regularUserService.getAllRegularUsers().size());
 
         String username = null;
@@ -247,10 +303,10 @@ public class TestRegularUser {
     }
 
     @Test
-    public void testgetRegularUserByUsernameNonExistingUsername() {
+    public void testGetRegularUserByUsernameNonExistingUsername() {
         assertEquals(1, regularUserService.getAllRegularUsers().size());
 
-        String username = "Juanito";
+        String username = "Juanita";
         String error = "";
         RegularUser regularUser = null;
 
@@ -261,7 +317,7 @@ public class TestRegularUser {
         }
 
         assertNull(regularUser);
-        assertEquals(error, "No existing user with the username" + username);
+        assertEquals(error, "No existing user with the given username");
     }
 
 

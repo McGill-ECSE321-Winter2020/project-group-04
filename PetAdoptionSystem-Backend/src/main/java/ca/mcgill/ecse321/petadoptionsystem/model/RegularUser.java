@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.petadoptionsystem.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -64,4 +66,5 @@ public class RegularUser extends UserRole {
     public int getPhoneNumber() {
         return this.phoneNumber;
     }
+
 }
