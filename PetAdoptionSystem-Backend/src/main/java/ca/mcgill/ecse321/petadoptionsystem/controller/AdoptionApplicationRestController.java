@@ -27,6 +27,13 @@ import ca.mcgill.ecse321.petadoptionsystem.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 
+/**
+ * The AdoptionApplicationRestController implements RESTful services for the AdoptionApplicationService
+ * class of the PetAdoptionSystem backend. It maps HTTP requests to method calls in
+ * the business methods.
+ * 
+ * @author Edem Nuviadenu
+ */
 @CrossOrigin(origins = "*")
 @RestController
 public class AdoptionApplicationRestController {
@@ -40,6 +47,12 @@ public class AdoptionApplicationRestController {
     @Autowired
     private PetProfileService profileservice;
 
+    /**
+     * This method retrieves a list of all the AdoptionApplications in the PetAdoptionSystem.
+     * 
+     * @return List<AdoptionApplicationDTO> The list of AdoptionApplication DTOs.
+     * @throws IllegalArgumentException
+     */
     @GetMapping(value = { "/applications", "/applications/" })
     public List<AdoptionApplicationDTO> getAllApplications() throws IllegalArgumentException {
         List<AdoptionApplicationDTO> appDtos = new ArrayList<>();
@@ -49,12 +62,27 @@ public class AdoptionApplicationRestController {
         return appDtos;
     }
 
+    /**
+     * This method retrieves the AdoptionApplication with the given id.
+     * 
+     * @param id The input id.
+     * @return AdoptionApplicationDTO The DTO of the application whose id was given.
+     * @throws IllegalArgumentException
+     */
     @GetMapping(value = { "/application/{id}", "/application/{id}/" })
     public AdoptionApplicationDTO getApplicationbyId(@PathVariable("id") int id) throws IllegalArgumentException {
         AdoptionApplication app = appservice.getApplicationbyId(id);
         return convertToDto(app);
     }
 
+    /**
+     * This method retrieves the application associated with a given RegularUser and a given PetProfile.
+     * 
+     * @param ruDTO The DTO of the given RegularUser.
+     * @param ppDTO The DTO of the given PetProfile.
+     * @return AdoptionApplicationDTO The DTO of the associated AdoptionApplication.
+     * @throws IllegalArgumentException
+     */
     @GetMapping(value = { "/application", "/application/" })
     public AdoptionApplicationDTO getApplication(RegularUserDTO ruDTO, PetProfileDTO ppDTO)
             throws IllegalArgumentException {
@@ -73,6 +101,17 @@ public class AdoptionApplicationRestController {
         return convertToDto(app);
     }
 
+    /**
+     * This method creates an AdoptionApplication with a corresponsing RegularUser and Petprofile.
+     * It also stamps it with a given post date and time.
+     * 
+     * @param postDate The given date stamp.
+     * @param postTime The given time stamp.
+     * @param regUserDTO The given RegularUser.
+     * @param petprofDTO The given PetProfile.
+     * @return AdoptionApplicationDTO The created application.
+     * @throws IllegalArgumentException
+     */
     @PostMapping(value = { "/apply", "/apply/" })
     public AdoptionApplicationDTO createApplication(@RequestParam Date postDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime postTime,
@@ -90,6 +129,15 @@ public class AdoptionApplicationRestController {
         return convertToDto(a);
     }
 
+    /**
+     * This method deletes the AdoptionApplication given its DTO and RegularUser and PetProfile.
+     * 
+     * @param appDTO The given DTO of the AdoptionApplication.
+     * @param regUserDTO The given DTO of the RegularUser.
+     * @param petprofDTO The given DTO of the PetProfile.
+     * @return boolean The result of if the deletion was successful.
+     * @throws IllegalArgumentException
+     */
     @DeleteMapping(value = { "/deleteApplication", "/deleteApplication/" })
     public boolean deleteApplication(AdoptionApplicationDTO appDTO, RegularUserDTO regUserDTO, PetProfileDTO petprofDTO)
             throws IllegalArgumentException {
@@ -106,6 +154,13 @@ public class AdoptionApplicationRestController {
         return result;
     }
 
+    /**
+     * This method retrieves all the applications associated with a particular RegularUser.
+     * 
+     * @param regUserDTO The DTO of the given RegularUser.
+     * @return List<AdoptionApplicationDTO> The list of application associated with the given RegularUser.
+     * @throws IllegalArgumentException
+     */
     @GetMapping(value = { "/browse/applications/applicant", "/browse/applications/applicant/" })
     public List<AdoptionApplicationDTO> browseApplicationsOfApplicant(RegularUserDTO regUserDTO)
             throws IllegalArgumentException {
@@ -122,6 +177,12 @@ public class AdoptionApplicationRestController {
         return appDtos;
     }
 
+    /**
+     * This method retrieves a list of all applications corresponding to a particular PetProfile.
+     * @param petprofDTO The DTO of the given PetProfile.
+     * @return List<AdoptionApplicationDTO> The list of applications to the given PetProfile.
+     * @throws IllegalArgumentException
+     */
     @GetMapping(value = { "/browse/applications/petprofile", "/browse/applications/petprofile/" })
     public List<AdoptionApplicationDTO> browseApplicationsToPetProfile(PetProfileDTO petprofDTO)
             throws IllegalArgumentException {
@@ -137,6 +198,14 @@ public class AdoptionApplicationRestController {
         return appDtos;
     }
 
+    /**
+     * This method updates the status of a given AdoptionApplication as approved or confirmed.
+     * 
+     * @param appDTO The DTO of the given application.
+     * @param approve The intended value of the application's "isApproved" status.
+     * @param confirm The intended value of the application's "isConfirmed" status.
+     * @return AdoptionApplicationDTO The updated application.
+     */
     @PutMapping(value = { "/updateApplication", "/updateApplication/" })
     public AdoptionApplicationDTO updateApplication(AdoptionApplicationDTO appDTO,
             @RequestParam(value = "approve", required = false, defaultValue = "false") boolean approve,
@@ -152,6 +221,11 @@ public class AdoptionApplicationRestController {
 
     }
 
+    /**
+     * This helper method
+     * @param appDto
+     * @return
+     */
     private AdoptionApplication convertToDomainObject(AdoptionApplicationDTO appDto) {
         List<AdoptionApplication> allapps = appservice.getAllApplications();
         for (AdoptionApplication app : allapps) {
@@ -162,6 +236,11 @@ public class AdoptionApplicationRestController {
         return null;
     }
 
+    /**
+     * This helper method turns a given AdoptionApplication into its DTO form.
+     * @param app The given application.
+     * @return AdoptionApplicationDTO The DTO of the application.
+     */
     private AdoptionApplicationDTO convertToDto(AdoptionApplication app) {// TODO
         if (app == null) {
             throw new IllegalArgumentException("There is no such Application!");
@@ -174,6 +253,11 @@ public class AdoptionApplicationRestController {
         return appDto;
     }
 
+    /**
+     * This helper method converts a given PetProfile to its DTO.
+     * @param petProfile The given PetProfile.
+     * @return PetProfileDTO The DTO of the PetProfile.
+     */
     private PetProfileDTO convertToDto(PetProfile petProfile) {// TODO
         if (petProfile == null) {
             throw new IllegalArgumentException("There is no Pet Profile.");
@@ -187,6 +271,12 @@ public class AdoptionApplicationRestController {
         return profileDTO;
     }
 
+    /**
+     * This helper method converts a given RegularUser to its DTO.
+     * 
+     * @param applicant The given RegularUser.
+     * @return RegularUserDTO The DTO of the RegularUser.
+     */
     private RegularUserDTO convertToDto(RegularUser applicant) {// TODO
         if (applicant == null) {
             throw new IllegalArgumentException("There is no Applicant.");

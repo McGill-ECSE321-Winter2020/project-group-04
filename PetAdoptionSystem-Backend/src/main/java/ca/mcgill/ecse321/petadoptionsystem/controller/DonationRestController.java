@@ -36,6 +36,7 @@ public class DonationRestController {
     // @Autowired
     // private RegularUserService reguserService;
     /**
+     * This method creates a dontion with a given amount, timestamp, and RegularUser.
      * 
      * @param name
      * @param date
@@ -56,6 +57,7 @@ public class DonationRestController {
         return convertDonationToDTO(d);
     }
     /**
+     * This method gets all donations in the system.
      * 
      * @return list of donations
      */
@@ -77,7 +79,8 @@ public class DonationRestController {
     }
     
     /**
-     * @param d
+     * This method converts a given Donation to its DTO
+     * @param d The Donation.
      * @throws IllegalArgumentException
      */
     public DonationDTO convertDonationToDTO(Donation d) {
