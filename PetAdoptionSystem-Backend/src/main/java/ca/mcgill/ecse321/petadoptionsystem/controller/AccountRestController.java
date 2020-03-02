@@ -3,6 +3,8 @@ package ca.mcgill.ecse321.petadoptionsystem.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
+import ca.mcgill.ecse321.petadoptionsystem.service.PetAdoptionSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,9 @@ public class AccountRestController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private PetAdoptionSystemService petService;
     
     /**
      * This method is to retrieve all accounts within the PetAdoptionSystem.
@@ -47,71 +52,36 @@ public class AccountRestController {
         return accountDTOs;
     }
 
-    /**
-     * This method is to retrieve the account corresponding to a particular username.
-     * 
-     * @param username The input username to search for.
-     * @return AccountDTO The account with the input username.
-     * @throws IllegalArgumentException
-     */
-    @GetMapping(value = {"/account/username/{username}", "/account/username/{username}/"})
-    public AccountDTO getAccountByUsername(@PathVariable("username") String username) throws IllegalArgumentException {
+    @GetMapping(value = {"/account/username/", "/account/username/"})
+    public AccountDTO getAccountByUsername(@RequestParam("username") String username) throws IllegalArgumentException {
         return convertToDTO(accountService.getAccountByUsername(username));
     }
 
-    /**
-     * This method is to retrieve the account corresponding to a particular email address.
-     * 
-     * @param email The input email address to search for.
-     * @return AccountDTO The account with the input email address.
-     * @throws IllegalArgumentException
-     */
-    @GetMapping(value = {"/account/email/{email}", "/account/email/{email}/"})
-    public AccountDTO getAccountsByEmail(@PathVariable("email") String email) throws IllegalArgumentException {
+    @GetMapping(value = {"/account/email/", "/account/email/"})
+    public AccountDTO getAccountsByEmail(@RequestParam("email") String email) throws IllegalArgumentException {
         return convertToDTO(accountService.getAccountByEmail(email));
     }
 
     @PostMapping(value = {"/account/createregular", "/account/createregular/"})
     public AccountDTO createRegularUserAccount(@RequestParam("username") String username, @RequestParam("passwordHash") String passwordHash, @RequestParam("email") String email) {
-        return convertToDTO(accountService.createRegularUserAccount(username, passwordHash, email));
+        PetAdoptionSystem pas = petService.getPetAdoptionSystem();
+        return convertToDTO(accountService.createRegularUserAccount(pas, username, passwordHash, email));
     }
 
-    /**
-     * This method is to create an instance of Account with the given username, email address, and password hash.
-     * The created account is associated with a created instance of Admin.
-     * 
-     * @param username The input username the new account will have.
-     * @param passwordHash The input password hash the new account will have.
-     * @param email The input email address the new account will have.
-     * @return AccountDTO The created account DTO.
-     */
-    @PostMapping(value = {"/account/createadmin/{username}+{email}+{passwordHash}", "/account/createadmin/{username}+{email}+{passwordHash}/"})
-    public AccountDTO createAdminAccount(@PathVariable("username") String username, @PathVariable("passwordHash") String passwordHash, @PathVariable("email") String email) {
-        return convertToDTO(accountService.createAdminAccount(username, passwordHash, email));
+    @PostMapping(value = {"/account/createadmin/", "/account/createadmin/"})
+    public AccountDTO createAdminAccount(@RequestParam("username") String username, @RequestParam("passwordHash") String passwordHash, @RequestParam("email") String email) {
+        PetAdoptionSystem pas = petService.getPetAdoptionSystem();
+        return convertToDTO(accountService.createRegularUserAccount(pas, username, passwordHash, email));
     }
 
-    /**
-     * This method finds the Account with the input username and updates its email address
-     * to be the input email address.
-     * 
-     * @param username The username of the Account whose email address will be updated.
-     * @param newEmail The new email address to supply to the correct account.
-     */
-    @PutMapping(value = {"/account/updateemail/{username}+{newEmail}", "/account/updateemail/{username}+{newEmail}/"})
-    public void updateEmail(@PathVariable("username") String username, @PathVariable("newEmail") String newEmail) {
+    @PutMapping(value = {"/account/updateemail/", "/account/updateemail/"})
+    public void updateEmail(@RequestParam("username") String username, @RequestParam("newEmail") String newEmail) {
         accountService.updateEmail(username, newEmail);
-        return;
     }
 
-    /**
-     * This method deletes the Account with the input username.
-     * 
-     * @param username The username of the Account to be deleted.
-     */
-    @PostMapping(value = {"/account/delete/{username}", "/account/delete/{username}/"})
-    public void deleteAccount(@PathVariable("username") String username) {
+    @PostMapping(value = {"/account/delete/", "/account/delete/"})
+    public void deleteAccount(@RequestParam("username") String username) {
         accountService.deleteAccount(username);
-        return;
     }
 
     /**

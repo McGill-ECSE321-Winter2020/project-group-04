@@ -44,6 +44,9 @@ public class TestAccountService {
     @InjectMocks
     private AccountService accountService;
 
+    @Mock
+    private PetAdoptionSystemService petAdoptionSystemService;
+
     private static final String USERNAME = "Bathsheba_Everdene";
     private static final String EMAIL = "bathsheba.everdene@gmail.com";
     private static final String PASSWORDHASH = "the HASH slinging SLASHer";
@@ -62,6 +65,7 @@ public class TestAccountService {
                 account.setEmail(EMAIL);
                 account.setPasswordHash(PASSWORDHASH);
                 account.setUserRole(new RegularUser());
+                account.setPetAdoptionSystem(petAdoptionSystemService.getPetAdoptionSystem());
                 return account;
             } else {
                 return null;
@@ -145,7 +149,7 @@ public class TestAccountService {
         Account account = null;
         
         try {
-            account = accountService.createRegularUserAccount(username, passwordHash, email);
+            account = accountService.createRegularUserAccount(petAdoptionSystemService.getPetAdoptionSystem(), username, passwordHash, email);
         } catch (IllegalArgumentException e) {
             // no error should have occurred here
             fail();
@@ -178,7 +182,7 @@ public class TestAccountService {
         String error = null;
         
         try {
-            account = accountService.createRegularUserAccount(username, passwordHash, email);
+            account = accountService.createRegularUserAccount(petAdoptionSystemService.getPetAdoptionSystem(),username, passwordHash, email);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -207,7 +211,7 @@ public class TestAccountService {
         String error = null;
         
         try {
-            account = accountService.createRegularUserAccount(username, passwordHash, email);
+            account = accountService.createRegularUserAccount(petAdoptionSystemService.getPetAdoptionSystem(),username, passwordHash, email);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -236,7 +240,7 @@ public class TestAccountService {
         String error = null;
         
         try {
-            account = accountService.createRegularUserAccount(username, passwordHash, email);
+            account = accountService.createRegularUserAccount(petAdoptionSystemService.getPetAdoptionSystem(),username, passwordHash, email);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -265,7 +269,7 @@ public class TestAccountService {
         Account account = null;
         
         try {
-            account = accountService.createAdminAccount(username, passwordHash, email);
+            account = accountService.createAdminAccount(petAdoptionSystemService.getPetAdoptionSystem(), username, passwordHash, email);
         } catch (IllegalArgumentException e) {
             // no error should have occurred here
             fail();
@@ -297,7 +301,7 @@ public class TestAccountService {
         String error = null;
         
         try {
-            account = accountService.createAdminAccount(username, passwordHash, email);
+            account = accountService.createAdminAccount(petAdoptionSystemService.getPetAdoptionSystem(),username, passwordHash, email);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -325,7 +329,7 @@ public class TestAccountService {
         String error = null;
         
         try {
-            account = accountService.createAdminAccount(username, passwordHash, email);
+            account = accountService.createAdminAccount(petAdoptionSystemService.getPetAdoptionSystem(),username, passwordHash, email);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
