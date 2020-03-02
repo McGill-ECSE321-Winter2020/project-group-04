@@ -46,10 +46,11 @@ public class PetProfileRestController {
      * @return the newly created profile
      * @throws IllegalArgumentException error
      */
-    @PostMapping(value = { "/petprofile/{username}", "/petprofile/{username}/" })
+    @PostMapping(value = { "/petprofile", "/petprofile/" })
     public PetProfileDTO createPetProfile(
-            @PathVariable("username") String username,
+            @RequestParam("username") String username,
             @RequestBody PetProfileDTO petProfileDTO,
+
             @RequestParam Date date,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime postTime)
             throws IllegalArgumentException {
