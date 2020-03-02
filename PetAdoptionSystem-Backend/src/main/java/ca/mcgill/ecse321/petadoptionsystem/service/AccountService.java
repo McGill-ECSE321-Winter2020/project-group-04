@@ -12,14 +12,24 @@ import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 
-// TODO dao and model imports
 
+/**
+ * @author Garrett Kinman
+ */
 @Service
 public class AccountService {
 
     @Autowired
     AccountRepository accountRepository;
 
+    /**
+     * 
+     * @param username of the account
+     * @param passwordHash password hash of the account
+     * @param email email address of the account
+     * @return the created account with the above attributes
+     * @throws IllegalArgumentException
+     */
     @Transactional
     public Account createRegularUserAccount(String username, String passwordHash, String email) throws IllegalArgumentException {
         
@@ -51,6 +61,14 @@ public class AccountService {
         return account;
     }
 
+    /**
+     * 
+     * @param username of the account
+     * @param passwordHash of the account
+     * @param email of the account
+     * @return the created account
+     * @throws IllegalArgumentException
+     */
     @Transactional
     public Account createAdminAccount(String username, String passwordHash, String email) throws IllegalArgumentException {
         
@@ -82,6 +100,12 @@ public class AccountService {
         return account;
     }
 
+    /**
+     * 
+     * @param username of the account we want to retrieve
+     * @return the account with that username
+     * @throws IllegalArgumentException
+     */
     @Transactional
     public Account getAccountByUsername(String username) throws IllegalArgumentException {
 
@@ -98,6 +122,12 @@ public class AccountService {
         return accountRepository.findAccountByUsername(username);
     }
 
+    /**
+     * 
+     * @param email of the account we want to retrieve
+     * @return the account with that email
+     * @throws IllegalArgumentException
+     */
     @Transactional
     public Account getAccountByEmail(String email) throws IllegalArgumentException {
 
@@ -114,11 +144,22 @@ public class AccountService {
         return accountRepository.findAccountByEmail(email);
     }
 
+    /**
+     * 
+     * @return list of all accounts
+     */
     @Transactional
     public List<Account> getAllAccounts() {
         return toList(accountRepository.findAll());
     }
 
+    /**
+     * 
+     * @param username of the account we want to update
+     * @param newEmail to change the account's email to
+     * @return the updated account
+     * @throws IllegalArgumentException
+     */
     @Transactional
     public Account updateEmail(String username, String newEmail) throws IllegalArgumentException {
         
@@ -147,6 +188,11 @@ public class AccountService {
         return account;
     }
 
+    /**
+     * 
+     * @param username of the account to delete
+     * @return the deleted account
+     */
     @Transactional
     public Account deleteAccount(String username) {
 
