@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 import ca.mcgill.ecse321.petadoptionsystem.model.Donation;
 
-import java.util.Set;
 
 
 @Repository

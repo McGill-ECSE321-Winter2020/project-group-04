@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.petadoptionsystem.controller;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
-import ca.mcgill.ecse321.petadoptionsystem.dto.PetProfileDTO;
 import ca.mcgill.ecse321.petadoptionsystem.dto.RegularUserDTO;
 import ca.mcgill.ecse321.petadoptionsystem.model.*;
 import ca.mcgill.ecse321.petadoptionsystem.service.RegularUserService;

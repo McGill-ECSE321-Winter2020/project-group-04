@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.petadoptionsystem.dto.DonationDTO;
 import ca.mcgill.ecse321.petadoptionsystem.dto.RegularUserDTO;
 import ca.mcgill.ecse321.petadoptionsystem.model.Donation;
-import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionsystem.service.DonationService;
-import ca.mcgill.ecse321.petadoptionsystem.service.RegularUserService;
 
 /**
  * @author Ousmane Baricisse

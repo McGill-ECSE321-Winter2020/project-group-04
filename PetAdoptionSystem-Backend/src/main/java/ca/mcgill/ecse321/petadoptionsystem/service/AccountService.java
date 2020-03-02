@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
-import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
-import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 
 // TODO dao and model imports

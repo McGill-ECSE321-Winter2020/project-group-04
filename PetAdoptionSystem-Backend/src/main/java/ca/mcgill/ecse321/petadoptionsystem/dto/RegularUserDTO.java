@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.petadoptionsystem.dto;
 
-import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionsystem.model.Donation;
 

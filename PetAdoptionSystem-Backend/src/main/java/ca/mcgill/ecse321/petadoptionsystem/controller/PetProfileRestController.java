@@ -4,7 +4,6 @@ import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dto.PetProfileDTO;
-import ca.mcgill.ecse321.petadoptionsystem.dto.UserRoleDTO;
 import ca.mcgill.ecse321.petadoptionsystem.model.*;
 import ca.mcgill.ecse321.petadoptionsystem.service.PetProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
