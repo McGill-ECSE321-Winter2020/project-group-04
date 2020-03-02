@@ -11,7 +11,9 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * @author Jessie Tang
+ */
 @Service
 public class AdminService {
     @Autowired
@@ -31,6 +33,11 @@ public class AdminService {
         return admins;
     }
 
+    /**
+     * 
+     * @param username of the account associated with the admin we want
+     * @return the admin whose account has the above username
+     */
     @Transactional
     public Admin getAdminByUsername(String username){
         Account account = accountRepository.findAccountByUsername(username);
