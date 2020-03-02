@@ -114,12 +114,12 @@ public class TestPetProfileService {
             }
             return false;
         });
-        lenient().when(regularUserRepository.findRegularUserByUser(any(Account.class)))
+        lenient().when(regularUserRepository.findRegularUserByClient(any(Account.class)))
                 .thenAnswer((InvocationOnMock invocation) -> {
                     Account account = new Account();
                     account.setUsername(USERNAME);
                     RegularUser regUser = new RegularUser();
-                    regUser.setUser(account);
+                    regUser.setClient(account);
                     regUser.setName(USERNAME);
                     regUser.setHomeDescription(HOUSE);
                     regUser.setPhoneNumber(PHONE);
@@ -155,7 +155,7 @@ public class TestPetProfileService {
                     Account account = new Account();
                     account.setUsername(USERNAME);
                     RegularUser regUser = new RegularUser();
-                    regUser.setUser(account);
+                    regUser.setClient(account);
                     regUser.setName(USERNAME);
                     regUser.setHomeDescription(HOUSE);
                     regUser.setPhoneNumber(PHONE);
@@ -184,7 +184,7 @@ public class TestPetProfileService {
                     Account account = new Account();
                     account.setUsername(USERNAME);
                     RegularUser regUser = new RegularUser();
-                    regUser.setUser(account);
+                    regUser.setClient(account);
                     regUser.setName(USERNAME);
                     regUser.setHomeDescription(HOUSE);
                     regUser.setPhoneNumber(PHONE);
@@ -211,7 +211,7 @@ public class TestPetProfileService {
             Account account = new Account();
             account.setUsername(USERNAME);
             RegularUser regUser = new RegularUser();
-            regUser.setUser(account);
+            regUser.setClient(account);
             regUser.setName(USERNAME);
             regUser.setHomeDescription(HOUSE);
             regUser.setPhoneNumber(PHONE);
@@ -254,7 +254,7 @@ public class TestPetProfileService {
                     Account account = new Account();
                     account.setUsername(USERNAME);
                     RegularUser regUser = new RegularUser();
-                    regUser.setUser(account);
+                    regUser.setClient(account);
                     regUser.setName(NAME);
                     regUser.setHomeDescription(HOUSE);
                     regUser.setPhoneNumber(PHONE);
@@ -266,7 +266,7 @@ public class TestPetProfileService {
                     Account account = new Account();
                     account.setUsername(USERNAME);
                     RegularUser regUser = new RegularUser();
-                    regUser.setUser(account);
+                    regUser.setClient(account);
                     regUser.setName(USERNAME);
                     regUser.setHomeDescription(HOUSE);
                     regUser.setPhoneNumber(PHONE);
@@ -300,7 +300,7 @@ public class TestPetProfileService {
         Account account = new Account();
         account.setUsername(USERNAME);
         RegularUser regUser = new RegularUser();
-        regUser.setUser(account);
+        regUser.setClient(account);
         regUser.setName(USERNAME);
         regUser.setHomeDescription(HOUSE);
         regUser.setPhoneNumber(PHONE);
@@ -341,7 +341,7 @@ public class TestPetProfileService {
         Account account = new Account();
         account.setUsername(USERNAME);
         RegularUser regUser = new RegularUser();
-        regUser.setUser(account);
+        regUser.setClient(account);
         regUser.setName(USERNAME);
         regUser.setHomeDescription(HOUSE);
         regUser.setPhoneNumber(PHONE);
@@ -524,7 +524,7 @@ public class TestPetProfileService {
         account.setUsername(USERNAME);
 
         RegularUser regUser = new RegularUser();
-        regUser.setUser(account);
+        regUser.setClient(account);
         regUser.setName(USERNAME);
         regUser.setHomeDescription(HOUSE);
         regUser.setPhoneNumber(PHONE);

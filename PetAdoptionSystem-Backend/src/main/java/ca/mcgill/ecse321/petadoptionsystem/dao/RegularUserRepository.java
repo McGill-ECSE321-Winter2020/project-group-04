@@ -14,6 +14,6 @@ public interface RegularUserRepository extends CrudRepository<RegularUser, Integ
 
 	RegularUser findRegularUserByName(String name);
 
-	RegularUser findRegularUserByUser(Account user);
+	RegularUser findRegularUserByClient(Account client);
 
 }

@@ -45,7 +45,7 @@ public class RegularUserService {
 
         Account account = accountRepository.findAccountByUsername(username);
 
-        return(regularuserrepository.findRegularUserByUser(account));
+        return(regularuserrepository.findRegularUserByClient(account));
     }
 
     /**
@@ -80,7 +80,7 @@ public class RegularUserService {
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         Account account = accountRepository.findAccountByUsername(username);
-        RegularUser regularuser = regularuserrepository.findRegularUserByUser(account);
+        RegularUser regularuser = regularuserrepository.findRegularUserByClient(account);
 
         if (name != null) {
             regularuser.setName(name);

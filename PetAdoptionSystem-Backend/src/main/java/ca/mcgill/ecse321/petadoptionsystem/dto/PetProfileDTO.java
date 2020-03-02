@@ -31,17 +31,18 @@ public class PetProfileDTO {
 
     /**
      *
-     * @param poster from user
-     * @param image from image
-     * @param application id
-     * @param name of the pet
-     * @param petType enum class
-     * @param breed attribute of pet
-     * @param description of petprofile
-     * @param id of pet
-     * @param reasonForPosting for the pet
-     * @param postDate date
-     * @param postTime time
+     * @param poster
+     * @param images
+     * @param application
+     * @param name
+     * @param petType
+     * @param breed
+     * @param description
+     * @param id
+     * @param reasonForPosting
+     * @param postDate
+     * @param postTime
+     * @param isAvailable
      */
     public PetProfileDTO(UserRole poster, HashSet<String> images, Set<AdoptionApplication> application, String name, PetType petType,
                          String breed, String description, int id, String reasonForPosting, Date postDate, Time postTime, boolean isAvailable){

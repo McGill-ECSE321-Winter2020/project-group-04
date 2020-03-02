@@ -45,12 +45,12 @@ public class TestRegularUser {
 
     @BeforeEach
     public void setMockOutput(){
-        lenient().when(regularUserRepository.findRegularUserByUser(any(Account.class))).thenAnswer((InvocationOnMock invocation) ->
+        lenient().when(regularUserRepository.findRegularUserByClient(any(Account.class))).thenAnswer((InvocationOnMock invocation) ->
         {
                 Account account = new Account();
                 account.setUsername(Username);
                 RegularUser regUser = new RegularUser();
-                regUser.setUser(account);
+                regUser.setClient(account);
                 regUser.setName(Name);
                 regUser.setHomeDescription(House);
                 regUser.setPhoneNumber(phone);
@@ -70,7 +70,7 @@ public class TestRegularUser {
                 Account account = new Account();
                 account.setUsername(Username);
                 RegularUser regUser = new RegularUser();
-                regUser.setUser(account);
+                regUser.setClient(account);
                 regUser.setName(Name);
                 regUser.setHomeDescription(House);
                 regUser.setPhoneNumber(phone);
@@ -83,7 +83,7 @@ public class TestRegularUser {
             Account account = new Account();
             account.setUsername(Username);
             RegularUser regUser = new RegularUser();
-            regUser.setUser(account);
+            regUser.setClient(account);
             regUser.setName(Name);
             regUser.setHomeDescription(House);
             regUser.setPhoneNumber(phone);

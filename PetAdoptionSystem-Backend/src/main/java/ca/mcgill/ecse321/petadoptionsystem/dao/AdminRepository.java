@@ -12,6 +12,6 @@ import java.util.List;
 public interface AdminRepository extends CrudRepository<Admin, Integer> {
     Admin findAdminById(int id);
 
-    Admin findAdminByUser(Account account);
+    Admin findAdminByClient(Account client);
 
 }

@@ -1,5 +1,8 @@
 package ca.mcgill.ecse321.petadoptionsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import net.minidev.json.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,15 +21,16 @@ public abstract class UserRole {
       this.petProfile = petProfiles;
    }
 
-   public Account user;
+   public Account client;
 
    @OneToOne(optional = false)
-   public Account getUser() {
-      return this.user;
+   @JsonBackReference
+   public Account getClient() {
+      return this.client;
    }
 
-   public void setUser(Account user) {
-      this.user = user;
+   public void setClient(Account client) {
+      this.client = client;
    }
 
    private int id;

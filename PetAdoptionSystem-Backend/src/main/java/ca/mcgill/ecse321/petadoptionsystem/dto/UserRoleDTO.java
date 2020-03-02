@@ -2,7 +2,7 @@ package ca.mcgill.ecse321.petadoptionsystem.dto;
 
 public class UserRoleDTO {
     private int id;
-    private String user;
+    private String client;
 
     /**
      * @param id UserRole id
@@ -11,8 +11,8 @@ public class UserRoleDTO {
         this.id = id;
     }
 
-    public String getUser() {
-        return this.user;
+    public String getClient() {
+        return this.client;
     }
 
 }

@@ -63,7 +63,7 @@ public class AdoptionApplicationRestController {
         if (ppDTO == null) {
             throw new NullPointerException("A pet profile is required to create an application.");
         }
-        String applicant = ruDTO.getUser();
+        String applicant = ruDTO.getClient();
         int ppId = ppDTO.getId();
 
         AdoptionApplication app = appservice.getAppbyAdopterAndPetProfile(applicant, ppId);
@@ -85,7 +85,7 @@ public class AdoptionApplicationRestController {
         Time time = Time.valueOf(localTime);
         Date date = Date.valueOf(localDate);
         
-        String applicant = regUserDTO.getUser();
+        String applicant = regUserDTO.getClient();
         int ppId = petprofDTO.getId();
         AdoptionApplication a = appservice.createApplication(date, time, applicant, ppId);
 
@@ -99,7 +99,7 @@ public class AdoptionApplicationRestController {
         if (appDTO == null) {
             throw new NullPointerException("An application is required to be deleted");
         }
-        String applicant = regUserDTO.getUser();
+        String applicant = regUserDTO.getClient();
         int ppId = petprofDTO.getId();
 
         AdoptionApplication a = appservice.getAppbyAdopterAndPetProfile(applicant, ppId);
@@ -115,7 +115,7 @@ public class AdoptionApplicationRestController {
         if (regUserDTO == null) {
             throw new NullPointerException("A user is required to browse applications.");
         }
-        String ru = regUserDTO.getUser();
+        String ru = regUserDTO.getClient();
 
         List<AdoptionApplicationDTO> appDtos = new ArrayList<>();
         for (AdoptionApplication app : appservice.getApplicationsByUser(ru)) {
@@ -193,7 +193,7 @@ public class AdoptionApplicationRestController {
         if (applicant == null) {
             throw new IllegalArgumentException("There is no Applicant.");
         }
-        RegularUserDTO userDTO = new RegularUserDTO(applicant.getDonation(), applicant.getUser().getUsername(),
+        RegularUserDTO userDTO = new RegularUserDTO(applicant.getDonation(), applicant.getClient().getUsername(),
                 applicant.getName(), applicant.getApplication(), applicant.getHomeDescription(),
                 applicant.getPhoneNumber());
         // This might have to be changed to convert image and poster into dtos before

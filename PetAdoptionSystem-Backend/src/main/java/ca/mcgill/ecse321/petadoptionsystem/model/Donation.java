@@ -6,15 +6,15 @@ import java.sql.Time;
 
 @Entity
 public class Donation {
-    private RegularUser user;
+    private RegularUser client;
 
     @ManyToOne(optional = false)
-    public RegularUser getUser() {
-        return this.user;
+    public RegularUser getClient() {
+        return this.client;
     }
  
-    public void setUser(RegularUser user) {
-        this.user = user;
+    public void setClient(RegularUser client) {
+        this.client = client;
     }
 
     private int id;

@@ -55,12 +55,12 @@ public class TestAdminService {
             return account;
         });
 
-        lenient().when(adminDao.findAdminByUser(any(Account.class))).thenAnswer((InvocationOnMock invocation) ->
+        lenient().when(adminDao.findAdminByClient(any(Account.class))).thenAnswer((InvocationOnMock invocation) ->
         {
             Account account = new Account();
             account.setUsername(USERNAME1);
             Admin admin = new Admin();
-            admin.setUser(account);
+            admin.setClient(account);
             return admin;
         });
 
@@ -69,7 +69,7 @@ public class TestAdminService {
             Account account = new Account();
             account.setUsername(USERNAME1);
             Admin admin = new Admin();
-            admin.setUser(account);
+            admin.setClient(account);
             List<Admin> admins = new ArrayList<Admin>();
             admins.add(admin);
             return admins;
@@ -84,7 +84,7 @@ public class TestAdminService {
 
     @Test
     public void testExistingAdmin(){
-        assertEquals(adminService.getAdminByUsername(USERNAME1).getUser().getUsername(), USERNAME1);
+        assertEquals(adminService.getAdminByUsername(USERNAME1).getClient().getUsername(), USERNAME1);
     }
 
     @Test

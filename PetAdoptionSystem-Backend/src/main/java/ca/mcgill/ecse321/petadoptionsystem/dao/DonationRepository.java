@@ -14,6 +14,6 @@ public interface DonationRepository extends CrudRepository<Donation, Integer> {
 
 	Donation findDonationById(int id);
 
-	List<Donation> findDonationsByUser(RegularUser regularUser);
+	List<Donation> findDonationsByClient(RegularUser regularClient);
 
 }

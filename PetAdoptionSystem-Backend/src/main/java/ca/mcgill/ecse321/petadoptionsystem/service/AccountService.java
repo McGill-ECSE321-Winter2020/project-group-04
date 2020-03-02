@@ -17,7 +17,6 @@ import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AdminRepository;
 
-// TODO dao and model imports
 
 @Service
 public class AccountService {
@@ -28,6 +27,9 @@ public class AccountService {
     AdminRepository adminRepository;
     @Autowired
     RegularUserRepository regularUserRepository;
+    @Autowired
+    RegularUserRepository regularUserRepository;
+
     @Autowired
     PetAdoptionSystemRepository petAdoptionSystemRepository;
     @Transactional
@@ -49,22 +51,22 @@ public class AccountService {
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-//        PetAdoptionSystem pas = petAdoptionSystemRepository.findPetAdoptionSystemById(4);
         // create account with the now-validated inputs
         Account account = new Account();
         account.setUsername(username);
         account.setPasswordHash(passwordHash);
         account.setEmail(email);
+
         account.setPetAdoptionSystem(pas);
         
         RegularUser regUser = new RegularUser();
-        regUser.setUser(account);
+        regUser.setClient(account);
         regUser.setName(name);
         regUser.setHomeDescription(homeDesc);
         regUser.setPhoneNumber(phoneNumber);
         account.setUserRole(regUser);
         accountRepository.save(account);
-        regularUserRepository.save(regUser);
+        //regularUserRepository.save(regUser);
         return account;
     }
 
@@ -97,9 +99,9 @@ public class AccountService {
         
 
         Admin admin = new Admin();
-        admin.setUser(account);
+        admin.setClient(account);
+
         account.setUserRole(admin);
-        adminRepository.save(admin);
         accountRepository.save(account);
         return account;
     }

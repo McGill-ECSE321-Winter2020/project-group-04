@@ -41,7 +41,7 @@ class TestingUtility {
      */
     public static Admin initAdmin(Account act, PetAdoptionSystem pas) {
         Admin admin = new Admin();
-        admin.setUser(act);
+        admin.setClient(act);
         act.setUserRole(admin);
         return admin;
     }
@@ -55,7 +55,7 @@ class TestingUtility {
      */
     public static RegularUser initRegularUser(Account act, PetAdoptionSystem pas) {
         RegularUser user = new RegularUser();
-        user.setUser(act);
+        user.setClient(act);
         act.setUserRole(user);
 
         return user;
@@ -103,7 +103,7 @@ class TestingUtility {
 
         Donation don = new Donation();
         don.setId(pkey);
-        don.setUser(regUser);
+        don.setClient(regUser);
 
         return don;
 

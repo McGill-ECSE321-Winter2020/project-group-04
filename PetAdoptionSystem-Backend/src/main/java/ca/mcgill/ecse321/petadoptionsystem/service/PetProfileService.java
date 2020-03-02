@@ -84,11 +84,11 @@ public class PetProfileService {
         if (error.length() > 0) throw new IllegalArgumentException(error);
         
          Account account = accountRepository.findAccountByUsername(username);
-         RegularUser userRole = regularUserRepository.findRegularUserByUser(account);
+         RegularUser userRole = regularUserRepository.findRegularUserByClient(account);
 
         // // Check if the user has another pet with that same name (not possible)
 
-         if (petprofilerepository.existsByNameAndPoster(name, regularUserRepository.findRegularUserByUser(account)))
+         if (petprofilerepository.existsByNameAndPoster(name, regularUserRepository.findRegularUserByClient(account)))
              error += "Cannot have two pets with the same exact name.\n" ;
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
@@ -149,7 +149,7 @@ public class PetProfileService {
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         Account account = accountRepository.findAccountByUsername(username);
-        UserRole poster = regularUserRepository.findRegularUserByUser(account);
+        UserRole poster = regularUserRepository.findRegularUserByClient(account);
 
         if (petprofilerepository.findAllPetProfileByPoster(poster) == null )
             error += "No Pet Profiles associated with this username";
@@ -243,7 +243,7 @@ public class PetProfileService {
            throw new ImageStorageException("You need to submit at least one image url");
 
         Account account = accountRepository.findAccountByUsername(username);
-        UserRole poster = regularUserRepository.findRegularUserByUser(account);
+        UserRole poster = regularUserRepository.findRegularUserByClient(account);
                                
         //Find the PetProfile with the posterid and the pet's name
         PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(name, poster);
@@ -296,7 +296,7 @@ public class PetProfileService {
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         Account account = accountRepository.findAccountByUsername(username);
-        UserRole posterid = regularUserRepository.findRegularUserByUser(account);
+        UserRole posterid = regularUserRepository.findRegularUserByClient(account);
 
         PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(petname, posterid);
         petprofilerepository.delete(pet);
