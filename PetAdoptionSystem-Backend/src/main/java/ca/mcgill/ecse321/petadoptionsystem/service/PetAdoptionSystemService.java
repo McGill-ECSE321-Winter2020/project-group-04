@@ -19,6 +19,10 @@ public class PetAdoptionSystemService {
     @Autowired
     PetAdoptionSystemRepository pasRepository;
 
+    /**
+     * 
+     * @return the created PetAdoptionSystem
+     */
     @Transactional
     public PetAdoptionSystem createPetAdoptionSystem() {
 
@@ -34,6 +38,10 @@ public class PetAdoptionSystemService {
 
     }
 
+    /**
+     * 
+     * @return the one existing PetAdoptionSystem
+     */
     @Transactional
     public PetAdoptionSystem getPetAdoptionSystem() {
 

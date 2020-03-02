@@ -13,6 +13,9 @@ import java.util.List;
 
 import static org.hibernate.internal.util.collections.ArrayHelper.toList;
 
+/**
+ * @author Jose Antonio Jijon Vorbeck
+ */
 @Service
 public class RegularUserService {
 

@@ -67,6 +67,11 @@ public class DonationService {
         return toList(donationRepo.findAll());
     }
 
+    /**
+     * 
+     * @param username of the account associated with the user whose donations we want
+     * @return the list of donations by that user
+     */
     @Transactional
     public List<Donation> getDonationsByUsername(String username){
         if(username == null || username.trim()=="") throw new IllegalArgumentException("The username cannot be empty or have spaces.\n");
