@@ -66,6 +66,11 @@ public class AccountRestController {
     }
 
     private AccountDTO convertToDTO(Account account) {
-        return null;
+        if (account == null) {
+            throw new IllegalArgumentException("There is no account.");
+        }
+        AccountDTO accDTO = new AccountDTO(account.getUsername(),account.getEmail(), account.getUserRole());
+        return accDTO;
+    
     }
 }
