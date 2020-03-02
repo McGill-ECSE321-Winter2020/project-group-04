@@ -32,6 +32,9 @@ import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import ca.mcgill.ecse321.petadoptionsystem.model.UserRole;
 
+/**
+ * @author Garrett Kinman
+ */
 @ExtendWith(MockitoExtension.class)
 public class TestAccountService {
 
@@ -45,6 +48,9 @@ public class TestAccountService {
     private static final String EMAIL = "bathsheba.everdene@gmail.com";
     private static final String PASSWORDHASH = "the HASH slinging SLASHer";
 
+    /**
+     * sets mock output for each dao method call
+     */
     @BeforeEach
     public void setMockOutput() {
         
@@ -123,6 +129,9 @@ public class TestAccountService {
 
     /* CREATE REGULAR USER ACCOUNT TESTS */
 
+    /**
+     * test should work
+     */
     @Test
     public void testCreateRegularUserAccount() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -150,6 +159,10 @@ public class TestAccountService {
 
     }
 
+    /**
+     * should have exception that it catches
+     * null input username
+     */
     @Test
     public void testCreateRegularUserAccountNull() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -175,6 +188,10 @@ public class TestAccountService {
         assertEquals("The username cannot be empty.\nThe password hash cannot be empty.\nThe email address cannot be empty.\n", error);
     }
 
+    /**
+     * should catch exception
+     * empty string inputs
+     */
     @Test
     public void testCreateRegularUserAccountEmpty() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -200,6 +217,10 @@ public class TestAccountService {
         assertEquals("The username cannot be empty.\nThe password hash cannot be empty.\nThe email address cannot be empty.\n", error);
     }
 
+    /**
+     * only spaces in the strings
+     * should be caught
+     */
     @Test
     public void testCreateRegularUserAccountSpaces() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -228,6 +249,9 @@ public class TestAccountService {
 
     /* CREATE ADMIN ACCOUNT TESTS */
 
+    /**
+     * valid input
+     */
     @Test
     public void testCreateAdminAccount() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -255,6 +279,9 @@ public class TestAccountService {
 
     }
 
+    /**
+     * null input
+     */
     @Test
     public void testCreateAdminAccountNull() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -280,6 +307,9 @@ public class TestAccountService {
         assertEquals("The username cannot be empty.\nThe password hash cannot be empty.\nThe email address cannot be empty.\n", error);
     }
 
+    /**
+     * empty string input
+     */
     @Test
     public void testCreateAdminAccountEmpty() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -308,6 +338,9 @@ public class TestAccountService {
 
     /* GET ACCOUNT BY USERNAME TESTS */
 
+    /**
+     * valid input
+     */
     @Test
     public void testGetAccountByUsername() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -329,6 +362,9 @@ public class TestAccountService {
         assertEquals(EMAIL, account.getEmail());
     }
 
+    /**
+     * null input
+     */
     @Test
     public void testGetAccountByUsernameNull() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -348,6 +384,9 @@ public class TestAccountService {
         assertEquals("The username cannot be empty.\n", error);
     }
 
+    /**
+     * empty string input
+     */
     @Test
     public void testGetAccountByUsernameEmpty() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -367,6 +406,9 @@ public class TestAccountService {
         assertEquals("The username cannot be empty.\n", error);
     }
 
+    /**
+     * only spaces input
+     */
     @Test
     public void testGetAccountByUsernameSpaces() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -386,6 +428,9 @@ public class TestAccountService {
         assertEquals("The username cannot be empty.\n", error);
     }
 
+    /**
+     * no account with the given username
+     */
     @Test
     public void testGetAccountByUsernameNonExistant() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -407,6 +452,9 @@ public class TestAccountService {
 
     /* GET ACCOUNT BY EMAIL TESTS */
 
+    /**
+     * valid input
+     */
     @Test
     public void testGetAccountByEmail() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -428,6 +476,9 @@ public class TestAccountService {
         assertEquals(EMAIL, account.getEmail());
     }
 
+    /**
+     * null input
+     */
     @Test
     public void testGetAccountByEmailNull() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -447,6 +498,9 @@ public class TestAccountService {
         assertEquals("The email address cannot be empty.\n", error);
     }
 
+    /**
+     * empty string input
+     */
     @Test
     public void testGetAccountByEmailEmpty() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -466,6 +520,9 @@ public class TestAccountService {
         assertEquals("The email address cannot be empty.\n", error);
     }
 
+    /**
+     * only spaces input
+     */
     @Test
     public void testGetAccountByEmailSpaces() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -485,6 +542,9 @@ public class TestAccountService {
         assertEquals("The email address cannot be empty.\n", error);
     }
 
+    /**
+     * no account with input email
+     */
     @Test
     public void testGetAccountByEmailNonExistant() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -506,6 +566,9 @@ public class TestAccountService {
 
     /* UPDATE EMAIL TESTS */
 
+    /**
+     * valid input
+     */
     @Test
     public void testUpdateEmail() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -526,6 +589,9 @@ public class TestAccountService {
         assertEquals(email, account.getEmail());
     }
 
+    /**
+     * null email input
+     */
     @Test
     public void testUpdateEmailNullEmail() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -548,6 +614,9 @@ public class TestAccountService {
         assertEquals("The email address cannot be empty.\n", error);
     }
 
+    /**
+     * empty string email input
+     */
     @Test
     public void testUpdateEmailEmptyEmail() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -570,6 +639,9 @@ public class TestAccountService {
         assertEquals("The email address cannot be empty.\n", error);
     }
 
+    /**
+     * only spaces email input
+     */
     @Test
     public void testUpdateEmailSpacesEmail() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -592,6 +664,9 @@ public class TestAccountService {
         assertEquals("The email address cannot be empty.\n", error);
     }
 
+    /**
+     * new email is duplicate of existing email
+     */
     @Test
     public void testUpdateEmailDuplicateEmail() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -614,6 +689,9 @@ public class TestAccountService {
         assertEquals("That email address is already taken.\n", error);
     }
 
+    /**
+     * null username
+     */
     @Test
     public void testUpdateEmailNullUsername() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -636,6 +714,9 @@ public class TestAccountService {
         assertEquals("The username cannot be empty.\n", error);
     }
 
+    /**
+     * empty string username
+     */
     @Test
     public void testUpdateEmailEmptyUsername() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -658,6 +739,9 @@ public class TestAccountService {
         assertEquals("The username cannot be empty.\n", error);
     }
 
+    /**
+     * only spaces username
+     */
     @Test
     public void testUpdateEmailSpacesUsername() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -682,6 +766,9 @@ public class TestAccountService {
 
     /* DELETE ACCOUNT TESTS */
 
+    /**
+     * null input
+     */
     @Test
     public void testDeleteAccountNull() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -703,6 +790,9 @@ public class TestAccountService {
         assertEquals("The username cannot be empty.\n", error);
     }
 
+    /**
+     * empty string input
+     */
     @Test
     public void testDeleteAccountEmpty() {
         assertEquals(1, accountService.getAllAccounts().size());
@@ -724,6 +814,9 @@ public class TestAccountService {
         assertEquals("The username cannot be empty.\n", error);
     }
 
+    /**
+     * only spaces input
+     */
     @Test
     public void testDeleteAccountSpaces() {
         assertEquals(1, accountService.getAllAccounts().size());
