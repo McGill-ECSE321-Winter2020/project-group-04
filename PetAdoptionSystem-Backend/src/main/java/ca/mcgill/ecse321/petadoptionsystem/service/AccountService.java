@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetAdoptionSystemRepository;
+import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
+import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,9 @@ public class AccountService {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    RegularUserRepository regularUserRepository;
 
     @Autowired
     PetAdoptionSystemRepository petAdoptionSystemRepository;
@@ -41,15 +46,21 @@ public class AccountService {
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-//        PetAdoptionSystem pas = petAdoptionSystemRepository.findPetAdoptionSystemById(4);
         // create account with the now-validated inputs
         Account account = new Account();
         account.setUsername(username);
         account.setPasswordHash(passwordHash);
         account.setEmail(email);
         account.setPetAdoptionSystem(pas);
+        //accountRepository.save(account);
 
+        RegularUser regularUser = new RegularUser();
+        regularUser.setUser(account);
+        //regularUserRepository.save(regularUser);
+
+        account.setUserRole(regularUser);
         accountRepository.save(account);
+
         return account;
     }
 
