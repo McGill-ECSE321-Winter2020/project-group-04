@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.petadoptionsystem.controller;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +34,6 @@ public class AdoptionApplicationRestController {
 
     @Autowired
     private AdoptionApplicationService appservice;
-
-    @Autowired
-    private RegularUserService regservice;
 
     @Autowired
     private PetProfileService profileservice;
@@ -74,8 +72,7 @@ public class AdoptionApplicationRestController {
     }
 
     @PostMapping(value = { "/apply", "/apply/" })
-    public AdoptionApplicationDTO createApplication(@RequestParam Date postDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime postTime,
+    public AdoptionApplicationDTO createApplication(
             RegularUserDTO regUserDTO, PetProfileDTO petprofDTO) throws IllegalArgumentException {
         if (regUserDTO == null) {
             throw new NullPointerException("A user is required to create an application.");
@@ -83,9 +80,14 @@ public class AdoptionApplicationRestController {
         if (petprofDTO == null) {
             throw new NullPointerException("A pet profile is required to create an application.");
         }
+        LocalTime localTime = LocalTime.now();
+        LocalDate localDate = LocalDate.now();
+        Time time = Time.valueOf(localTime);
+        Date date = Date.valueOf(localDate);
+        
         String applicant = regUserDTO.getUser();
         int ppId = petprofDTO.getId();
-        AdoptionApplication a = appservice.createApplication(postDate, Time.valueOf(postTime), applicant, ppId);
+        AdoptionApplication a = appservice.createApplication(date, time, applicant, ppId);
 
         return convertToDto(a);
     }

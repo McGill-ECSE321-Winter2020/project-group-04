@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetAdoptionSystemRepository;
+import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
+import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
+import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
+import ca.mcgill.ecse321.petadoptionsystem.dao.AdminRepository;
 
 // TODO dao and model imports
 
@@ -19,11 +24,14 @@ public class AccountService {
 
     @Autowired
     AccountRepository accountRepository;
-
+    @Autowired
+    AdminRepository adminRepository;
+    @Autowired
+    RegularUserRepository regularUserRepository;
     @Autowired
     PetAdoptionSystemRepository petAdoptionSystemRepository;
     @Transactional
-    public Account createRegularUserAccount(PetAdoptionSystem pas, String username, String passwordHash, String email) throws IllegalArgumentException {
+    public Account createRegularUserAccount(PetAdoptionSystem pas, String username, String name, String passwordHash, String email, String homeDesc, int phoneNumber) throws IllegalArgumentException {
         
         String error = "";
 
@@ -48,13 +56,20 @@ public class AccountService {
         account.setPasswordHash(passwordHash);
         account.setEmail(email);
         account.setPetAdoptionSystem(pas);
-
+        
+        RegularUser regUser = new RegularUser();
+        regUser.setUser(account);
+        regUser.setName(name);
+        regUser.setHomeDescription(homeDesc);
+        regUser.setPhoneNumber(phoneNumber);
+        account.setUserRole(regUser);
         accountRepository.save(account);
+        regularUserRepository.save(regUser);
         return account;
     }
 
     @Transactional
-    public Account createAdminAccount(PetAdoptionSystem pas, String username, String passwordHash, String email) throws IllegalArgumentException {
+    public Account createAdminAccount(PetAdoptionSystem pas, String username, String name, String passwordHash, String email) throws IllegalArgumentException {
         
         String error = "";
 
@@ -78,9 +93,13 @@ public class AccountService {
         account.setUsername(username);
         account.setPasswordHash(passwordHash);
         account.setEmail(email);
-        //account.setUserRole(new Admin());
         account.setPetAdoptionSystem(pas);
+        
 
+        Admin admin = new Admin();
+        admin.setUser(account);
+        account.setUserRole(admin);
+        adminRepository.save(admin);
         accountRepository.save(account);
         return account;
     }

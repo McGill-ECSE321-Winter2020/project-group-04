@@ -49,15 +49,26 @@ public class AccountRestController {
     }
 
     @PostMapping(value = {"/account/createregular", "/account/createregular/"})
-    public AccountDTO createRegularUserAccount(@RequestParam("username") String username, @RequestParam("passwordHash") String passwordHash, @RequestParam("email") String email) {
+    public AccountDTO createRegularUserAccount(
+        @RequestParam("username") String username, 
+        @RequestParam("passwordHash") String passwordHash, 
+        @RequestParam("name") String name,
+        @RequestParam("homeDescription") String homeDescription,
+        @RequestParam("phoneNumber") int phoneNumber,
+        @RequestParam("email") String email) {
         PetAdoptionSystem pas = petService.getPetAdoptionSystem();
-        return convertToDTO(accountService.createRegularUserAccount(pas, username, passwordHash, email));
+        return convertToDTO(accountService.createRegularUserAccount(pas, username, name, passwordHash, email, homeDescription, phoneNumber));
     }
 
     @PostMapping(value = {"/account/createadmin/", "/account/createadmin/"})
-    public AccountDTO createAdminAccount(@RequestParam("username") String username, @RequestParam("passwordHash") String passwordHash, @RequestParam("email") String email) {
+    public AccountDTO createAdminAccount(@RequestParam("username") String username, 
+    @RequestParam("passwordHash") String passwordHash, 
+    @RequestParam("name") String name,
+    @RequestParam("homeDescription") String homeDescription,
+    @RequestParam("phoneNumber") int phoneNumber,
+    @RequestParam("email") String email) {
         PetAdoptionSystem pas = petService.getPetAdoptionSystem();
-        return convertToDTO(accountService.createRegularUserAccount(pas, username, passwordHash, email));
+        return convertToDTO(accountService.createRegularUserAccount(pas, username, name, passwordHash, email, homeDescription, phoneNumber));
     }
 
     @PutMapping(value = {"/account/updateemail/", "/account/updateemail/"})

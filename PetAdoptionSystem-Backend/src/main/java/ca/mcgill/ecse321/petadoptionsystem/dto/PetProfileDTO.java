@@ -15,6 +15,7 @@ import java.util.Set;
 
 public class PetProfileDTO {
 
+    public PetProfileDTO(){};
     public UserRole poster;
     public HashSet<String> images;
     public Set<AdoptionApplication> application;

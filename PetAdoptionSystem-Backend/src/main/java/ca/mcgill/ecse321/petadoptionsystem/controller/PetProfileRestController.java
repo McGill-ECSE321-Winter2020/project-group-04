@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -33,61 +36,73 @@ public class PetProfileRestController {
     @Autowired
     private RegularUserRepository regularUserRepository;
 
-
     /**
      *
      * @param petProfileDTO union of both classes RegularUser and PetProfile
-     * @param date date of posting
-     * @param postTime time of posting
+     * @param date          date of posting
+     * @param postTime      time of posting
      * @return the newly created profile
      * @throws IllegalArgumentException error
      */
     @PostMapping(value = { "/petprofile", "/petprofile/" })
-    public PetProfileDTO createPetProfile(
-            @RequestParam("username") String username,
-            @RequestBody PetProfileDTO petProfileDTO,
+    public PetProfileDTO createPetProfile(@RequestParam("username") String username,
+            // @RequestBody String[] images,
+            @RequestParam("petName") String petName, 
+            @RequestParam("petType") String petType,
+            @RequestParam("breed") String breed,
+            @RequestParam("description") String description, 
+            @RequestParam("reasonForPosting") String reasonForPosting,
+            @RequestParam("isAvailable") String isAvailable)
 
-            @RequestParam Date date,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime postTime)
+            // @RequestParam Date date,
             throws IllegalArgumentException {
 
+       
+        LocalTime localTime = LocalTime.now();
+        LocalDate localDate = LocalDate.now();
+        Time time = Time.valueOf(localTime);
+        Date date = Date.valueOf(localDate);
+        HashSet<String> setImages = new HashSet<String>();
+        int i =1;
+        for(i = 1; i< 10;){
+            setImages.add("dffdfd" + i);
+            i++;
+        }
+        boolean isAv = isAvailable=="1" ? true : false;
 
-        PetProfile pet = petProfileService.createPetProfile(petProfileDTO.getBreed(), petProfileDTO.getDescription(), petProfileDTO.getName(),
-                petProfileDTO.getPetType(), Time.valueOf(postTime), date, username,
-                petProfileDTO.getReasonForPosting(), petProfileDTO.getIsAvailable(), petProfileDTO.getImages());
-
+        PetProfile pet = petProfileService.createPetProfile(breed, description,
+                petName, convertToPetType(petType), time, date, username,
+                reasonForPosting, isAv, setImages);
 
         return convertToDto(pet);
 
     }
 
-
     /**
      *
      * @param username of the user that is updating
-     * @param petname of the pet
+     * @param petname  of the pet
      * @return
      * @throws IllegalArgumentException
      */
-    @PutMapping( value = {"/updatePetProfile/{username}/{petname}", "/updatePetProfile/{petname}/"})
+    @PutMapping(value = { "/updatePetProfile/{username}/{petname}", "/updatePetProfile/{petname}/" })
     public PetProfileDTO updatePetProfile(
-           // @RequestBody PetProfileDTO petProfileDTO,
-            @PathVariable("username") String username,
-            @PathVariable("petname") String petname)
-            throws IllegalArgumentException{
+            // @RequestBody PetProfileDTO petProfileDTO,
+            @PathVariable("username") String username, @PathVariable("petname") String petname)
+            throws IllegalArgumentException {
 
         Account account = accountRepository.findAccountByUsername(username);
         RegularUser userRole = regularUserRepository.findRegularUserByUser(account);
 
-        PetProfile petProfile  = petProfileRepository.findPetProfileByNameAndPoster(petname,userRole);
+        PetProfile petProfile = petProfileRepository.findPetProfileByNameAndPoster(petname, userRole);
 
         PetProfileDTO petProfileDTO = convertToDto(petProfile);
 
-        PetProfile pet = petProfileService.updatePetProfile(username, petProfileDTO.getBreed(), petProfileDTO.getDescription(),
-                petProfileDTO.getReasonForPosting(), petProfileDTO.getPetType(), petname, petProfileDTO.getIsAvailable(), petProfileDTO.getImages());
+        PetProfile pet = petProfileService.updatePetProfile(username, petProfileDTO.getBreed(),
+                petProfileDTO.getDescription(), petProfileDTO.getReasonForPosting(), petProfileDTO.getPetType(),
+                petname, petProfileDTO.getIsAvailable(), petProfileDTO.getImages());
 
-
-       return convertToDto(pet);
+        return convertToDto(pet);
 
     }
 
@@ -105,8 +120,6 @@ public class PetProfileRestController {
         return petDtos;
     }
 
-
-
     /**
      *
      * @param username username that we are looking for
@@ -114,7 +127,8 @@ public class PetProfileRestController {
      * @throws IllegalArgumentException errors
      */
     @GetMapping(value = { "/petprofiles/{username}", "/petprofiles/{username}/" })
-    public List<PetProfileDTO> getAllPetProfilesOfUser(@PathVariable("username") String username) throws IllegalArgumentException {
+    public List<PetProfileDTO> getAllPetProfilesOfUser(@PathVariable("username") String username)
+            throws IllegalArgumentException {
 
         List<PetProfileDTO> petDtos = new ArrayList<>();
         for (PetProfile pet : petProfileService.getAllPetProfilesByUsername(username)) {
@@ -141,7 +155,8 @@ public class PetProfileRestController {
      * @throws IllegalArgumentException error
      */
     @GetMapping(value = { "/petprofiles/{breed}", "/petprofiles/{breed}/" })
-    public List<PetProfileDTO> getAllPetProfilesOfBreed(@PathVariable("breed") String breed) throws IllegalArgumentException {
+    public List<PetProfileDTO> getAllPetProfilesOfBreed(@PathVariable("breed") String breed)
+            throws IllegalArgumentException {
 
         List<PetProfileDTO> petDtos = new ArrayList<>();
         for (PetProfile pet : petProfileService.getAllPetProfilesByBreed(breed)) {
@@ -150,7 +165,6 @@ public class PetProfileRestController {
         return petDtos;
     }
 
-
     /**
      *
      * @param type of pet to be looked for
@@ -158,7 +172,8 @@ public class PetProfileRestController {
      * @throws IllegalArgumentException error
      */
     @GetMapping(value = { "/petprofiles/{type}", "/petprofiles/{type}/" })
-    public List<PetProfileDTO> getAllPetProfilesOfType(@PathVariable("type") PetType type) throws IllegalArgumentException {
+    public List<PetProfileDTO> getAllPetProfilesOfType(@PathVariable("type") PetType type)
+            throws IllegalArgumentException {
 
         List<PetProfileDTO> petDtos = new ArrayList<>();
         for (PetProfile pet : petProfileService.getAllPetProfilesByPetType(type)) {
@@ -167,23 +182,19 @@ public class PetProfileRestController {
         return petDtos;
     }
 
-
     // TODO should be AccountDTO, not Account
 
     /**
      *
      * @param username of user associated with
-     * @param petname of pet to be deleted
+     * @param petname  of pet to be deleted
      * @throws IllegalArgumentException error
      */
-    @DeleteMapping(value = {"/deletePetProfile/{username}&{name}", "/deletePetProfile/{username}&{name}/"})
-    public void deletePetProfile(
-            @PathVariable("username") String username,
-            @PathVariable("petname") String petname)
-        throws IllegalArgumentException {
+    @DeleteMapping(value = { "/deletePetProfile/{username}&{name}", "/deletePetProfile/{username}&{name}/" })
+    public void deletePetProfile(@PathVariable("username") String username, @PathVariable("petname") String petname)
+            throws IllegalArgumentException {
 
-
-       petProfileService.deletePetProfile(username, petname);
+        petProfileService.deletePetProfile(username, petname);
 
     }
 
@@ -192,11 +203,23 @@ public class PetProfileRestController {
             throw new IllegalArgumentException("There is no such Pet!");
         }
 
-        PetProfileDTO petDto = new PetProfileDTO(pet.getPoster(), pet.getImages(), pet.getApplication(), pet.getName(), pet.getPetType(),
-                pet.getBreed(), pet.getDescription(), pet.getId(), pet.getReasonForPosting(), pet.getPostDate(), pet.getPostTime(), pet.isIsAvailable());
+        PetProfileDTO petDto = new PetProfileDTO(pet.getPoster(), pet.getImages(), pet.getApplication(), pet.getName(),
+                pet.getPetType(), pet.getBreed(), pet.getDescription(), pet.getId(), pet.getReasonForPosting(),
+                pet.getPostDate(), pet.getPostTime(), pet.isIsAvailable());
 
         return petDto;
     }
 
+    private PetType convertToPetType(String petType){
+        
+        try {
+            petType = petType.trim().toUpperCase();
+            System.out.println("PETTYPE: " + petType);
+            return PetType.valueOf(petType);
+           
+        } catch(Exception e){
+            throw new IllegalArgumentException("Please enter a valid PetType" + PetType.values().toString());
+        }
+    }
 
 }
