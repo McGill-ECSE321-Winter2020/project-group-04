@@ -22,11 +22,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,7 +65,6 @@ public class TestAdoptionApplicationService {
 
 	// pet profile params
 	private static final int ppId = 2;
-	private static final int ppId2 = 3;
 	private static final String ppBreed = "chihuahua";
 	private static final String ppName = "Bingo";
 	private static final String ppDesc = "Bad doggy up for adoption";
@@ -124,7 +119,6 @@ public class TestAdoptionApplicationService {
 			Account ac = null;
 			if (invocation.getArgument(0).equals(Username1)) {
 				 ac = ru.getUser();
-				// return ac;
 			} else {
 				ac = ru2.getUser();
 			}
@@ -175,25 +169,19 @@ public class TestAdoptionApplicationService {
 		Time postTime = new Time(c.getTimeInMillis());
 
 		AdoptionApplication app = null;
-		// RegularUser pp = null;
 
 		String curUser = Username1;
 		int petId = 3;
 
 		try {
 			app = appService.createApplication(postDate, postTime, curUser, petId);
-			// pp = appService.createApplication(postDate, postTime, curUser, petId);
 		} catch (IllegalArgumentException e) {
-			fail(); // Check that no error occurred
+			fail(); 
 		}
-
-		// assertNotNull(pp);
-		// assertEquals(curUser, pp.getUser().getUsername());
 		
 		assertNotNull(app);
 		assertEquals(postDate, app.getPostDate());
 		assertEquals(postTime, app.getPostTime());
-		// assertEquals(petId, app.getPetProfile().getId());
 
 	}
 
