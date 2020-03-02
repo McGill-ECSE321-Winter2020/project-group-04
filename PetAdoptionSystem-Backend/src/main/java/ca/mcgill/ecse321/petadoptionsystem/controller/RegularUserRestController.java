@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Jose Antonio Jijon Vorbeck
+ */
 @CrossOrigin(origins = "*")
 @RestController
 public class RegularUserRestController {
