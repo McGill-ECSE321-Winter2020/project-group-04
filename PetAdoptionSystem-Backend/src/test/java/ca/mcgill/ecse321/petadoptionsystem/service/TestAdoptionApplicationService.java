@@ -33,6 +33,9 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
+/**
+ * @author Edem Nuviadenu
+ */
 @ExtendWith(MockitoExtension.class)
 public class TestAdoptionApplicationService {
 
@@ -72,6 +75,9 @@ public class TestAdoptionApplicationService {
 	@InjectMocks
 	private AdoptionApplicationService appService;
 
+	/**
+	 * set mock outputs for each dao method call
+	 */
 	@BeforeEach
 	public void setMockOutput() {
 		lenient().when(appDao.findAdoptionById((anyInt()))).thenAnswer((InvocationOnMock invocation) -> {
@@ -161,6 +167,9 @@ public class TestAdoptionApplicationService {
 		ruDao.deleteAll();
 	}
 
+	/**
+	 * valid inputs
+	 */
 	@Test
 	public void testCreateApplication() {
 		Calendar c = Calendar.getInstance();
@@ -185,6 +194,9 @@ public class TestAdoptionApplicationService {
 
 	}
 
+	/**
+	 * no valid username
+	 */
 	@Test
 	public void testCreateApplicationNoUsername() {
 		String error = "";
@@ -217,6 +229,9 @@ public class TestAdoptionApplicationService {
 
 	}
 
+	/**
+	 * valid input
+	 */
 	@Test
 	public void testGetApplicationsbyUser() {
 		String user = Username1;
@@ -234,6 +249,9 @@ public class TestAdoptionApplicationService {
 		assertEquals(id, apps.get(0).getId());
 	}
 
+	/**
+	 * null username
+	 */
 	@Test
 	public void testGetApplicationsNoUser() {
 		String error = "";
@@ -249,6 +267,9 @@ public class TestAdoptionApplicationService {
 		assertEquals("The username cannot be empty or have spaces.", error);
 	}
 
+	/**
+	 * valid input
+	 */
 	@Test
 	public void testGetApplicationsbyPetProfile() {
 		int petId = ppId;
@@ -266,6 +287,9 @@ public class TestAdoptionApplicationService {
 		assertEquals(id, apps.get(0).getId());
 	}
 
+	/**
+	 * non-existing pet profile
+	 */
 	@Test
 	public void testGetApplicationsNoPetProfile() {
 		String error = "";
@@ -283,6 +307,9 @@ public class TestAdoptionApplicationService {
 		assertEquals("Pet profile is required to get its application.", error);
 	}
 
+	/**
+	 * non-existing application
+	 */
 	@Test
 	public void testGetApplicationNoUserNoProfile(){
 		String error = "";
@@ -298,6 +325,10 @@ public class TestAdoptionApplicationService {
 		assertEquals("No such application exists.", error);
 
 	}
+
+	/**
+	 * valid inputs
+	 */
 	@Test
 	public void updateApplicationStatus(){
 		Boolean approve = true;

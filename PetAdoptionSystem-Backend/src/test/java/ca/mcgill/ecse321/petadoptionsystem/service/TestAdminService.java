@@ -23,6 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 
+/**
+ * @author Jessie Tang
+ */
 @ExtendWith(MockitoExtension.class)
 public class TestAdminService {
 
@@ -45,7 +48,9 @@ public class TestAdminService {
         adminDao.deleteAll();;
     }
 
-
+    /**
+     * set up mock outputs for dao method calls
+     */
     @BeforeEach
     public void setMockOutput(){
         lenient().when(accountDao.findAccountByUsername(USERNAME1)).thenAnswer((InvocationOnMock invocation) ->
@@ -81,7 +86,9 @@ public class TestAdminService {
         lenient().when(adminDao.save(any(Admin.class))).thenAnswer(returnParam);
     }
 
-
+    /**
+     * valid input
+     */
     @Test
     public void testExistingAdmin(){
         assertEquals(adminService.getAdminByUsername(USERNAME1).getUser().getUsername(), USERNAME1);
@@ -95,6 +102,9 @@ public class TestAdminService {
         assertEquals(admins.get(0).getId(), adId);
     }
 
+    /**
+     * non-existing account
+     */
     @Test
     public void testNonExistingAdmin(){
         assertNull(adminService.getAdminByUsername(NON_EXISTING_USERNAME));
