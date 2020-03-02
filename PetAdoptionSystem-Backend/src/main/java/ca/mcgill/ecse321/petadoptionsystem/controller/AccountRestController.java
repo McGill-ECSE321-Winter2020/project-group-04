@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.petadoptionsystem.service.AccountService;
@@ -70,17 +71,8 @@ public class AccountRestController {
         return convertToDTO(accountService.getAccountByEmail(email));
     }
 
-    /**
-     * This method is to create an instance of Account with the given username, email address, and password hash.
-     * The created account is associated with a created instance of RegularUser.
-     * 
-     * @param username The input username the new account will have.
-     * @param passwordHash The input password hash the new account will have.
-     * @param email The input email address the new account will have.
-     * @return AccountDTO The created account DTO.
-     */
-    @PostMapping(value = {"/account/createregular/{username}+{email}+{passwordHash}", "/account/createregular/{username}+{email}+{passwordHash}/"})
-    public AccountDTO createRegularUserAccount(@PathVariable("username") String username, @PathVariable("passwordHash") String passwordHash, @PathVariable("email") String email) {
+    @PostMapping(value = {"/account/createregular", "/account/createregular/"})
+    public AccountDTO createRegularUserAccount(@RequestParam("username") String username, @RequestParam("passwordHash") String passwordHash, @RequestParam("email") String email) {
         return convertToDTO(accountService.createRegularUserAccount(username, passwordHash, email));
     }
 
@@ -128,6 +120,11 @@ public class AccountRestController {
      * @return AccountDTO The DTO version of the Account.
      */
     private AccountDTO convertToDTO(Account account) {
-        return null;
+        if (account == null) {
+            throw new IllegalArgumentException("There is no account.");
+        }
+        AccountDTO accDTO = new AccountDTO(account.getUsername(),account.getEmail(), account.getUserRole());
+        return accDTO;
+    
     }
 }

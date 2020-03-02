@@ -1,5 +1,8 @@
 package ca.mcgill.ecse321.petadoptionsystem.controller;
 
+import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
+import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
+import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dto.PetProfileDTO;
 import ca.mcgill.ecse321.petadoptionsystem.dto.UserRoleDTO;
 import ca.mcgill.ecse321.petadoptionsystem.model.*;
@@ -23,8 +26,15 @@ public class PetProfileRestController {
     @Autowired
     private PetProfileService petProfileService;
 
+    @Autowired
+    private PetProfileRepository petProfileRepository;
 
-//TODO Need to change the Classes to be DTO Classes and not the normal ones
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private RegularUserRepository regularUserRepository;
+
 
 
 
@@ -38,7 +48,7 @@ public class PetProfileRestController {
      */
     @PostMapping(value = { "/petprofile/{username}", "/petprofile/{username}/" })
     public PetProfileDTO createPetProfile(
-            @PathVariable("username") String name,
+            @PathVariable("username") String username,
             @RequestBody PetProfileDTO petProfileDTO,
             @RequestParam Date date,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime postTime)
@@ -46,7 +56,7 @@ public class PetProfileRestController {
 
 
         PetProfile pet = petProfileService.createPetProfile(petProfileDTO.getBreed(), petProfileDTO.getDescription(), petProfileDTO.getName(),
-                petProfileDTO.getPetType(), Time.valueOf(postTime), date, name,
+                petProfileDTO.getPetType(), Time.valueOf(postTime), date, username,
                 petProfileDTO.getReasonForPosting(), petProfileDTO.getIsAvailable(), petProfileDTO.getImages());
 
 
@@ -57,19 +67,26 @@ public class PetProfileRestController {
 
     /**
      *
-     * @param petProfileDTO union of both classes RegularUser and PetProfile
-     * @return returns the updated value
-     * @throws IllegalArgumentException error message
+     * @param username of the user that is updating
+     * @param petname of the pet
+     * @return
+     * @throws IllegalArgumentException
      */
     @PutMapping( value = {"/updatePetProfile/{username}/{petname}", "/updatePetProfile/{petname}/"})
     public PetProfileDTO updatePetProfile(
-            @RequestBody PetProfileDTO petProfileDTO,
-            @PathVariable("username") String name,
+           // @RequestBody PetProfileDTO petProfileDTO,
+            @PathVariable("username") String username,
             @PathVariable("petname") String petname)
             throws IllegalArgumentException{
 
+        Account account = accountRepository.findAccountByUsername(username);
+        RegularUser userRole = regularUserRepository.findRegularUserByUser(account);
 
-        PetProfile pet = petProfileService.updatePetProfile(name, petProfileDTO.getBreed(), petProfileDTO.getDescription(),
+        PetProfile petProfile  = petProfileRepository.findPetProfileByNameAndPoster(petname,userRole);
+
+        PetProfileDTO petProfileDTO = convertToDto(petProfile);
+
+        PetProfile pet = petProfileService.updatePetProfile(username, petProfileDTO.getBreed(), petProfileDTO.getDescription(),
                 petProfileDTO.getReasonForPosting(), petProfileDTO.getPetType(), petname, petProfileDTO.getIsAvailable(), petProfileDTO.getImages());
 
 
@@ -90,8 +107,6 @@ public class PetProfileRestController {
         }
         return petDtos;
     }
-
-    // TODO should be AccountDTO, not Account
 
 
 
