@@ -53,7 +53,6 @@ public class PetSystemIntegrationTests {
     }
     @Test
     public void testCreateAdminAccount() {
-        // TODO: Garrett
         String params = "username=" + restUserNameAdmin + "&passwordHash=" + restPasswordAdmin + "&email=" + restEmailAdmin;
 
         try {
@@ -66,7 +65,15 @@ public class PetSystemIntegrationTests {
     }
     @Test
     public void testGetAccountByUsername() {
-        // TODO: Garrett
+        String params = "username=" + restUserNameAdmin;
+
+        try {
+            response = send("GET", APP_URL, "/account/username", params);
+            System.out.println("Received: " + response.toString());
+            assertEquals(restUserNameAdmin, response.getString("username"));
+        } catch (JSONException e) {
+            fail();
+        }
     }
     @Test
     public void testCreatePetProfile() {
