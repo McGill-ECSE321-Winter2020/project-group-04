@@ -34,7 +34,7 @@ public class AdminService {
     @Transactional
     public Admin getAdminByUsername(String username){
         Account account = accountRepository.findAccountByUsername(username);
-        Admin admin = adminRepository.findAdminByUser(account);
+        Admin admin = adminRepository.findAdminByClient(account);
         return admin;
     }
 

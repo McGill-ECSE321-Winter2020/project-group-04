@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 public class RegularUser extends UserRole {
     private Set<Donation> donation;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
     public Set<Donation> getDonation() {
         return this.donation;
     }
@@ -29,8 +29,8 @@ public class RegularUser extends UserRole {
     }
 
     @OneToOne(optional = false)
-    public Account getUser() {
-        return this.user;
+    public Account getClient() {
+        return this.client;
     }
 
     public void setApplication(Set<AdoptionApplication> applications) {

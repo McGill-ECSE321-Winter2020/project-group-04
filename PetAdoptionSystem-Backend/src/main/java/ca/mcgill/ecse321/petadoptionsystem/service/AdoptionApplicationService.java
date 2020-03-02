@@ -35,13 +35,12 @@ public class AdoptionApplicationService {
     RegularUserRepository regRepository;
 
     /**
-     * Method to create a new Application
-     * 
+     *
      * @param postDate
      * @param postTime
-     * @param petprof
-     * @param applicant
-     * @return created application
+     * @param username
+     * @param petId
+     * @return
      */
     @Transactional
     public AdoptionApplication createApplication(Date postDate, Time postTime, String username, int petId) {
@@ -61,7 +60,7 @@ public class AdoptionApplicationService {
         if (username != null && ac == null) {
             error = error + "No account associated with this username.";
         }
-        RegularUser ru = regRepository.findRegularUserByUser(ac);
+        RegularUser ru = regRepository.findRegularUserByClient(ac);
         AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(ru, petprof);
         if (adoptApp != null) {
             error = error + "This application already exists.";
@@ -83,9 +82,9 @@ public class AdoptionApplicationService {
     }
 
     /**
-     * 
+     *
      * @param adoptApp
-     * @return if delete is successful
+     * @return
      */
     @Transactional
     public boolean deleteApplication(AdoptionApplication adoptApp) {
@@ -109,10 +108,9 @@ public class AdoptionApplicationService {
     }
 
     /**
-     * Method to get all applications made by a user
-     * 
-     * @param regUser
-     * @return list of applications of a user
+     *
+     * @param username
+     * @return
      */
     @Transactional
     public List<AdoptionApplication> getApplicationsByUser(String username) {
@@ -128,17 +126,16 @@ public class AdoptionApplicationService {
             throw new IllegalArgumentException(error);
         }
     
-        RegularUser ru = regRepository.findRegularUserByUser(ac);
+        RegularUser ru = regRepository.findRegularUserByClient(ac);
         List<AdoptionApplication> userApplications = appRepository.findByApplicant(ru);
 
         return userApplications;
     }
 
     /**
-     * Method to return all applications made to a pet profile
-     * 
-     * @param petprof
-     * @return list of applications to a petprofile
+     *
+     * @param petId
+     * @return
      */
     @Transactional
     public List<AdoptionApplication> getApplicationsByPetProfile(int petId) {// name of pet and string of username
@@ -153,11 +150,10 @@ public class AdoptionApplicationService {
     }
 
     /**
-     * Method to find an application
-     * 
-     * @param adopter
-     * @param petprof
-     * @return a specific application to pet profile
+     *
+     * @param username
+     * @param petId
+     * @return
      */
     @Transactional
     public AdoptionApplication getAppbyAdopterAndPetProfile(String username, int petId) {
@@ -173,7 +169,7 @@ public class AdoptionApplicationService {
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-        RegularUser ru = regRepository.findRegularUserByUser(ac);
+        RegularUser ru = regRepository.findRegularUserByClient(ac);
         AdoptionApplication adoptApp = appRepository.findByApplicantAndPetProfile(ru, petprof);
         if (ac !=null && petprof !=null && adoptApp == null) {
             throw new IllegalArgumentException("No such application exists.");

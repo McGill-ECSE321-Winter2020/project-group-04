@@ -32,7 +32,8 @@ public class AdminRestController {
         if (admin == null){
             throw new IllegalArgumentException("The Admin does not exist");
         }
-        return new AdminDTO(admin.getId());
+        AdminDTO adminDTO = new AdminDTO(admin.getId(), admin.getClient().getUsername());
+        return adminDTO;
     }
 
 

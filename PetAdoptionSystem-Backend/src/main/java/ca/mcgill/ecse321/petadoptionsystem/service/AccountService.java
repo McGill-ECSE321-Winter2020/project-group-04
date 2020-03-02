@@ -5,6 +5,7 @@ import java.util.List;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetAdoptionSystemRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
+import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 
-// TODO dao and model imports
 
 @Service
 public class AccountService {
@@ -51,12 +51,11 @@ public class AccountService {
         account.setUsername(username);
         account.setPasswordHash(passwordHash);
         account.setEmail(email);
+
         account.setPetAdoptionSystem(pas);
-        //accountRepository.save(account);
 
         RegularUser regularUser = new RegularUser();
-        regularUser.setUser(account);
-        //regularUserRepository.save(regularUser);
+        regularUser.setClient(account);
 
         account.setUserRole(regularUser);
         accountRepository.save(account);
@@ -89,9 +88,14 @@ public class AccountService {
         account.setUsername(username);
         account.setPasswordHash(passwordHash);
         account.setEmail(email);
-        //account.setUserRole(new Admin());
+
+        //pas.addUser(account);
         account.setPetAdoptionSystem(pas);
 
+        Admin admin = new Admin();
+        admin.setClient(account);
+
+        account.setUserRole(admin);
         accountRepository.save(account);
         return account;
     }

@@ -77,7 +77,7 @@ public class PetProfileRestController {
             throws IllegalArgumentException{
 
         Account account = accountRepository.findAccountByUsername(username);
-        RegularUser userRole = regularUserRepository.findRegularUserByUser(account);
+        RegularUser userRole = regularUserRepository.findRegularUserByClient(account);
 
         PetProfile petProfile  = petProfileRepository.findPetProfileByNameAndPoster(petname,userRole);
 
@@ -167,8 +167,6 @@ public class PetProfileRestController {
         return petDtos;
     }
 
-
-    // TODO should be AccountDTO, not Account
 
     /**
      *

@@ -73,16 +73,17 @@ public class DonationRestController {
         }
         return userDonationDtos;
     }
-    
+
     /**
+     *
      * @param d
-     * @throws IllegalArgumentException
+     * @return
      */
     public DonationDTO convertDonationToDTO(Donation d) {
         if (d == null)
             throw new IllegalArgumentException("There is no such Donation!");
-        RegularUserDTO regDTO = new RegularUserDTO(d.getUser().getDonation(), d.getUser().getUser().getUsername(), d.getUser().getName(),
-                d.getUser().getApplication(), d.getUser().getHomeDescription(), d.getUser().getPhoneNumber());
+        RegularUserDTO regDTO = new RegularUserDTO(d.getClient().getDonation(), d.getClient().getClient().getUsername(), d.getClient().getName(),
+                d.getClient().getApplication(), d.getClient().getHomeDescription(), d.getClient().getPhoneNumber());
         return new DonationDTO(regDTO, d.getTime(), d.getDate(), d.getAmount());
     }
 

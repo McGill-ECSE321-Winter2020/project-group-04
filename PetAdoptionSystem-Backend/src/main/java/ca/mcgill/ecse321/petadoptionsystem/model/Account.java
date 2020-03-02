@@ -1,5 +1,9 @@
 package ca.mcgill.ecse321.petadoptionsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import net.minidev.json.annotate.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,7 +21,8 @@ public class Account {
 
     private UserRole userRole;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
+    @JsonManagedReference
     public UserRole getUserRole() {
         return this.userRole;
     }

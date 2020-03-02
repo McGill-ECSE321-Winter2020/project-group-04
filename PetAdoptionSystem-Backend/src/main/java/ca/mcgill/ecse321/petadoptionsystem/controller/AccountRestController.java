@@ -57,7 +57,7 @@ public class AccountRestController {
     @PostMapping(value = {"/account/createadmin/", "/account/createadmin/"})
     public AccountDTO createAdminAccount(@RequestParam("username") String username, @RequestParam("passwordHash") String passwordHash, @RequestParam("email") String email) {
         PetAdoptionSystem pas = petService.getPetAdoptionSystem();
-        return convertToDTO(accountService.createRegularUserAccount(pas, username, passwordHash, email));
+        return convertToDTO(accountService.createAdminAccount(pas, username, passwordHash, email));
     }
 
     @PutMapping(value = {"/account/updateemail/", "/account/updateemail/"})

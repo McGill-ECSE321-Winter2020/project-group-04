@@ -60,25 +60,25 @@ public class TestDonationService {
             return account;
         });
 
-        lenient().when(regularUserDao.findRegularUserByUser(any(Account.class))).thenAnswer((InvocationOnMock invocation) ->
+        lenient().when(regularUserDao.findRegularUserByClient(any(Account.class))).thenAnswer((InvocationOnMock invocation) ->
         {
             Account account = new Account();
             account.setUsername(USERNAME1);
             RegularUser regularUser = new RegularUser();
-            regularUser.setUser(account);
+            regularUser.setClient(account);
             return regularUser;
         });
 
-        lenient().when(donationDao.findDonationsByUser(any(RegularUser.class))).thenAnswer((InvocationOnMock invocation) ->
+        lenient().when(donationDao.findDonationsByClient(any(RegularUser.class))).thenAnswer((InvocationOnMock invocation) ->
         {
             Account account = new Account();
             account.setUsername(USERNAME1);
             RegularUser regularUser = new RegularUser();
-            regularUser.setUser(account);
+            regularUser.setClient(account);
             Donation donation = new Donation();
             donation.setAmount(AMOUNT1);
 
-            donation.setUser(regularUser);
+            donation.setClient(regularUser);
 
             Set<Donation> donations = new HashSet<Donation>();
             donations.add(donation);
@@ -91,11 +91,11 @@ public class TestDonationService {
             Account account = new Account();
             account.setUsername(USERNAME1);
             RegularUser regularUser = new RegularUser();
-            regularUser.setUser(account);
+            regularUser.setClient(account);
             Donation donation = new Donation();
             donation.setAmount(AMOUNT1);
 
-            donation.setUser(regularUser);
+            donation.setClient(regularUser);
 
             return donation;
         });
@@ -105,11 +105,11 @@ public class TestDonationService {
             Account account1 = new Account();
             account1.setUsername(USERNAME1);
             RegularUser regularUser1 = new RegularUser();
-            regularUser1.setUser(account1);
+            regularUser1.setClient(account1);
             Donation donation1 = new Donation();
             donation1.setAmount(AMOUNT1);
 
-            donation1.setUser(regularUser1);
+            donation1.setClient(regularUser1);
 
             Set<Donation> donations1 = new HashSet<Donation>();
             donations1.add(donation1);
@@ -126,7 +126,7 @@ public class TestDonationService {
 
     @Test
     public void testExistingDonation(){
-        assertEquals(donationService.getDonationsByUsername(USERNAME1).get(0).getUser().getUser().getUsername(), USERNAME1);
+        assertEquals(donationService.getDonationsByUsername(USERNAME1).get(0).getClient().getClient().getUsername(), USERNAME1);
     }
     
     @Test
@@ -151,7 +151,7 @@ public class TestDonationService {
         assertEquals(amount, donation.getAmount());
         assertEquals(time, donation.getTime());
         assertEquals(date, donation.getDate());
-        assertEquals(USERNAME1, donation.getUser().getUser().getUsername());
+        assertEquals(USERNAME1, donation.getClient().getClient().getUsername());
         assertEquals(donId, donation.getId());
 
     }

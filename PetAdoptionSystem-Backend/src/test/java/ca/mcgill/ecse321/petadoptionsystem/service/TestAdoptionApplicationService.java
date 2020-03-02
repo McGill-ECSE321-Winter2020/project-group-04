@@ -118,16 +118,16 @@ public class TestAdoptionApplicationService {
 			RegularUser ru2 = setUpRegularUser(Username3, ruName1, ruDesc1, phoneNum1);
 			Account ac = null;
 			if (invocation.getArgument(0).equals(Username1)) {
-				 ac = ru.getUser();
+				 ac = ru.getClient();
 			} else {
-				ac = ru2.getUser();
+				ac = ru2.getClient();
 			}
 			return ac;
 		});
-		lenient().when(ruDao.findRegularUserByUser(any(Account.class))).thenAnswer((InvocationOnMock invocation) -> {
+		lenient().when(ruDao.findRegularUserByClient(any(Account.class))).thenAnswer((InvocationOnMock invocation) -> {
 			RegularUser ru = setUpRegularUser(Username1, ruName1, ruDesc1, phoneNum1);
 			RegularUser ru2 = setUpRegularUser(Username3, ruName1, ruDesc1, phoneNum1);
-			if (invocation.getArgument(0).equals(ru.getUser().getUsername())) {
+			if (invocation.getArgument(0).equals(ru.getClient().getUsername())) {
 			return ru;
 			} else {
 			return ru2;
@@ -370,7 +370,7 @@ public class TestAdoptionApplicationService {
 		ru.setName(regName);
 		ru.setHomeDescription(desc);
 		ru.setPhoneNumber(phoneNum);
-		ru.setUser(acc);
+		ru.setClient(acc);
 		return ru;
 	}
 

@@ -55,8 +55,8 @@ public class DonationService {
         donation.setDate(date);
         donation.setTime(time);
         Account act =  actRepo.findAccountByUsername(username);
-        RegularUser regUser = regUserRepo.findRegularUserByUser(act);
-        donation.setUser(regUser);
+        RegularUser regUser = regUserRepo.findRegularUserByClient(act);
+        donation.setClient(regUser);
 
         donationRepo.save(donation);
 
@@ -72,11 +72,11 @@ public class DonationService {
         if(username == null || username.trim()=="") throw new IllegalArgumentException("The username cannot be empty or have spaces.\n");
 
         Account act =  actRepo.findAccountByUsername(username);
-        RegularUser regUser = regUserRepo.findRegularUserByUser(act);
-        if(donationRepo.findDonationsByUser(regUser) == null)
+        RegularUser regUser = regUserRepo.findRegularUserByClient(act);
+        if(donationRepo.findDonationsByClient(regUser) == null)
             throw new IllegalArgumentException("No donations associated with this username.\n");
 
-        return toList(donationRepo.findDonationsByUser(regUser));
+        return toList(donationRepo.findDonationsByClient(regUser));
     }
 
 
