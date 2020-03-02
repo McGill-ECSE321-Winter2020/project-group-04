@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.petadoptionsystem.service.AccountService;
@@ -43,8 +44,8 @@ public class AccountRestController {
         return convertToDTO(accountService.getAccountByEmail(email));
     }
 
-    @PostMapping(value = {"/account/createregular/{username}+{email}+{passwordHash}", "/account/createregular/{username}+{email}+{passwordHash}/"})
-    public AccountDTO createRegularUserAccount(@PathVariable("username") String username, @PathVariable("passwordHash") String passwordHash, @PathVariable("email") String email) {
+    @PostMapping(value = {"/account/createregular", "/account/createregular/"})
+    public AccountDTO createRegularUserAccount(@RequestParam("username") String username, @RequestParam("passwordHash") String passwordHash, @RequestParam("email") String email) {
         return convertToDTO(accountService.createRegularUserAccount(username, passwordHash, email));
     }
 
