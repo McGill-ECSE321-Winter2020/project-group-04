@@ -5,6 +5,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.sql.Date;
@@ -14,7 +16,9 @@ import java.sql.Time;
 public class PetProfile {
     public UserRole poster;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="poster_id")
+    @JsonBackReference
     public UserRole getPoster() {
         return this.poster;
     }

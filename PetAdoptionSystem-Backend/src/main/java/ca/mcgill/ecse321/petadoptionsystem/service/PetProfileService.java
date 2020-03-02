@@ -26,8 +26,10 @@ public class PetProfileService {
 
     @Autowired
     PetProfileRepository petprofilerepository;
+
     @Autowired
     RegularUserRepository regularUserRepository;
+
     @Autowired
     AccountRepository accountRepository;
 
@@ -78,13 +80,13 @@ public class PetProfileService {
             throw new IllegalArgumentException(error);
         } 
 
-        if (!accountRepository.existsByUsername(username))
-           error += "No user associated with this username";
-    
+        // if (!accountRepository.existsByUsername(username))
+        //    error += "No user associated with this username" + username;
+        System.out.println("HEERRRRRRR: " + username.length());
         if (error.length() > 0) throw new IllegalArgumentException(error);
-        
-         Account account = accountRepository.findAccountByUsername(username);
-         RegularUser userRole = regularUserRepository.findRegularUserByClient(account);
+         String myUsername = "" + username.toString().trim();
+         Account account = accountRepository.findAccountByUsername(username.trim());
+         UserRole userRole = account.getUserRole();
 
         // // Check if the user has another pet with that same name (not possible)
 

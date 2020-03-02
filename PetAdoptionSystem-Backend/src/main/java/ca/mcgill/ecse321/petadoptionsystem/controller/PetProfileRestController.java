@@ -45,7 +45,8 @@ public class PetProfileRestController {
      * @throws IllegalArgumentException error
      */
     @PostMapping(value = { "/petprofile", "/petprofile/" })
-    public PetProfileDTO createPetProfile(@RequestParam("username") String username,
+    public PetProfileDTO createPetProfile(
+            @RequestParam("username") String username,
             // @RequestBody String[] images,
             @RequestParam("petName") String petName, 
             @RequestParam("petType") String petType,

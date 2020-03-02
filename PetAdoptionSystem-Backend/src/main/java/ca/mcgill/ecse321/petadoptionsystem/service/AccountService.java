@@ -27,8 +27,6 @@ public class AccountService {
     AdminRepository adminRepository;
     @Autowired
     RegularUserRepository regularUserRepository;
-    @Autowired
-    RegularUserRepository regularUserRepository;
 
     @Autowired
     PetAdoptionSystemRepository petAdoptionSystemRepository;
@@ -58,15 +56,19 @@ public class AccountService {
         account.setEmail(email);
 
         account.setPetAdoptionSystem(pas);
-        
+        accountRepository.save(account);
         RegularUser regUser = new RegularUser();
-        regUser.setClient(account);
+
+        regUser.setClient(accountRepository.findAccountByUsername(username));
         regUser.setName(name);
         regUser.setHomeDescription(homeDesc);
         regUser.setPhoneNumber(phoneNumber);
-        account.setUserRole(regUser);
+        regularUserRepository.save(regUser);
+        account.setUserRole(regularUserRepository.findRegularUserByClient(account));
         accountRepository.save(account);
-        //regularUserRepository.save(regUser);
+        
+        
+        
         return account;
     }
 
@@ -102,7 +104,9 @@ public class AccountService {
         admin.setClient(account);
 
         account.setUserRole(admin);
+        adminRepository.save(admin);
         accountRepository.save(account);
+        
         return account;
     }
 
