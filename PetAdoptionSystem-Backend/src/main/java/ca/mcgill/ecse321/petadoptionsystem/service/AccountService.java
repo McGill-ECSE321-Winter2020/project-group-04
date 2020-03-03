@@ -54,17 +54,18 @@ public class AccountService {
         account.setUsername(username);
         account.setPasswordHash(passwordHash);
         account.setEmail(email);
-
         account.setPetAdoptionSystem(pas);
+
         accountRepository.save(account);
         RegularUser regUser = new RegularUser();
-
         regUser.setClient(accountRepository.findAccountByUsername(username));
+
         regUser.setName(name);
         regUser.setHomeDescription(homeDesc);
         regUser.setPhoneNumber(phoneNumber);
-        regularUserRepository.save(regUser);
-        account.setUserRole(regularUserRepository.findRegularUserByClient(account));
+        //regularUserRepository.save(regUser);
+        //account.setUserRole(regularUserRepository.findRegularUserByClient(account));
+        account.setUserRole(regUser);
         accountRepository.save(account);
         
         
@@ -99,12 +100,12 @@ public class AccountService {
         account.setEmail(email);
         account.setPetAdoptionSystem(pas);
         
-
+        accountRepository.save(account);
         Admin admin = new Admin();
         admin.setClient(account);
 
         account.setUserRole(admin);
-        adminRepository.save(admin);
+        //adminRepository.save(admin);
         accountRepository.save(account);
         
         return account;
