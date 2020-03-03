@@ -1,7 +1,19 @@
 package ca.mcgill.ecse321.petadoptionsystem;
 
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
+
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,16 +21,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -120,6 +122,7 @@ public class PetSystemIntegrationTests {
             fail();
         }
     }
+
     @Test
     public void testGetRegularUserbyUser() {
         try {
@@ -157,35 +160,35 @@ public class PetSystemIntegrationTests {
     }
     @Test
     public void testGetApplication() {
-     try {
-			String applicationId = send("POST", APP_URL, "/applications/",
-					"username=" + restUserNameRegular + "&email=" + restEmailRegularUser)
-							.getString("applicationId");
-			JSONArray applications = sendArray("GET", APP_URL, "/applications/" + applicationId, "");
-			for (int i = 0; i < applications.length(); i++) {
-				JSONObject o = applications.getJSONObject(i);
-				assertEquals(restUserNameRegular, o.getString("applicant"));
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-			fail();
-		}
+        try {
+            String applicationId = send("POST", APP_URL, "/applications/",
+                    "username=" + restUserNameRegular + "&email=" + restEmailRegularUser)
+                    .getString("applicationId");
+            JSONArray applications = sendArray("GET", APP_URL, "/applications/" + applicationId, "");
+            for (int i = 0; i < applications.length(); i++) {
+                JSONObject o = applications.getJSONObject(i);
+                assertEquals(restUserNameRegular, o.getString("applicant"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            fail();
+        }
     }
     @Test
     public void testUpdateApplication() {
         try {
-			String applicationId = send("POST", APP_URL, "/apply",
-					"username=" + restUserNameRegular + "&email=" + restEmailRegularUser)
-							.getString("applicationId");
-			JSONArray applications = sendArray("GET", APP_URL, "/updateApplication/" + applicationId, "");
-			for (int i = 0; i < applications.length(); i++) {
-				JSONObject o = applications.getJSONObject(i);
-				assertEquals(true, o.getString("confirm"));
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-			fail();
-		}
+            String applicationId = send("POST", APP_URL, "/apply",
+                    "username=" + restUserNameRegular + "&email=" + restEmailRegularUser)
+                    .getString("applicationId");
+            JSONArray applications = sendArray("GET", APP_URL, "/updateApplication/" + applicationId, "");
+            for (int i = 0; i < applications.length(); i++) {
+                JSONObject o = applications.getJSONObject(i);
+                assertEquals(true, o.getString("confirm"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test

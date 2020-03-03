@@ -8,8 +8,6 @@ import java.util.Set;
 
 
 public class RegularUserDTO {
-
-    public Set<Donation> donation;
     public String client;
     public String name;
     public Set<AdoptionApplication> application;
@@ -21,12 +19,11 @@ public class RegularUserDTO {
     @SuppressWarnings("unchecked")
     public RegularUserDTO(String name){
         
-        this(new HashSet<Donation>(), "", name, new HashSet<AdoptionApplication>(), "", 0);
+        this("", name, new HashSet<AdoptionApplication>(), "", 0);
     }
     
-    public RegularUserDTO(Set<Donation> donation, String client, String name,
+    public RegularUserDTO(String client, String name,
                           Set<AdoptionApplication> application, String homeDescription, int phoneNumber) {
-        this.donation = donation;
         this.client = client;
         this.name = name;
         this.application = application;
@@ -37,10 +34,6 @@ public class RegularUserDTO {
 
     public String getClient() {
         return this.client;
-    }
-
-    public Set<Donation> getDonation() {
-        return this.donation;
     }
 
     public Set<AdoptionApplication> getApplication() {

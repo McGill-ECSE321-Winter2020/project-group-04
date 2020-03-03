@@ -26,8 +26,10 @@ public class PetProfileService {
 
     @Autowired
     PetProfileRepository petprofilerepository;
+
     @Autowired
     RegularUserRepository regularUserRepository;
+
     @Autowired
     AccountRepository accountRepository;
 
@@ -74,17 +76,15 @@ public class PetProfileService {
         if(images==null || images.size()==0) 
             throw new ImageStorageException("You need to submit at least one image url");
         if (error.length() > 0){
-            System.out.println(error);
             throw new IllegalArgumentException(error);
         } 
-
+        username = username.trim();
         if (!accountRepository.existsByUsername(username))
-           error += "No user associated with this username";
-    
+           error += "No user associated with this username" + username;
+       
         if (error.length() > 0) throw new IllegalArgumentException(error);
-        
-         Account account = accountRepository.findAccountByUsername(username);
-         RegularUser userRole = regularUserRepository.findRegularUserByClient(account);
+         Account account = accountRepository.findAccountByUsername(username.trim());
+         UserRole userRole = account.getUserRole();
 
         // // Check if the user has another pet with that same name (not possible)
 

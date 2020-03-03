@@ -99,12 +99,12 @@ class TestingUtility {
      * @param regUser
      * @return
      */
-    public static Donation initDonation(int pkey, RegularUser regUser) {
+    public static Donation initDonation(int pkey,String username) {
 
         Donation don = new Donation();
         don.setId(pkey);
-        don.setClient(regUser);
-
+        don.setDonorName(username);
+        
         return don;
 
     }
