@@ -129,8 +129,10 @@ public class PetProfileRestController {
      * @return th list of petprofiles of a singular user
      * @throws IllegalArgumentException errors
      */
-    @GetMapping(value = { "/petprofiles/{username}", "/petprofiles/{username}/" })
-    public List<PetProfileDTO> getAllPetProfilesOfUser(@PathVariable("username") String username)
+    @GetMapping(value = { "/petprofiles/byUser", "/petprofiles/byUser/" })
+    public List<PetProfileDTO> getAllPetProfilesOfUser(
+        @RequestParam("username") String username
+    )
             throws IllegalArgumentException {
 
         List<PetProfileDTO> petDtos = new ArrayList<>();
@@ -140,10 +142,12 @@ public class PetProfileRestController {
         return petDtos;
     }
 
-    @GetMapping(value = { "/petprofiles/{available}", "/petprofiles/{available}/" })
-    public List<PetProfileDTO> getAllPetProfilesIsAvailable(@PathVariable("available") boolean available)
+    @GetMapping(value = { "/petprofiles/byIsAvailable", "/petprofiles/byIsAvailable/" })
+    public List<PetProfileDTO> getAllPetProfilesIsAvailable(
+        @RequestParam("isAvailable") int isAvailable
+    )
             throws IllegalArgumentException {
-
+        boolean available = isAvailable == 0 ? false : true;
         List<PetProfileDTO> petDtos = new ArrayList<>();
         for (PetProfile pet : petProfileService.getAllPetProfilesByIsAvailable(available)) {
             petDtos.add(convertToDto(pet));
@@ -157,8 +161,10 @@ public class PetProfileRestController {
      * @return a list with the needed pets
      * @throws IllegalArgumentException error
      */
-    @GetMapping(value = { "/petprofiles/{breed}", "/petprofiles/{breed}/" })
-    public List<PetProfileDTO> getAllPetProfilesOfBreed(@PathVariable("breed") String breed)
+    @GetMapping(value = { "/petprofiles/byBreed", "/petprofiles/byBreed/" })
+    public List<PetProfileDTO> getAllPetProfilesOfBreed(
+        @RequestParam String breed
+    )
             throws IllegalArgumentException {
 
         List<PetProfileDTO> petDtos = new ArrayList<>();
@@ -174,12 +180,14 @@ public class PetProfileRestController {
      * @return a list of all pets of this type
      * @throws IllegalArgumentException error
      */
-    @GetMapping(value = { "/petprofiles/{type}", "/petprofiles/{type}/" })
-    public List<PetProfileDTO> getAllPetProfilesOfType(@PathVariable("type") PetType type)
+    @GetMapping(value = { "/petprofiles/byPetType", "/petprofiles/byPetType" })
+    public List<PetProfileDTO> getAllPetProfilesOfType(
+        @RequestParam("petType") String petType
+    )
             throws IllegalArgumentException {
-
+        PetType pType = convertToPetType(petType);
         List<PetProfileDTO> petDtos = new ArrayList<>();
-        for (PetProfile pet : petProfileService.getAllPetProfilesByPetType(type)) {
+        for (PetProfile pet : petProfileService.getAllPetProfilesByPetType(pType)) {
             petDtos.add(convertToDto(pet));
         }
         return petDtos;

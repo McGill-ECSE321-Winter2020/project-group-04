@@ -6,12 +6,12 @@ public class AccountDTO {
 
     private String username;
     private String email;
-    private UserRole userRole;
+    // private UserRole userRole;
 
     public AccountDTO(String username, String email, UserRole userRole) {
         this.username = username;
         this.email = email;
-        this.userRole = userRole;
+        // this.userRole = userRole;
     }
 
     public String getUsername() {
@@ -22,7 +22,7 @@ public class AccountDTO {
         return this.email;
     }
 
-    public UserRole getUserRole() {
-        return this.userRole;
-    }
+    // public UserRole getUserRole() {
+    //     return this.userRole;
+    // }
 }

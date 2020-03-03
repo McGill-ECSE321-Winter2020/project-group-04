@@ -42,7 +42,7 @@ public class PetProfile {
     }
 
     private Set<AdoptionApplication> application;
-   @JsonManagedReference
+   @JsonBackReference
     @OneToMany(mappedBy = "petProfile", cascade = CascadeType.REMOVE)
     public Set<AdoptionApplication> getApplication() {
         return this.application;

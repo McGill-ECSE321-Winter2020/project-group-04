@@ -17,7 +17,6 @@ public class PetProfileDTO {
     public PetProfileDTO(){};
 //    public UserRole poster;
     public HashSet<String> images;
-    public Set<AdoptionApplication> application;
     public String name;
     public PetType petType;
     public String breed;
@@ -45,7 +44,11 @@ public class PetProfileDTO {
     public PetProfileDTO(HashSet<String> images, Set<AdoptionApplication> application, String name, PetType petType,
                          String breed, String description, int id, String reasonForPosting, Date postDate, Time postTime, boolean isAvailable){
         this.images = images;
-        this.application = application;
+
+        // this.application =new HashSet<>();
+        // for(AdoptionApplication a : application){
+        //     this.application.add(a.getId());
+        // }
         this.name = name;
         this.petType = petType;
         this.breed = breed;
