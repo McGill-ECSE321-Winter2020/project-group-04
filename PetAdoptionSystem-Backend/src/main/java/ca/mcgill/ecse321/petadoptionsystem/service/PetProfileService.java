@@ -83,7 +83,6 @@ public class PetProfileService {
            error += "No user associated with this username" + username;
        
         if (error.length() > 0) throw new IllegalArgumentException(error);
-         String myUsername = "" + username.toString().trim();
          Account account = accountRepository.findAccountByUsername(username.trim());
          UserRole userRole = account.getUserRole();
 

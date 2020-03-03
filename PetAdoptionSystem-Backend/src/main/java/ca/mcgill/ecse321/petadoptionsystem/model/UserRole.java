@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.petadoptionsystem.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;

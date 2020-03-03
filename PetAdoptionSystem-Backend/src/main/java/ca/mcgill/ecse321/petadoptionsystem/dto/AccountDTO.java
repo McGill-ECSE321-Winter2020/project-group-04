@@ -8,7 +8,6 @@ public class AccountDTO {
     private String email;
     private UserRole userRole;
 
-    @SuppressWarnings("unchecked")
     public AccountDTO(String username, String email, UserRole userRole) {
         this.username = username;
         this.email = email;
