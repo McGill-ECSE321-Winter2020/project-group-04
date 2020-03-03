@@ -25,8 +25,6 @@ public class RegularUserRestController {
     @Autowired
     RegularUserRepository regularUserRepository;
 
-
-
     /**
      *
      * @return all regular users
@@ -78,13 +76,17 @@ public class RegularUserRestController {
 
     }
 
-
+    /**
+     *
+     * @param reg
+     * @return
+     */
     private RegularUserDTO convertToDto(RegularUser reg) {
         if (reg == null) {
             throw new IllegalArgumentException("There is no such User!");
         }
 
-        RegularUserDTO regDto = new RegularUserDTO(reg.getDonation(), reg.getClient().getUsername(), reg.getName(), reg.getApplication(), reg.getHomeDescription(),
+        RegularUserDTO regDto = new RegularUserDTO(reg.getClient().getUsername(), reg.getName(), reg.getApplication(), reg.getHomeDescription(),
                 reg.getPhoneNumber());
 
         return regDto;

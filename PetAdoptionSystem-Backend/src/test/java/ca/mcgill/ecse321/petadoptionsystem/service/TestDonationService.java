@@ -24,6 +24,7 @@ import java.sql.Date;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,6 +44,7 @@ public class TestDonationService {
     private static final String USERNAME1 = "Will";
     private static final String NON_EXISTING_USERNAME = "Samantha";
     private static final float AMOUNT1 = 50;
+    private static final String DONOREMAIL = "donor@gmail.com";
 
     @AfterEach
     public void clearDataBase(){
@@ -51,6 +53,9 @@ public class TestDonationService {
         donationDao.deleteAll();
     }
 
+    /**
+     * set mock output
+     */
     @BeforeEach
     public void setMockOutput(){
         lenient().when(accountDao.findAccountByUsername(USERNAME1)).thenAnswer((InvocationOnMock invocation) ->
@@ -69,17 +74,14 @@ public class TestDonationService {
             return regularUser;
         });
 
-        lenient().when(donationDao.findDonationsByClient(any(RegularUser.class))).thenAnswer((InvocationOnMock invocation) ->
+        lenient().when(donationDao.findDonationsByDonorName(anyString())).thenAnswer((InvocationOnMock invocation) ->
         {
-            Account account = new Account();
-            account.setUsername(USERNAME1);
-            RegularUser regularUser = new RegularUser();
-            regularUser.setClient(account);
+           
             Donation donation = new Donation();
             donation.setAmount(AMOUNT1);
 
-            donation.setClient(regularUser);
-
+            donation.setDonorName(USERNAME1);
+            donation.setDonorEmail(DONOREMAIL);
             Set<Donation> donations = new HashSet<Donation>();
             donations.add(donation);
 
@@ -88,31 +90,24 @@ public class TestDonationService {
 
         lenient().when(donationDao.findDonationById(anyInt())).thenAnswer((InvocationOnMock invocation) ->
         {
-            Account account = new Account();
-            account.setUsername(USERNAME1);
-            RegularUser regularUser = new RegularUser();
-            regularUser.setClient(account);
+            
             Donation donation = new Donation();
             donation.setAmount(AMOUNT1);
-
-            donation.setClient(regularUser);
+            donation.setDonorEmail(DONOREMAIL);
+            donation.setDonorName(USERNAME1);
 
             return donation;
         });
 
         lenient().when(donationDao.findAll()).thenAnswer((InvocationOnMock invocation) ->
         {
-            Account account1 = new Account();
-            account1.setUsername(USERNAME1);
-            RegularUser regularUser1 = new RegularUser();
-            regularUser1.setClient(account1);
-            Donation donation1 = new Donation();
-            donation1.setAmount(AMOUNT1);
+            Donation donation = new Donation();
+            donation.setAmount(AMOUNT1);
 
-            donation1.setClient(regularUser1);
-
+            donation.setDonorName(USERNAME1);
+            donation.setDonorEmail(DONOREMAIL);
             Set<Donation> donations1 = new HashSet<Donation>();
-            donations1.add(donation1);
+            donations1.add(donation);
 
             return toList(donations1);
         });
@@ -126,9 +121,9 @@ public class TestDonationService {
 
     @Test
     public void testExistingDonation(){
-        assertEquals(donationService.getDonationsByUsername(USERNAME1).get(0).getClient().getClient().getUsername(), USERNAME1);
+        assertEquals(donationService.getDonationsByUsername(USERNAME1).get(0).getDonorName(), USERNAME1);
     }
-    
+
     @Test
     public void testCreateDonation(){
         //String username = "Bill";
@@ -141,7 +136,7 @@ public class TestDonationService {
 
         Donation donation = null;
         try {
-            donation = donationService.createDonation(amount, date, time, USERNAME1);
+            donation = donationService.createDonation(amount, date, time, USERNAME1, DONOREMAIL);
             donId = donation.getId();
         }catch(IllegalArgumentException e){
             fail();
@@ -151,7 +146,7 @@ public class TestDonationService {
         assertEquals(amount, donation.getAmount());
         assertEquals(time, donation.getTime());
         assertEquals(date, donation.getDate());
-        assertEquals(USERNAME1, donation.getClient().getClient().getUsername());
+        assertEquals(USERNAME1, donation.getDonorName());
         assertEquals(donId, donation.getId());
 
     }

@@ -25,6 +25,9 @@ public class AccountTest {
         petAdoptionSystemRepository.deleteAll();
     }
 
+    /**
+     * Account persistence test
+     */
     @Test
     public void testPersistAndLoadAccount(){
         PetAdoptionSystem system = TestingUtility.initPetAdoptionSystem(123);

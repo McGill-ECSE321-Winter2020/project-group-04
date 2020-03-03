@@ -5,15 +5,17 @@ import java.util.List;
 
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetAdoptionSystemRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
-import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
+import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
+import ca.mcgill.ecse321.petadoptionsystem.dao.AdminRepository;
 
 
 @Service
@@ -21,14 +23,28 @@ public class AccountService {
 
     @Autowired
     AccountRepository accountRepository;
-
+    @Autowired
+    AdminRepository adminRepository;
     @Autowired
     RegularUserRepository regularUserRepository;
 
     @Autowired
     PetAdoptionSystemRepository petAdoptionSystemRepository;
+
+    /**
+     *
+     * @param pas
+     * @param username
+     * @param name
+     * @param passwordHash
+     * @param email
+     * @param homeDesc
+     * @param phoneNumber
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Transactional
-    public Account createRegularUserAccount(PetAdoptionSystem pas, String username, String passwordHash, String email) throws IllegalArgumentException {
+    public Account createRegularUserAccount(PetAdoptionSystem pas, String username, String name, String passwordHash, String email, String homeDesc, int phoneNumber) throws IllegalArgumentException {
         
         String error = "";
 
@@ -51,20 +67,35 @@ public class AccountService {
         account.setUsername(username);
         account.setPasswordHash(passwordHash);
         account.setEmail(email);
-
         account.setPetAdoptionSystem(pas);
 
-        RegularUser regularUser = new RegularUser();
-        regularUser.setClient(account);
-
-        account.setUserRole(regularUser);
         accountRepository.save(account);
+        RegularUser regUser = new RegularUser();
+        regUser.setClient(accountRepository.findAccountByUsername(username));
 
+        regUser.setName(name);
+        regUser.setHomeDescription(homeDesc);
+        regUser.setPhoneNumber(phoneNumber);
+        account.setUserRole(regUser);
+        accountRepository.save(account);
+        
+        
+        
         return account;
     }
 
+    /**
+     *
+     * @param pas
+     * @param username
+     * @param name
+     * @param passwordHash
+     * @param email
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Transactional
-    public Account createAdminAccount(PetAdoptionSystem pas, String username, String passwordHash, String email) throws IllegalArgumentException {
+    public Account createAdminAccount(PetAdoptionSystem pas, String username, String name, String passwordHash, String email) throws IllegalArgumentException {
         
         String error = "";
 
@@ -88,18 +119,25 @@ public class AccountService {
         account.setUsername(username);
         account.setPasswordHash(passwordHash);
         account.setEmail(email);
-
-        //pas.addUser(account);
         account.setPetAdoptionSystem(pas);
-
+        
+        accountRepository.save(account);
         Admin admin = new Admin();
         admin.setClient(account);
 
         account.setUserRole(admin);
+
         accountRepository.save(account);
+        
         return account;
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Transactional
     public Account getAccountByUsername(String username) throws IllegalArgumentException {
 
@@ -116,6 +154,12 @@ public class AccountService {
         return accountRepository.findAccountByUsername(username);
     }
 
+    /**
+     *
+     * @param email
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Transactional
     public Account getAccountByEmail(String email) throws IllegalArgumentException {
 
@@ -132,11 +176,22 @@ public class AccountService {
         return accountRepository.findAccountByEmail(email);
     }
 
+    /**
+     *
+     * @return
+     */
     @Transactional
     public List<Account> getAllAccounts() {
         return toList(accountRepository.findAll());
     }
 
+    /**
+     *
+     * @param username
+     * @param newEmail
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Transactional
     public Account updateEmail(String username, String newEmail) throws IllegalArgumentException {
         
@@ -165,6 +220,11 @@ public class AccountService {
         return account;
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Transactional
     public Account deleteAccount(String username) {
 
@@ -181,6 +241,12 @@ public class AccountService {
         return account;
     }
 
+    /**
+     *
+     * @param iterable
+     * @param <T>
+     * @return
+     */
     private static <T> List<T> toList(Iterable<T> iterable) {
         ArrayList<T> list = new ArrayList<T>();
         for (T t : iterable) {

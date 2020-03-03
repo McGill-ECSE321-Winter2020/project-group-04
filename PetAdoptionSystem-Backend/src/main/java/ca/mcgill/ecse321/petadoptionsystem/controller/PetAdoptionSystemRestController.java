@@ -14,18 +14,33 @@ public class PetAdoptionSystemRestController {
     @Autowired
     private PetAdoptionSystemService service;
 
+    /**
+     *
+     * @return
+     * @throws IllegalArgumentException
+     */
     @PostMapping(value = {"/createSystem", "/createSystem"})
     public PetAdoptionSystemDTO createPetAdoptionSystem()throws IllegalArgumentException{
          PetAdoptionSystem pas = service.createPetAdoptionSystem();
          return convertToDto(pas);
     }
 
+    /**
+     *
+     * @return
+     * @throws IllegalArgumentException
+     */
     @GetMapping(value = {"/getSystem", "/getSystem/"})
     public PetAdoptionSystemDTO getPetAdoptionSystem() throws IllegalArgumentException {
         PetAdoptionSystem pas = service.getPetAdoptionSystem();
         return convertToDto(pas);
     }
 
+    /**
+     *
+     * @param pas
+     * @return
+     */
     private PetAdoptionSystemDTO convertToDto(PetAdoptionSystem pas) {
         return new PetAdoptionSystemDTO(pas.getId());
     }

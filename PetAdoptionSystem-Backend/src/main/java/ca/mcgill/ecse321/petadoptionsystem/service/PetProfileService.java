@@ -26,8 +26,10 @@ public class PetProfileService {
 
     @Autowired
     PetProfileRepository petprofilerepository;
+
     @Autowired
     RegularUserRepository regularUserRepository;
+
     @Autowired
     AccountRepository accountRepository;
 
@@ -45,7 +47,6 @@ public class PetProfileService {
      * @param images why post it
      * @return the whole petprofile with attributes
      */
-
     @Transactional
     public PetProfile createPetProfile(String breed, String description, String name,
                                        PetType pettype, Time posttime, Date postdate, String username, String reason, boolean isAvailable, HashSet<String> images)
@@ -74,17 +75,15 @@ public class PetProfileService {
         if(images==null || images.size()==0) 
             throw new ImageStorageException("You need to submit at least one image url");
         if (error.length() > 0){
-            System.out.println(error);
             throw new IllegalArgumentException(error);
         } 
-
+        username = username.trim();
         if (!accountRepository.existsByUsername(username))
-           error += "No user associated with this username";
-    
+           error += "No user associated with this username" + username;
+       
         if (error.length() > 0) throw new IllegalArgumentException(error);
-        
-         Account account = accountRepository.findAccountByUsername(username);
-         RegularUser userRole = regularUserRepository.findRegularUserByClient(account);
+         Account account = accountRepository.findAccountByUsername(username.trim());
+         UserRole userRole = account.getUserRole();
 
         // // Check if the user has another pet with that same name (not possible)
 
@@ -197,6 +196,11 @@ public class PetProfileService {
         return toList(petprofilerepository.findAllPetProfileByPetType(type));
     }
 
+    /**
+     *
+     * @param available
+     * @return
+     */
     @Transactional
     public List<PetProfile> getAllPetProfilesByIsAvailable(boolean available){
 
@@ -321,6 +325,12 @@ public class PetProfileService {
 
     }
 
+    /**
+     *
+     * @param iterable
+     * @param <T>
+     * @return
+     */
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<T>();
         for (T t : iterable) {

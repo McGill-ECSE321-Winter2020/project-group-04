@@ -1,8 +1,6 @@
 package ca.mcgill.ecse321.petadoptionsystem.dto;
 
 import ca.mcgill.ecse321.petadoptionsystem.model.Account;
-
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 

@@ -42,7 +42,9 @@ public class PetAdoptionSystemTest {
 
     }
 
-    
+    /**
+     * System persistence test
+     */
     @Test
     void testPersistAndLoadPetAdoptionSystem() {
          PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);

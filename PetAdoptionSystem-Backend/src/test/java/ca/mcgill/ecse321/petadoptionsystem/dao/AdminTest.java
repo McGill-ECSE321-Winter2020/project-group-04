@@ -32,6 +32,9 @@ public class AdminTest {
         petAdoptionSystemRepository.deleteAll();
     }
 
+    /**
+     * Admin persistence test
+     */
     @Test
     public void persistAndLoadAdmin(){
         PetAdoptionSystem system = TestingUtility.initPetAdoptionSystem(123);

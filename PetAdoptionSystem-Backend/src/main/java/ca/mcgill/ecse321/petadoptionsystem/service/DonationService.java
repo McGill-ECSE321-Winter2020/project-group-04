@@ -43,7 +43,7 @@ public class DonationService {
      * @return
      */
     @Transactional
-    public Donation createDonation(float amount, Date date, Time time, String username){
+    public Donation createDonation(float amount, Date date, Time time, String username, String donorEmail){
         
         if(amount ==0) throw new AmountInvalidException("Please donate an amount greater than 0. Thank you for your Donation");
         if(date==null) throw new NullPointerException("Date is currently null. Plense enter correct date value");
@@ -54,32 +54,47 @@ public class DonationService {
         donation.setAmount(amount);
         donation.setDate(date);
         donation.setTime(time);
-        Account act =  actRepo.findAccountByUsername(username);
-        RegularUser regUser = regUserRepo.findRegularUserByClient(act);
-        donation.setClient(regUser);
+        
+        donation.setDonorName(username);
+        donation.setDonorEmail(donorEmail);
 
         donationRepo.save(donation);
 
         return donation;
     }
+
+    /**
+     *
+     * @return
+     */
     @Transactional 
     public List<Donation> getAllDonation(){
         return toList(donationRepo.findAll());
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Transactional
     public List<Donation> getDonationsByUsername(String username){
         if(username == null || username.trim()=="") throw new IllegalArgumentException("The username cannot be empty or have spaces.\n");
 
         Account act =  actRepo.findAccountByUsername(username);
         RegularUser regUser = regUserRepo.findRegularUserByClient(act);
-        if(donationRepo.findDonationsByClient(regUser) == null)
+        if(donationRepo.findDonationsByDonorName(username) == null)
             throw new IllegalArgumentException("No donations associated with this username.\n");
 
-        return toList(donationRepo.findDonationsByClient(regUser));
+        return toList(donationRepo.findDonationsByDonorName(username));
     }
 
-
+    /**
+     *
+     * @param iterable
+     * @param <T>
+     * @return
+     */
     private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
