@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.Id;
 import java.sql.Date;
 import java.sql.Time;
@@ -12,6 +16,7 @@ import java.sql.Time;
 public class AdoptionApplication {
     private PetProfile petProfile;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     public PetProfile getPetProfile() {
         return this.petProfile;

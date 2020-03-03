@@ -76,13 +76,12 @@ public class PetProfileService {
         if(images==null || images.size()==0) 
             throw new ImageStorageException("You need to submit at least one image url");
         if (error.length() > 0){
-            System.out.println(error);
             throw new IllegalArgumentException(error);
         } 
-
-        // if (!accountRepository.existsByUsername(username))
-        //    error += "No user associated with this username" + username;
-        System.out.println("HEERRRRRRR: " + username.length());
+        username = username.trim();
+        if (!accountRepository.existsByUsername(username))
+           error += "No user associated with this username" + username;
+       
         if (error.length() > 0) throw new IllegalArgumentException(error);
          String myUsername = "" + username.toString().trim();
          Account account = accountRepository.findAccountByUsername(username.trim());
