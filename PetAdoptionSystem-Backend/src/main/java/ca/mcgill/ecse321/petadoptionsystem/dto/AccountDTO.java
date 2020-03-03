@@ -8,6 +8,12 @@ public class AccountDTO {
     private String email;
     private UserRole userRole;
 
+    /**
+     *
+     * @param username
+     * @param email
+     * @param userRole
+     */
     public AccountDTO(String username, String email, UserRole userRole) {
         this.username = username;
         this.email = email;

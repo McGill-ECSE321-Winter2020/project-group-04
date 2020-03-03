@@ -25,8 +25,6 @@ public class RegularUserRestController {
     @Autowired
     RegularUserRepository regularUserRepository;
 
-
-
     /**
      *
      * @return all regular users
@@ -78,7 +76,11 @@ public class RegularUserRestController {
 
     }
 
-
+    /**
+     *
+     * @param reg
+     * @return
+     */
     private RegularUserDTO convertToDto(RegularUser reg) {
         if (reg == null) {
             throw new IllegalArgumentException("There is no such User!");

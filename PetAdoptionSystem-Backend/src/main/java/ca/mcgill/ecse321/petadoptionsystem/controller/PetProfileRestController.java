@@ -140,6 +140,12 @@ public class PetProfileRestController {
         return petDtos;
     }
 
+    /**
+     *
+     * @param available
+     * @return
+     * @throws IllegalArgumentException
+     */
     @GetMapping(value = { "/petprofiles/{available}", "/petprofiles/{available}/" })
     public List<PetProfileDTO> getAllPetProfilesIsAvailable(@PathVariable("available") boolean available)
             throws IllegalArgumentException {
@@ -200,6 +206,11 @@ public class PetProfileRestController {
 
     }
 
+    /**
+     *
+     * @param pet
+     * @return
+     */
     private PetProfileDTO convertToDto(PetProfile pet) {
         if (pet == null) {
             throw new IllegalArgumentException("There is no such Pet!");
@@ -212,6 +223,11 @@ public class PetProfileRestController {
         return petDto;
     }
 
+    /**
+     *
+     * @param petType
+     * @return
+     */
     private PetType convertToPetType(String petType){
         
         try {

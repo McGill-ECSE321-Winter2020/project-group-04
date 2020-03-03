@@ -25,7 +25,9 @@ public class RegularUserTest {
     @Autowired
     private RegularUserRepository regularUserRepository;
 
-
+    /**
+     * REgularUser persistence test
+     */
     @Test
     public void testPersistAndLoadRegularUser() {
         PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);

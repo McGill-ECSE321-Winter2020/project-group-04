@@ -31,6 +31,11 @@ public class AdminService {
         return admins;
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Transactional
     public Admin getAdminByUsername(String username){
         Account account = accountRepository.findAccountByUsername(username);

@@ -10,9 +10,10 @@ public class DonationDTO {
     private Date date;
     private float amnt;
     public DonationDTO(){};
+
     /**
-     * 
-     * @param regUserDto
+     *
+     * @param donor
      * @param time
      * @param date
      * @param amount

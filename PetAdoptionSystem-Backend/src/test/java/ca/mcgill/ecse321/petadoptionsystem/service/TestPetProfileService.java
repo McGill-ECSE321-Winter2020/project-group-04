@@ -63,6 +63,9 @@ public class TestPetProfileService {
 
     private final UserRole user = new RegularUser();
 
+    /**
+     * set mock output
+     */
     @BeforeEach
     public void setMockOutput() {
         lenient().when(petprofilerepository.findAllPetProfileByBreed(anyString()))
