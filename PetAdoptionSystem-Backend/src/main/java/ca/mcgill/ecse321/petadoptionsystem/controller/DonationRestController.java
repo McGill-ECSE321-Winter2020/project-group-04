@@ -8,12 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,14 +39,16 @@ public class DonationRestController {
     @PostMapping(value = { "/donations", "/donation/" })
     public DonationDTO createDonation(
             @RequestParam float amount,
-            @RequestParam("username") String username) throws IllegalArgumentException {
-
+            @RequestParam("username") String username,
+            @RequestParam("email") String email
+            ) throws IllegalArgumentException {
+            
             LocalTime localTime = LocalTime.now();
             LocalDate localDate = LocalDate.now();
             Time time = Time.valueOf(localTime);
             Date date = Date.valueOf(localDate);
 
-        Donation d = donationService.createDonation(amount, date, time, username);
+        Donation d = donationService.createDonation(amount, date, time, username, email);
 
         return convertDonationToDTO(d);
     }
@@ -83,9 +82,8 @@ public class DonationRestController {
     public DonationDTO convertDonationToDTO(Donation d) {
         if (d == null)
             throw new IllegalArgumentException("There is no such Donation!");
-        RegularUserDTO regDTO = new RegularUserDTO(d.getClient().getDonation(), d.getClient().getClient().getUsername(), d.getClient().getName(),
-                d.getClient().getApplication(), d.getClient().getHomeDescription(), d.getClient().getPhoneNumber());
-        return new DonationDTO(regDTO, d.getTime(), d.getDate(), d.getAmount());
+       
+        return new DonationDTO(d.getDonorEmail(), d.getTime(), d.getDate(), d.getAmount());
     }
 
 

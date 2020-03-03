@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.petadoptionsystem.service.AccountService;
 import ca.mcgill.ecse321.petadoptionsystem.service.AdoptionApplicationService;
 import ca.mcgill.ecse321.petadoptionsystem.service.PetProfileService;
-import ca.mcgill.ecse321.petadoptionsystem.service.RegularUserService;
-import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dto.AdoptionApplicationDTO;
 import ca.mcgill.ecse321.petadoptionsystem.dto.PetProfileDTO;
 import ca.mcgill.ecse321.petadoptionsystem.dto.RegularUserDTO;
@@ -204,7 +201,7 @@ public class AdoptionApplicationRestController {
         if (applicant == null) {
             throw new IllegalArgumentException("There is no Applicant.");
         }
-        RegularUserDTO userDTO = new RegularUserDTO(applicant.getDonation(), applicant.getClient().getUsername(),
+        RegularUserDTO userDTO = new RegularUserDTO(applicant.getClient().getUsername(),
                 applicant.getName(), applicant.getApplication(), applicant.getHomeDescription(),
                 applicant.getPhoneNumber());
         // This might have to be changed to convert image and poster into dtos before

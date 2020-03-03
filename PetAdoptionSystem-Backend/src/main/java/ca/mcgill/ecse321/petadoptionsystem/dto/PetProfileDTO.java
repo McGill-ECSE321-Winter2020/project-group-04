@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.petadoptionsystem.dto;
 
-import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.*;
 
 import java.sql.Date;
