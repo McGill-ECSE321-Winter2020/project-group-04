@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.petadoptionsystem.controller;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,25 +32,24 @@ public class DonationRestController {
     @Autowired
     private DonationService donationService;
 
-    // @Autowired
-    // private RegularUserService reguserService;
     /**
-     * 
-     * @param name
-     * @param date
+     *
      * @param amount
-     * @param startTime
-     * @param regUserDTO
+     * @param username
      * @return
      * @throws IllegalArgumentException
      */
-    @PostMapping(value = { "/donations/{name}", "/donation/{name}" })
-    public DonationDTO createDonation(@PathVariable("name") String name, @RequestParam Date date,
+    @PostMapping(value = { "/donations", "/donation/" })
+    public DonationDTO createDonation(
             @RequestParam float amount,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME, pattern = "HH:mm") LocalTime startTime,
-            @RequestBody RegularUserDTO regUserDTO) throws IllegalArgumentException {
+            @RequestParam("username") String username) throws IllegalArgumentException {
 
-        Donation d = donationService.createDonation(amount, date, Time.valueOf(startTime), name);
+            LocalTime localTime = LocalTime.now();
+            LocalDate localDate = LocalDate.now();
+            Time time = Time.valueOf(localTime);
+            Date date = Date.valueOf(localDate);
+
+        Donation d = donationService.createDonation(amount, date, time, username);
 
         return convertDonationToDTO(d);
     }
@@ -65,8 +65,9 @@ public class DonationRestController {
         }
         return donationDtos;
     }
-    @GetMapping(value = { "/donations/{username}", "/donations/{username}/" })
-    public List<DonationDTO> getDonationByUsername(@PathVariable("username") String username) {
+    @GetMapping(value = { "/donations/username", "/donations/username/" })
+    public List<DonationDTO> getDonationByUsername(
+            @RequestParam("username") String username) {
         List<DonationDTO> userDonationDtos = new ArrayList<>();
         for(Donation d : donationService.getDonationsByUsername(username)){
             userDonationDtos.add(convertDonationToDTO(d));
