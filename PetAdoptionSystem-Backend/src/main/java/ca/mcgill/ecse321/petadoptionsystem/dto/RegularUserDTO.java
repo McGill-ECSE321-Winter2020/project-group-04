@@ -10,7 +10,7 @@ import java.util.Set;
 public class RegularUserDTO {
     public String client;
     public String name;
-    // public Set<AdoptionApplication> application;
+    public Set<AdoptionApplication> application;
     public String homeDescription;
     public int phoneNumber;
     public int id;
@@ -36,9 +36,9 @@ public class RegularUserDTO {
         return this.client;
     }
 
-    // public Set<AdoptionApplication> getApplication() {
-    //     return this.application;
-    // }
+    public Set<AdoptionApplication> getApplication() {
+        return this.application;
+    }
 
     public String getName() {
         return this.name;

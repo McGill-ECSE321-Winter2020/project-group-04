@@ -25,10 +25,7 @@ public class AdminService {
      */
     @Transactional
     public List<Admin> getAllAdmins() {
-        List<Admin> admins;
-        admins = toList(adminRepository.findAll());
-        Admin admin = new Admin();
-        return admins;
+        return  toList(adminRepository.findAll());
     }
 
     @Transactional

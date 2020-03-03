@@ -63,8 +63,6 @@ public class AccountService {
         regUser.setName(name);
         regUser.setHomeDescription(homeDesc);
         regUser.setPhoneNumber(phoneNumber);
-        //regularUserRepository.save(regUser);
-        //account.setUserRole(regularUserRepository.findRegularUserByClient(account));
         account.setUserRole(regUser);
         accountRepository.save(account);
         
