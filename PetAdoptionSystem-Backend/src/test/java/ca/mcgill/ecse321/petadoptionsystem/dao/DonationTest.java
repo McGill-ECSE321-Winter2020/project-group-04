@@ -15,6 +15,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +34,6 @@ public class DonationTest {
     private DonationRepository donationRepository;
 
     private int id1 = 123;
-    private int id2 = 456;
     private int id3 = 789;
     private Date date = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
     private Time postTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
@@ -64,17 +64,17 @@ public class DonationTest {
         donation.setAmount(500);
         donation.setDate(date);
         donation.setTime(postTime);
+        donation.setClient(petAdopter);
 
         donationRepository.save(donation);
 
+        List<Donation> donations = donationRepository.findDonationsByClient(petAdopter);
+        donations.add(donation);
         donation = null;
 
-        donation = donationRepository.findDonationById(id3);
-
-        assertNotNull(donation);
-        assertEquals(id3, donation.getId());
-        assertEquals(date, donation.getDate());
-        assertEquals(postTime, donation.getTime());
+        assertNotNull(donations);
+        assertEquals(date, donations.get(0).getDate());
+        assertEquals(postTime, donations.get(0).getTime());
 
     }
    

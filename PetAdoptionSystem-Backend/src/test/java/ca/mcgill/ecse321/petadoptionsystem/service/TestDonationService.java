@@ -128,7 +128,7 @@ public class TestDonationService {
     public void testExistingDonation(){
         assertEquals(donationService.getDonationsByUsername(USERNAME1).get(0).getClient().getClient().getUsername(), USERNAME1);
     }
-    
+
     @Test
     public void testCreateDonation(){
         //String username = "Bill";
