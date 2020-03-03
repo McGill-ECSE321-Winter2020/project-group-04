@@ -8,17 +8,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class RegularUser extends UserRole {
-    private Set<Donation> donation;
-
-    @OneToMany(mappedBy = "client", cascade = CascadeType.REMOVE)
-    public Set<Donation> getDonation() {
-        return this.donation;
-    }
-
-    public void setDonation(Set<Donation> donations) {
-        this.donation = donations;
-    }
-
+   
     private Set<AdoptionApplication> application;
 
     @OneToMany(mappedBy = "applicant", cascade = CascadeType.REMOVE)

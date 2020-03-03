@@ -54,13 +54,9 @@ public class DonationTest {
         PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(id1);
         petAdoptionRepository.save(pas);
 
-        Account acc = TestingUtility.initAccount("billy","billy@gmail.com" , pas);
-        accountRepository.save(acc);
+        String donor = "Bill Gate";
         
-        RegularUser petAdopter = TestingUtility.initRegularUser(acc, pas);// user who is adopting pet
-        regularUserRepository.save(petAdopter);
-        
-        Donation donation = TestingUtility.initDonation(id3, petAdopter);
+        Donation donation = TestingUtility.initDonation(id3, donor);
         donation.setAmount(500);
         donation.setDate(date);
         donation.setTime(postTime);

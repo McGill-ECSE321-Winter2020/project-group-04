@@ -43,7 +43,7 @@ public class DonationService {
      * @return
      */
     @Transactional
-    public Donation createDonation(float amount, Date date, Time time, String username){
+    public Donation createDonation(float amount, Date date, Time time, String username, String donorEmail){
         
         if(amount ==0) throw new AmountInvalidException("Please donate an amount greater than 0. Thank you for your Donation");
         if(date==null) throw new NullPointerException("Date is currently null. Plense enter correct date value");
@@ -54,9 +54,9 @@ public class DonationService {
         donation.setAmount(amount);
         donation.setDate(date);
         donation.setTime(time);
-        Account act =  actRepo.findAccountByUsername(username);
-        RegularUser regUser = regUserRepo.findRegularUserByClient(act);
-        donation.setClient(regUser);
+        
+        donation.setDonorName(username);
+        donation.setDonorEmail(donorEmail);
 
         donationRepo.save(donation);
 
@@ -73,10 +73,10 @@ public class DonationService {
 
         Account act =  actRepo.findAccountByUsername(username);
         RegularUser regUser = regUserRepo.findRegularUserByClient(act);
-        if(donationRepo.findDonationsByClient(regUser) == null)
+        if(donationRepo.findDonationsByDonorName(username) == null)
             throw new IllegalArgumentException("No donations associated with this username.\n");
 
-        return toList(donationRepo.findDonationsByClient(regUser));
+        return toList(donationRepo.findDonationsByDonorName(username));
     }
 
 

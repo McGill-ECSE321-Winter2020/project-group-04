@@ -17,9 +17,9 @@ public class DonationDTO {
      * @param date
      * @param amount
      */
-    public DonationDTO(RegularUserDTO regUserDto, Time time, Date date, float amount){
+    public DonationDTO(String donor, Time time, Date date, float amount){
         this.time = time;
-        this.nameOfDonor = regUserDto.getClient();
+        this.nameOfDonor = donor;
         this.date = date;
         this.amnt = amount;
     }
