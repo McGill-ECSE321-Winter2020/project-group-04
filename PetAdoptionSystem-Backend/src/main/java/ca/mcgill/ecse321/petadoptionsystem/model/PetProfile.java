@@ -16,7 +16,7 @@ import java.sql.Time;
 public class PetProfile {
     public UserRole poster;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name="poster_id")
     @JsonBackReference
     public UserRole getPoster() {
