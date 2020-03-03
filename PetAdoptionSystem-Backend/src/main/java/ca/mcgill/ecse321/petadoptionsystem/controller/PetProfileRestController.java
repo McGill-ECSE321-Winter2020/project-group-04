@@ -38,11 +38,15 @@ public class PetProfileRestController {
 
     /**
      *
-     * @param petProfileDTO union of both classes RegularUser and PetProfile
-     * @param date          date of posting
-     * @param postTime      time of posting
-     * @return the newly created profile
-     * @throws IllegalArgumentException error
+     * @param username
+     * @param petName
+     * @param petType
+     * @param breed
+     * @param description
+     * @param reasonForPosting
+     * @param isAvailable
+     * @return
+     * @throws IllegalArgumentException
      */
     @PostMapping(value = { "/petprofile", "/petprofile/" })
     public PetProfileDTO createPetProfile(
@@ -203,7 +207,7 @@ public class PetProfileRestController {
             throw new IllegalArgumentException("There is no such Pet!");
         }
 
-        PetProfileDTO petDto = new PetProfileDTO(pet.getPoster(), pet.getImages(), pet.getApplication(), pet.getName(),
+        PetProfileDTO petDto = new PetProfileDTO( pet.getImages(), pet.getApplication(), pet.getName(),
                 pet.getPetType(), pet.getBreed(), pet.getDescription(), pet.getId(), pet.getReasonForPosting(),
                 pet.getPostDate(), pet.getPostTime(), pet.isIsAvailable());
 

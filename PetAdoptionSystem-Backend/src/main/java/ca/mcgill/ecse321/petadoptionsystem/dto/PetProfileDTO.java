@@ -16,7 +16,7 @@ import java.util.Set;
 public class PetProfileDTO {
 
     public PetProfileDTO(){};
-    public UserRole poster;
+//    public UserRole poster;
     public HashSet<String> images;
     public Set<AdoptionApplication> application;
     public String name;
@@ -31,7 +31,6 @@ public class PetProfileDTO {
 
     /**
      *
-     * @param poster
      * @param images
      * @param application
      * @param name
@@ -44,9 +43,8 @@ public class PetProfileDTO {
      * @param postTime
      * @param isAvailable
      */
-    public PetProfileDTO(UserRole poster, HashSet<String> images, Set<AdoptionApplication> application, String name, PetType petType,
+    public PetProfileDTO(HashSet<String> images, Set<AdoptionApplication> application, String name, PetType petType,
                          String breed, String description, int id, String reasonForPosting, Date postDate, Time postTime, boolean isAvailable){
-        this.poster = poster;
         this.images = images;
         this.application = application;
         this.name = name;
@@ -60,9 +58,6 @@ public class PetProfileDTO {
         this.isAvailable = isAvailable;
     }
 
-    public UserRole getPoster() {
-        return this.poster;
-    }
 
     public HashSet<String> getImages() {
         return this.images;
