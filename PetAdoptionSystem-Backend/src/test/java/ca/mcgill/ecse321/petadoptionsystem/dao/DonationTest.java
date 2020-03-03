@@ -48,6 +48,9 @@ public class DonationTest {
 
     }
 
+    /**
+     * Donation Persistence test
+     */
     @Test
     public void testPersistandLoadDonation(){
 

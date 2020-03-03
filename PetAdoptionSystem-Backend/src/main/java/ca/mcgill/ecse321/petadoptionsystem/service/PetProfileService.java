@@ -47,7 +47,6 @@ public class PetProfileService {
      * @param images why post it
      * @return the whole petprofile with attributes
      */
-
     @Transactional
     public PetProfile createPetProfile(String breed, String description, String name,
                                        PetType pettype, Time posttime, Date postdate, String username, String reason, boolean isAvailable, HashSet<String> images)
@@ -197,6 +196,11 @@ public class PetProfileService {
         return toList(petprofilerepository.findAllPetProfileByPetType(type));
     }
 
+    /**
+     *
+     * @param available
+     * @return
+     */
     @Transactional
     public List<PetProfile> getAllPetProfilesByIsAvailable(boolean available){
 
@@ -321,6 +325,12 @@ public class PetProfileService {
 
     }
 
+    /**
+     *
+     * @param iterable
+     * @param <T>
+     * @return
+     */
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<T>();
         for (T t : iterable) {

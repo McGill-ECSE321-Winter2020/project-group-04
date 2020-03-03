@@ -72,6 +72,9 @@ public class TestAdoptionApplicationService {
 	@InjectMocks
 	private AdoptionApplicationService appService;
 
+	/**
+	 * set mock output
+	 */
 	@BeforeEach
 	public void setMockOutput() {
 		lenient().when(appDao.findAdoptionById((anyInt()))).thenAnswer((InvocationOnMock invocation) -> {

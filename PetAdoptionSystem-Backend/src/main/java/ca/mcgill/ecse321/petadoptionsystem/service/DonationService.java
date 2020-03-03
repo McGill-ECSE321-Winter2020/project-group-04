@@ -62,11 +62,21 @@ public class DonationService {
 
         return donation;
     }
+
+    /**
+     *
+     * @return
+     */
     @Transactional 
     public List<Donation> getAllDonation(){
         return toList(donationRepo.findAll());
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Transactional
     public List<Donation> getDonationsByUsername(String username){
         if(username == null || username.trim()=="") throw new IllegalArgumentException("The username cannot be empty or have spaces.\n");
@@ -79,7 +89,12 @@ public class DonationService {
         return toList(donationRepo.findDonationsByDonorName(username));
     }
 
-
+    /**
+     *
+     * @param iterable
+     * @param <T>
+     * @return
+     */
     private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {

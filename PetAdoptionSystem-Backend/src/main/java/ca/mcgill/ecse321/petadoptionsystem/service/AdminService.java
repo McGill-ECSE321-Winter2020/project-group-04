@@ -28,6 +28,11 @@ public class AdminService {
         return  toList(adminRepository.findAll());
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     */
     @Transactional
     public Admin getAdminByUsername(String username){
         Account account = accountRepository.findAccountByUsername(username);

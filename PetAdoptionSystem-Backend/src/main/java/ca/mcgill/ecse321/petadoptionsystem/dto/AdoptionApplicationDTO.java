@@ -6,17 +6,22 @@ import java.sql.Time;
 
 public class AdoptionApplicationDTO {
 
-    // public RegularUserDTO applicant;
-    // public PetProfileDTO petprofile;
     public String applicantName;
     public int petProfileID;
     public int applicationID;
     public Date date;
     public Time time;
-
     public boolean isAproved;
     public boolean isConfirmed;
 
+    /**
+     *
+     * @param i
+     * @param date
+     * @param time
+     * @param regUser
+     * @param petProfile
+     */
     public AdoptionApplicationDTO(int i, Date date, Time time, RegularUserDTO regUser, PetProfileDTO petProfile) {
         this.applicationID = i;
         this.date = date;

@@ -18,6 +18,10 @@ public class AdminRestController {
     @Autowired
     private AdminService adminService;
 
+    /**
+     *
+     * @return
+     */
     @GetMapping(value = {"/admins", "/admins/"})
     public List<AdminDTO> getAllAdmins(){
         List<AdminDTO> adminDTOs = new ArrayList<>();
@@ -27,7 +31,11 @@ public class AdminRestController {
         return adminDTOs;
     }
 
-
+    /**
+     *
+     * @param admin
+     * @return
+     */
     private AdminDTO convertToDTO(Admin admin) {
         if (admin == null){
             throw new IllegalArgumentException("The Admin does not exist");

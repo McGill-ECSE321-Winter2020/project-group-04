@@ -52,6 +52,7 @@ public class DonationRestController {
 
         return convertDonationToDTO(d);
     }
+
     /**
      * 
      * @return list of donations
@@ -64,6 +65,12 @@ public class DonationRestController {
         }
         return donationDtos;
     }
+
+    /**
+     *
+     * @param username
+     * @return
+     */
     @GetMapping(value = { "/donations/username", "/donations/username/" })
     public List<DonationDTO> getDonationByUsername(
             @RequestParam("username") String username) {

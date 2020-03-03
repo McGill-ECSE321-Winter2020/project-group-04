@@ -42,7 +42,9 @@ public class TestRegularUser {
     private static final String House = "little house";
     private static final int phone= 123;
 
-
+    /**
+     * set mock output
+     */
     @BeforeEach
     public void setMockOutput(){
         lenient().when(regularUserRepository.findRegularUserByClient(any(Account.class))).thenAnswer((InvocationOnMock invocation) ->

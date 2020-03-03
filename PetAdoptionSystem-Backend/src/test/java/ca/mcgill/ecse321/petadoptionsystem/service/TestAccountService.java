@@ -20,10 +20,6 @@
  import org.mockito.invocation.InvocationOnMock;
  import org.mockito.junit.jupiter.MockitoExtension;
  import org.mockito.stubbing.Answer;
- import org.mockito.InjectMocks;
- import org.mockito.Mock;
- import org.mockito.invocation.InvocationOnMock;
- import org.mockito.junit.jupiter.MockitoExtension;
 
  import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
  import ca.mcgill.ecse321.petadoptionsystem.model.Account;
@@ -49,7 +45,9 @@
      private static final String PASSWORDHASH = "the HASH slinging SLASHer";
 
 
-
+     /**
+      * set mock output
+      */
      @BeforeEach
      public void setMockOutput() {
         
@@ -127,7 +125,6 @@
          accountDAO.deleteAll();
      }
 
-     /* CREATE REGULAR USER ACCOUNT TESTS */
 
      @Test
      public void testCreateRegularUserAccount() {
@@ -158,6 +155,7 @@
          assertEquals(email, account.getEmail());
 
      }
+
 
      @Test
      public void testCreateRegularUserAccountNull() {

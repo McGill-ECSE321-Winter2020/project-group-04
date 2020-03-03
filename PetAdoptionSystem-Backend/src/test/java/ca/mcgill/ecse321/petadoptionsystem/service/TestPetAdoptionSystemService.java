@@ -36,6 +36,9 @@ public class TestPetAdoptionSystemService {
     private static final int SYS_KEY = 4;
     private static final int NON_EXISTING_SYS_KEY = 6;
 
+    /**
+     * set mock output
+     */
     @BeforeEach
     public void setMockOutput(){
         lenient().when(systemDao.findPetAdoptionSystemById(SYS_KEY)).thenAnswer((InvocationOnMock invocation) ->

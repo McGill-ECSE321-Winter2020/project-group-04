@@ -53,6 +53,9 @@ public class TestDonationService {
         donationDao.deleteAll();
     }
 
+    /**
+     * set mock output
+     */
     @BeforeEach
     public void setMockOutput(){
         lenient().when(accountDao.findAccountByUsername(USERNAME1)).thenAnswer((InvocationOnMock invocation) ->

@@ -54,6 +54,9 @@ public class AdoptionApplicationTest {
 
     }
 
+    /**
+     * AdoptionApplication persistence test
+     */
     @Test
     public void testPersistandLoadAdoptionApplication() {
 

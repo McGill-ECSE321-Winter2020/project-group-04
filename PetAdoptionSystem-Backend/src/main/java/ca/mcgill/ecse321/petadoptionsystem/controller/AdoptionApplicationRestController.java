@@ -41,6 +41,11 @@ public class AdoptionApplicationRestController {
     @Autowired
     private AccountService accountService;
 
+    /**
+     *
+     * @return
+     * @throws IllegalArgumentException
+     */
     @GetMapping(value = { "/applications", "/applications/" })
     public List<AdoptionApplicationDTO> getAllApplications() throws IllegalArgumentException {
         List<AdoptionApplicationDTO> appDtos = new ArrayList<>();
@@ -50,12 +55,25 @@ public class AdoptionApplicationRestController {
         return appDtos;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     * @throws IllegalArgumentException
+     */
     @GetMapping(value = { "/application/{id}", "/application/{id}/" })
     public AdoptionApplicationDTO getApplicationbyId(@PathVariable("id") int id) throws IllegalArgumentException {
         AdoptionApplication app = appservice.getApplicationbyId(id);
         return convertToDto(app);
     }
 
+    /**
+     *
+     * @param ruDTO
+     * @param ppDTO
+     * @return
+     * @throws IllegalArgumentException
+     */
     @GetMapping(value = { "/application", "/application/" })
     public AdoptionApplicationDTO getApplication(RegularUserDTO ruDTO, PetProfileDTO ppDTO)
             throws IllegalArgumentException {
@@ -74,6 +92,13 @@ public class AdoptionApplicationRestController {
         return convertToDto(app);
     }
 
+    /**
+     *
+     * @param applicantName
+     * @param petProfileID
+     * @return
+     * @throws IllegalArgumentException
+     */
     @PostMapping(value = { "/apply", "/apply/" })
     public AdoptionApplicationDTO createApplication(
             @RequestParam("applicantName") String applicantName,
@@ -92,14 +117,20 @@ public class AdoptionApplicationRestController {
         LocalDate localDate = LocalDate.now();
         Time time = Time.valueOf(localTime);
         Date date = Date.valueOf(localDate);
-        
-        
-        
+
         AdoptionApplication a = appservice.createApplication(date, time, applicantName, petProfileID);
 
         return convertToDto(a);
     }
 
+    /**
+     *
+     * @param appDTO
+     * @param regUserDTO
+     * @param petprofDTO
+     * @return
+     * @throws IllegalArgumentException
+     */
     @DeleteMapping(value = { "/deleteApplication", "/deleteApplication/" })
     public boolean deleteApplication(AdoptionApplicationDTO appDTO, RegularUserDTO regUserDTO, PetProfileDTO petprofDTO)
             throws IllegalArgumentException {
@@ -116,6 +147,12 @@ public class AdoptionApplicationRestController {
         return result;
     }
 
+    /**
+     *
+     * @param regUserDTO
+     * @return
+     * @throws IllegalArgumentException
+     */
     @GetMapping(value = { "/browse/applications/applicant", "/browse/applications/applicant/" })
     public List<AdoptionApplicationDTO> browseApplicationsOfApplicant(RegularUserDTO regUserDTO)
             throws IllegalArgumentException {
@@ -132,6 +169,12 @@ public class AdoptionApplicationRestController {
         return appDtos;
     }
 
+    /**
+     *
+     * @param petprofDTO
+     * @return
+     * @throws IllegalArgumentException
+     */
     @GetMapping(value = { "/browse/applications/petprofile", "/browse/applications/petprofile/" })
     public List<AdoptionApplicationDTO> browseApplicationsToPetProfile(PetProfileDTO petprofDTO)
             throws IllegalArgumentException {
@@ -147,6 +190,13 @@ public class AdoptionApplicationRestController {
         return appDtos;
     }
 
+    /**
+     *
+     * @param appDTO
+     * @param approve
+     * @param confirm
+     * @return
+     */
     @PutMapping(value = { "/updateApplication", "/updateApplication/" })
     public AdoptionApplicationDTO updateApplication(AdoptionApplicationDTO appDTO,
             @RequestParam(value = "approve", required = false, defaultValue = "false") boolean approve,
@@ -162,6 +212,11 @@ public class AdoptionApplicationRestController {
 
     }
 
+    /**
+     *
+     * @param appDto
+     * @return
+     */
     private AdoptionApplication convertToDomainObject(AdoptionApplicationDTO appDto) {
         List<AdoptionApplication> allapps = appservice.getAllApplications();
         for (AdoptionApplication app : allapps) {
@@ -172,6 +227,11 @@ public class AdoptionApplicationRestController {
         return null;
     }
 
+    /**
+     *
+     * @param app
+     * @return
+     */
     private AdoptionApplicationDTO convertToDto(AdoptionApplication app) {// TODO
         if (app == null) {
             throw new IllegalArgumentException("There is no such Application!");
@@ -184,6 +244,11 @@ public class AdoptionApplicationRestController {
         return appDto;
     }
 
+    /**
+     *
+     * @param petProfile
+     * @return
+     */
     private PetProfileDTO convertToDto(PetProfile petProfile) {// TODO
         if (petProfile == null) {
             throw new IllegalArgumentException("There is no Pet Profile.");
@@ -192,11 +257,14 @@ public class AdoptionApplicationRestController {
                 petProfile.getApplication(), petProfile.getName(), petProfile.getPetType(), petProfile.getBreed(),
                 petProfile.getDescription(), petProfile.getId(), petProfile.getReasonForPosting(),
                 petProfile.getPostDate(), petProfile.getPostTime(), petProfile.isIsAvailable());
-        // This might have to be changed to convert image and poster into dtos before
-        // creating pet perofile dtos
         return profileDTO;
     }
 
+    /**
+     *
+     * @param applicant
+     * @return
+     */
     private RegularUserDTO convertToDto(RegularUser applicant) {// TODO
         if (applicant == null) {
             throw new IllegalArgumentException("There is no Applicant.");
@@ -204,8 +272,6 @@ public class AdoptionApplicationRestController {
         RegularUserDTO userDTO = new RegularUserDTO(applicant.getClient().getUsername(),
                 applicant.getName(), applicant.getApplication(), applicant.getHomeDescription(),
                 applicant.getPhoneNumber());
-        // This might have to be changed to convert image and poster into dtos before
-        // creating user dtos
         return userDTO;
     }
 
