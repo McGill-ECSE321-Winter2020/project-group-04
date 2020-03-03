@@ -1,7 +1,5 @@
 package ca.mcgill.ecse321.petadoptionsystem;
 
-import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
-import org.junit.After;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,10 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Date;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
+
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -59,13 +54,13 @@ public class PetSystemIntegrationTests {
 
     @Test
     public void testGetPetAdoptionSystem() {
-//        try {
-//            response = send("GET", APP_URL, "/getSystem", null);
-//            System.out.println("Received: " + response.toString());
-//            assertEquals(systemID, response.getString("name"));
-//        } catch (JSONException e) {
-//            fail();
-//        }
+        try {
+            response = send("GET", APP_URL, "/getSystem", null);
+            System.out.println("Received: " + response.toString());
+            assertEquals(systemID, response.getString("name"));
+        } catch (JSONException e) {
+            fail();
+        }
 
     }
     @Test
@@ -83,7 +78,6 @@ public class PetSystemIntegrationTests {
     @Test
     public void testGetAccountByUsername() {
         String params = "username=" + restUserNameAdmin;
-
         try {
             response = send("GET", APP_URL, "/account/username", params);
             System.out.println("Received: " + response.toString());
@@ -94,20 +88,41 @@ public class PetSystemIntegrationTests {
     }
     @Test
     public void testCreatePetProfile() {
-        // TODO: Garrett
+        String petName = "Bruno";
+        String params = "username=" + restUserNameAdmin + "&passwordHash=" + restPasswordAdmin + "&email=" + restEmailAdmin;
+        try {
+            response = send("POST", APP_URL, "/petprofile", params);
+            System.out.println("Received: " + response.toString());
+            assertEquals(petName, response.getString("petId"));
+        } catch (JSONException e) {
+            fail();
+        }
     }
     @Test
     public void testGetAllPetProfilesOfUser() {
-        // TODO: Garrett
+        String petName = "Bruno";
+        try {
+            response = send("GET", APP_URL, "/petprofiles", null);
+            System.out.println("Received: " + response.toString());
+            assertEquals(petName, response.getString("petName"));
+        } catch (JSONException e) {
+            fail();
+        }
     }
 
     @Test
     public void testCreateRegularUserAccount() {
-        // TODO: Garrett
+        String params = "username=" + restUserNameRegular + "&passwordHash=" + restPasswordRegularUser + "&email=" + restEmailRegularUser;
+
+        try {
+            response = send("POST", APP_URL, "/account/createregular", params);
+            System.out.println("Received: " + response.toString());
+            assertEquals(restUserNameAdmin, response.getString("username"));
+        } catch (JSONException e) {
+            fail();
+        }
     }
-    /**
-     * @Author eknuviad
-     */
+
     @Test
     public void testGetRegularUserbyUser() {
         try {
@@ -120,7 +135,6 @@ public class PetSystemIntegrationTests {
     }
     @Test
     public void testGetAllPetProfiles() {
-        List<PetProfile> profiles = new ArrayList<>();
         try {
             response = send("GET", APP_URL, "/petprofiles", null);
             System.out.println("Received: " + response.toString());
@@ -175,6 +189,20 @@ public class PetSystemIntegrationTests {
 			e.printStackTrace();
 			fail();
 		}
+    }
+
+    @Test
+    public void testDeleteApplication() {
+        try {
+            String response1 = send("POST", APP_URL, "/apply",
+                    "username=" + restUserNameRegular + "&email=" + restEmailRegularUser)
+                    .getString("applicationId");
+            response = send("DELETE", APP_URL, "/deleteApplication/", null);
+            assertEquals("true", response.getString("boolean"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
 
