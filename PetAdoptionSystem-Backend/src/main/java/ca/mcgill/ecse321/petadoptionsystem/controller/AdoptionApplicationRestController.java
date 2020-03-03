@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.petadoptionsystem.service.AccountService;
 import ca.mcgill.ecse321.petadoptionsystem.service.AdoptionApplicationService;
 import ca.mcgill.ecse321.petadoptionsystem.service.PetProfileService;
 import ca.mcgill.ecse321.petadoptionsystem.service.RegularUserService;
+import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dto.AdoptionApplicationDTO;
 import ca.mcgill.ecse321.petadoptionsystem.dto.PetProfileDTO;
 import ca.mcgill.ecse321.petadoptionsystem.dto.RegularUserDTO;
+import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetProfile;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
@@ -36,7 +39,10 @@ public class AdoptionApplicationRestController {
     private AdoptionApplicationService appservice;
 
     @Autowired
-    private PetProfileService profileservice;
+    private PetProfileService petProfileservice;
+
+    @Autowired
+    private AccountService accountService;
 
     @GetMapping(value = { "/applications", "/applications/" })
     public List<AdoptionApplicationDTO> getAllApplications() throws IllegalArgumentException {
@@ -73,21 +79,26 @@ public class AdoptionApplicationRestController {
 
     @PostMapping(value = { "/apply", "/apply/" })
     public AdoptionApplicationDTO createApplication(
-            RegularUserDTO regUserDTO, PetProfileDTO petprofDTO) throws IllegalArgumentException {
-        if (regUserDTO == null) {
+            @RequestParam("applicantName") String applicantName,
+            @RequestParam("petProfileID") int petProfileID
+            ) throws IllegalArgumentException {
+        if (applicantName == null || applicantName.trim().length()==0) {
             throw new NullPointerException("A user is required to create an application.");
         }
-        if (petprofDTO == null) {
+        PetProfile petProf = petProfileservice.getPetProfileById(petProfileID);
+        if ( petProf== null) {
             throw new NullPointerException("A pet profile is required to create an application.");
         }
+        Account  act = accountService.getAccountByUsername(applicantName);
+        if(act==null) throw new NullPointerException("There is no account associated to this username");
         LocalTime localTime = LocalTime.now();
         LocalDate localDate = LocalDate.now();
         Time time = Time.valueOf(localTime);
         Date date = Date.valueOf(localDate);
         
-        String applicant = regUserDTO.getClient();
-        int ppId = petprofDTO.getId();
-        AdoptionApplication a = appservice.createApplication(date, time, applicant, ppId);
+        
+        
+        AdoptionApplication a = appservice.createApplication(date, time, applicantName, petProfileID);
 
         return convertToDto(a);
     }
@@ -131,7 +142,7 @@ public class AdoptionApplicationRestController {
         if (petprofDTO == null) {
             throw new NullPointerException("A pet is required to see all applications.");
         }
-        PetProfile pp = profileservice.getPetProfileById(petprofDTO.getId());
+        PetProfile pp = petProfileservice.getPetProfileById(petprofDTO.getId());
         List<AdoptionApplicationDTO> appDtos = new ArrayList<>();
         for (AdoptionApplication app : appservice.getApplicationsByPetProfile(pp.getId())) {
             appDtos.add(convertToDto(app));
