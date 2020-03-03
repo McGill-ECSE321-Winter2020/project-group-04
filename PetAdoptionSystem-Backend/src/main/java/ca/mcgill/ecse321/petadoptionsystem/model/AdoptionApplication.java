@@ -15,6 +15,8 @@ import java.sql.Time;
 @Entity
 public class AdoptionApplication {
     private PetProfile petProfile;
+
+    @JsonBackReference
     @ManyToOne(optional = false)
     public PetProfile getPetProfile() {
         return this.petProfile;

@@ -218,7 +218,6 @@ public class PetProfileRestController {
         
         try {
             petType = petType.trim().toUpperCase();
-            System.out.println("PETTYPE: " + petType);
             return PetType.valueOf(petType);
            
         } catch(Exception e){

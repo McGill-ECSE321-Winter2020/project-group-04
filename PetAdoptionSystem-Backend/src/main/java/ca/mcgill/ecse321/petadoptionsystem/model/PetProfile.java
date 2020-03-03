@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,7 +42,7 @@ public class PetProfile {
     }
 
     private Set<AdoptionApplication> application;
-
+   @JsonManagedReference
     @OneToMany(mappedBy = "petProfile", cascade = CascadeType.REMOVE)
     public Set<AdoptionApplication> getApplication() {
         return this.application;

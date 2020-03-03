@@ -168,7 +168,7 @@ public class AdoptionApplicationRestController {
     private AdoptionApplication convertToDomainObject(AdoptionApplicationDTO appDto) {
         List<AdoptionApplication> allapps = appservice.getAllApplications();
         for (AdoptionApplication app : allapps) {
-            if (app.getId() == (appDto.getId())) {
+            if (app.getId() == (appDto.getApplicationID())) {
                 return app;
             }
         }
