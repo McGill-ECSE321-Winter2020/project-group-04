@@ -46,11 +46,13 @@ ___
 ### Roles and Hours invested by integrant for Deliverable 2
 
 | Name              | Role                                       | Amount of hours |
-|:-----------------:|:-------------:|:---------------:|
-|Ousmane Baricisse  |                                            |             |
-|Jessie Tang        |  |              |
-|Garrett Kinman     |  |               |
-|Edem Nuviadenu     |       |              |
-|Jose Antonio Jijon |                |               |
+|:-----------------:|:------------------------------------------:|:---------------:|
+|Ousmane Baricisse  |  Backend Implemetation, Integration Tests  | 35              |
+|Jessie Tang        |  Continuous Integration, Tests             | 35              |
+|Garrett Kinman     |  Backend Implementation, Tests             | 30              |   
+|Edem Nuviadenu     | Heroku deploy, CI integration, Tests       | 35              |   
+|Jose Antonio Jijon | Backend Implementation, Tests              | 32              | 
+
+*Note:* Everyone participated in project management and unit testing and Integration Tests.
 
 
