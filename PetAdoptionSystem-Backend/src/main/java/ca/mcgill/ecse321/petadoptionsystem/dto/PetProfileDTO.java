@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.petadoptionsystem.dto;
 
-import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
 import ca.mcgill.ecse321.petadoptionsystem.model.*;
 
 import java.sql.Date;
@@ -15,9 +14,9 @@ import java.util.Set;
 
 public class PetProfileDTO {
 
-    public UserRole poster;
+    public PetProfileDTO(){};
+//    public UserRole poster;
     public HashSet<String> images;
-    public Set<AdoptionApplication> application;
     public String name;
     public PetType petType;
     public String breed;
@@ -30,23 +29,26 @@ public class PetProfileDTO {
 
     /**
      *
-     * @param poster from user
-     * @param image from image
-     * @param application id
-     * @param name of the pet
-     * @param petType enum class
-     * @param breed attribute of pet
-     * @param description of petprofile
-     * @param id of pet
-     * @param reasonForPosting for the pet
-     * @param postDate date
-     * @param postTime time
+     * @param images
+     * @param application
+     * @param name
+     * @param petType
+     * @param breed
+     * @param description
+     * @param id
+     * @param reasonForPosting
+     * @param postDate
+     * @param postTime
+     * @param isAvailable
      */
-    public PetProfileDTO(UserRole poster, HashSet<String> images, Set<AdoptionApplication> application, String name, PetType petType,
+    public PetProfileDTO(HashSet<String> images, Set<AdoptionApplication> application, String name, PetType petType,
                          String breed, String description, int id, String reasonForPosting, Date postDate, Time postTime, boolean isAvailable){
-        this.poster = poster;
         this.images = images;
-        this.application = application;
+
+        // this.application =new HashSet<>();
+        // for(AdoptionApplication a : application){
+        //     this.application.add(a.getId());
+        // }
         this.name = name;
         this.petType = petType;
         this.breed = breed;
@@ -58,9 +60,6 @@ public class PetProfileDTO {
         this.isAvailable = isAvailable;
     }
 
-    public UserRole getPoster() {
-        return this.poster;
-    }
 
     public HashSet<String> getImages() {
         return this.images;

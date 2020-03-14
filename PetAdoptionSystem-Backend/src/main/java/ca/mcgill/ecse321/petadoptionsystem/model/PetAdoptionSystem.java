@@ -8,15 +8,15 @@ import javax.persistence.Id;
 
 @Entity
 public class PetAdoptionSystem {
-   private Set<Account> user;
+   private Set<Account> client;
 
    @OneToMany(mappedBy = "petAdoptionSystem", cascade = { CascadeType.ALL })
-   public Set<Account> getUser() {
-      return this.user;
+   public Set<Account> getClient() {
+      return this.client;
    }
 
-   public void setUser(Set<Account> users) {
-      this.user = users;
+   public void setClient(Set<Account> users) {
+      this.client = users;
    }
 
    private int id;

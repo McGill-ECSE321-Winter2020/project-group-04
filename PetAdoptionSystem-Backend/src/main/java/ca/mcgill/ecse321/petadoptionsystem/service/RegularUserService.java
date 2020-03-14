@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hibernate.internal.util.collections.ArrayHelper.toList;
-
 @Service
 public class RegularUserService {
 
@@ -24,12 +22,9 @@ public class RegularUserService {
 
     /**
      *
-     * @param username name of the user to get
-     * @return returns the user with all the attributes
+     * @param username
+     * @return
      */
-
-
-
     @Transactional
     public RegularUser getRegularUserByUsername(String username){
 
@@ -45,7 +40,7 @@ public class RegularUserService {
 
         Account account = accountRepository.findAccountByUsername(username);
 
-        return(regularuserrepository.findRegularUserByUser(account));
+        return(regularuserrepository.findRegularUserByClient(account));
     }
 
     /**
@@ -80,7 +75,7 @@ public class RegularUserService {
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         Account account = accountRepository.findAccountByUsername(username);
-        RegularUser regularuser = regularuserrepository.findRegularUserByUser(account);
+        RegularUser regularuser = regularuserrepository.findRegularUserByClient(account);
 
         if (name != null) {
             regularuser.setName(name);
@@ -97,6 +92,12 @@ public class RegularUserService {
 
     }
 
+    /**
+     *
+     * @param iterable
+     * @param <T>
+     * @return
+     */
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<T>();
         for (T t : iterable) {

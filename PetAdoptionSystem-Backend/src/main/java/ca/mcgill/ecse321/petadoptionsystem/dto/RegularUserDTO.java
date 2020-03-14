@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.petadoptionsystem.dto;
 
-import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.AdoptionApplication;
 import ca.mcgill.ecse321.petadoptionsystem.model.Donation;
 
@@ -9,9 +8,7 @@ import java.util.Set;
 
 
 public class RegularUserDTO {
-
-    public Set<Donation> donation;
-    public String user;
+    public String client;
     public String name;
     public Set<AdoptionApplication> application;
     public String homeDescription;
@@ -22,26 +19,21 @@ public class RegularUserDTO {
     @SuppressWarnings("unchecked")
     public RegularUserDTO(String name){
         
-        this(new HashSet<Donation>(), "", name, new HashSet<AdoptionApplication>(), "", 0);
+        this("", name, new HashSet<AdoptionApplication>(), "", 0);
     }
     
-    public RegularUserDTO(Set<Donation> donation, String user, String name,
+    public RegularUserDTO(String client, String name,
                           Set<AdoptionApplication> application, String homeDescription, int phoneNumber) {
-        this.donation = donation;
-        this.user = user;
+        this.client = client;
         this.name = name;
-        this.application = application;
+        // this.application = application;
         this.homeDescription = homeDescription;
         this.phoneNumber = phoneNumber;
     }
 
 
-    public String getUser() {
-        return this.user;
-    }
-
-    public Set<Donation> getDonation() {
-        return this.donation;
+    public String getClient() {
+        return this.client;
     }
 
     public Set<AdoptionApplication> getApplication() {

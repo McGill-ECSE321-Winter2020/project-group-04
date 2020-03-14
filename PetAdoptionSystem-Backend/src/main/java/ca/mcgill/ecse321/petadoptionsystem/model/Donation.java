@@ -6,16 +6,10 @@ import java.sql.Time;
 
 @Entity
 public class Donation {
-    private RegularUser user;
-
-    @ManyToOne(optional = false)
-    public RegularUser getUser() {
-        return this.user;
-    }
+    private String donorName;
+    private String donorEmail;
  
-    public void setUser(RegularUser user) {
-        this.user = user;
-    }
+    
 
     private int id;
 
@@ -24,6 +18,7 @@ public class Donation {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return this.id;
     }
@@ -56,5 +51,21 @@ public class Donation {
 
     public Time getTime() {
         return this.time;
+    }
+
+    public String getDonorName() {
+        return donorName;
+    }
+
+    public void setDonorName(String donorName) {
+        this.donorName = donorName;
+    }
+
+    public String getDonorEmail() {
+        return donorEmail;
+    }
+
+    public void setDonorEmail(String donorEmail) {
+        this.donorEmail = donorEmail;
     }
 }

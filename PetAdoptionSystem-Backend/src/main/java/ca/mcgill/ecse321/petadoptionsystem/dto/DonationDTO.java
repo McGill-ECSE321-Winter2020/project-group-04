@@ -4,15 +4,23 @@ import java.sql.Time;
 import java.util.Date;
 
 public class DonationDTO {
-    private RegularUserDTO regularUserDto;
+//    private RegularUserDTO regularUserDto;
+    public String nameOfDonor;
     private Time time;
     private Date date;
     private float amnt;
     public DonationDTO(){};
 
-    public DonationDTO(RegularUserDTO regUserDto, Time time, Date date, float amount){
+    /**
+     *
+     * @param donor
+     * @param time
+     * @param date
+     * @param amount
+     */
+    public DonationDTO(String donor, Time time, Date date, float amount){
         this.time = time;
-        this.regularUserDto = regUserDto;
+        this.nameOfDonor = donor;
         this.date = date;
         this.amnt = amount;
     }
@@ -41,11 +49,11 @@ public class DonationDTO {
         this.amnt = amnt;
     }
 
-    public RegularUserDTO getRegularUserDto() {
-        return regularUserDto;
+    public String getNameOfDonor() {
+        return this.nameOfDonor;
     }
 
-    public void setRegularUserDto(RegularUserDTO regularUserDto) {
-        this.regularUserDto = regularUserDto;
+    public void setNameOfDonor(String nameOfDonor) {
+        this.nameOfDonor = nameOfDonor;
     }
 }

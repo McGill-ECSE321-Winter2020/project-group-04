@@ -42,7 +42,6 @@ public class PetProfileTest {
     /**
      * Testing Persistance of the Database for the PetProfile
      */
-
     @Test
     public void TestPersistencePetProfile() {
         PetAdoptionSystem pas = TestingUtility.initPetAdoptionSystem(1);
@@ -79,7 +78,6 @@ public class PetProfileTest {
         petProf = null;
         petProf = petProfilerepository.findPetProfileByNameAndPoster(name, regUser);
 
-        //
         assertNotNull(petProf);
         assertEquals("chihuahua", petProf.getBreed());
         assertEquals("doggy", petProf.getName());

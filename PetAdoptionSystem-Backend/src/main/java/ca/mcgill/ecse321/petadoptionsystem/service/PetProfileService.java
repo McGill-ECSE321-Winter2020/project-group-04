@@ -3,19 +3,22 @@ package ca.mcgill.ecse321.petadoptionsystem.service;
 import ca.mcgill.ecse321.petadoptionsystem.dao.AccountRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.PetProfileRepository;
 import ca.mcgill.ecse321.petadoptionsystem.dao.RegularUserRepository;
+import ca.mcgill.ecse321.petadoptionsystem.exception.ImageStorageException;
 import ca.mcgill.ecse321.petadoptionsystem.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
  * @author joseantoniojijon
+ * @author Ousmane Baricisse "Mainly worked on the image part since we decided to include images as attribute in this class"
+ * 
  */
 
 @Service
@@ -23,8 +26,10 @@ public class PetProfileService {
 
     @Autowired
     PetProfileRepository petprofilerepository;
+
     @Autowired
     RegularUserRepository regularUserRepository;
+
     @Autowired
     AccountRepository accountRepository;
 
@@ -39,12 +44,12 @@ public class PetProfileService {
      * @param postdate when is it posted
      * @param username of the poster
      * @param reason why post it
+     * @param images why post it
      * @return the whole petprofile with attributes
      */
-
     @Transactional
     public PetProfile createPetProfile(String breed, String description, String name,
-                                       PetType pettype, Time posttime, Date postdate, String username, String reason, boolean isAvailable)
+                                       PetType pettype, Time posttime, Date postdate, String username, String reason, boolean isAvailable, HashSet<String> images)
             throws IllegalArgumentException {
 
         String error = "";
@@ -67,21 +72,23 @@ public class PetProfileService {
             error += "A reason for posting the pet for adoption must be inserted.\n";
         if (description == null || description.length() == 0)
             error += "A description of the pet must be inserted.\n";
-
-        if (error.length() > 0) throw new IllegalArgumentException(error);
-
+        if(images==null || images.size()==0) 
+            throw new ImageStorageException("You need to submit at least one image url");
+        if (error.length() > 0){
+            throw new IllegalArgumentException(error);
+        } 
+        username = username.trim();
         if (!accountRepository.existsByUsername(username))
-            error += "No user associated with this username";
-
+           error += "No user associated with this username" + username;
+       
         if (error.length() > 0) throw new IllegalArgumentException(error);
+         Account account = accountRepository.findAccountByUsername(username.trim());
+         UserRole userRole = account.getUserRole();
 
-        Account account = accountRepository.findAccountByUsername(username);
-        UserRole userRole = regularUserRepository.findRegularUserByUser(account);
+        // // Check if the user has another pet with that same name (not possible)
 
-        // Check if the user has another pet with that same name (not possible)
-
-        if (petprofilerepository.existsByNameAndPoster(name, regularUserRepository.findRegularUserByUser(account)))
-            error += "Cannot have two pets with the same exact name.\n" ;
+         if (petprofilerepository.existsByNameAndPoster(name, regularUserRepository.findRegularUserByClient(account)))
+             error += "Cannot have two pets with the same exact name.\n" ;
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
@@ -107,6 +114,7 @@ public class PetProfileService {
         pet.setIsAvailable(isAvailable);
 
         petprofilerepository.save(pet);
+        pet.setImages(images);
 
         return pet;
 
@@ -140,7 +148,7 @@ public class PetProfileService {
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         Account account = accountRepository.findAccountByUsername(username);
-        UserRole poster = regularUserRepository.findRegularUserByUser(account);
+        UserRole poster = regularUserRepository.findRegularUserByClient(account);
 
         if (petprofilerepository.findAllPetProfileByPoster(poster) == null )
             error += "No Pet Profiles associated with this username";
@@ -152,24 +160,24 @@ public class PetProfileService {
 
     /**
      *
-     * @param breed of the pet
+     * @param bREED_KEY of the pet
      * @return get all pet profiles from this breed
      */
     @Transactional
-    public List<PetProfile> getAllPetProfilesByBreed(String breed){
+    public List<PetProfile> getAllPetProfilesByBreed(String bREED_KEY){
 
         String error = "";
-        if (!petprofilerepository.existsByBreed(breed))
+        if (!petprofilerepository.existsByBreed(bREED_KEY))
             error += "There is no such breed in our database";
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        if (petprofilerepository.findAllPetProfileByBreed(breed) == null )
+        if (petprofilerepository.findAllPetProfileByBreed(bREED_KEY) == null )
             error += "No Pet Profiles associated with this breed";
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        return toList(petprofilerepository.findAllPetProfileByBreed(breed));
+        return toList(petprofilerepository.findAllPetProfileByBreed(bREED_KEY));
     }
 
     /**
@@ -188,6 +196,11 @@ public class PetProfileService {
         return toList(petprofilerepository.findAllPetProfileByPetType(type));
     }
 
+    /**
+     *
+     * @param available
+     * @return
+     */
     @Transactional
     public List<PetProfile> getAllPetProfilesByIsAvailable(boolean available){
 
@@ -215,11 +228,11 @@ public class PetProfileService {
      */
     @Transactional
     public PetProfile updatePetProfile(String username, String breed, String description, String reason,
-                                       PetType type, String name, Boolean isAvailable){
+                                       PetType type, String name, Boolean isAvailable, HashSet<String> images){
 
         //Get the PosterId from the account username
 
-        String error = "error";
+        String error = "";
         if (username == null || username.trim().length() == 0)
             error += "The username cannot be empty or have spaces.\n";
 
@@ -227,15 +240,18 @@ public class PetProfileService {
             error += "No user associated with username" + username;
 
         if (error.length() > 0) throw new IllegalArgumentException(error);
-
-        if (petprofilerepository.existsByName(name)) error += "No pet of name " + name + "in the data base";
+      
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
-        Account account = accountRepository.findAccountByUsername(username);
-        UserRole poster = regularUserRepository.findRegularUserByUser(account);
+        if(images==null || images.size()==0) 
+           throw new ImageStorageException("You need to submit at least one image url");
 
+        Account account = accountRepository.findAccountByUsername(username);
+        UserRole poster = regularUserRepository.findRegularUserByClient(account);
+                               
         //Find the PetProfile with the posterid and the pet's name
         PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(name, poster);
+        
 
         if (reason != null) {
             pet.setReasonForPosting(reason);
@@ -256,7 +272,8 @@ public class PetProfileService {
         if (isAvailable != null) {
             pet.setIsAvailable(isAvailable);
         }
-
+        if(images.size() > 0)
+            pet.setImages(images);
         petprofilerepository.save(pet);
         return pet;
 
@@ -283,7 +300,7 @@ public class PetProfileService {
         if (error.length() > 0) throw new IllegalArgumentException(error);
 
         Account account = accountRepository.findAccountByUsername(username);
-        UserRole posterid = regularUserRepository.findRegularUserByUser(account);
+        UserRole posterid = regularUserRepository.findRegularUserByClient(account);
 
         PetProfile pet = petprofilerepository.findPetProfileByNameAndPoster(petname, posterid);
         petprofilerepository.delete(pet);
@@ -308,6 +325,12 @@ public class PetProfileService {
 
     }
 
+    /**
+     *
+     * @param iterable
+     * @param <T>
+     * @return
+     */
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<T>();
         for (T t : iterable) {

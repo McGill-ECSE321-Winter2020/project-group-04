@@ -1,5 +1,9 @@
 package ca.mcgill.ecse321.petadoptionsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,6 +13,7 @@ import java.util.Set;
 public abstract class UserRole {
    private Set<PetProfile> petProfile;
 
+   @JsonManagedReference
    @OneToMany(mappedBy = "poster", cascade = CascadeType.REMOVE)
    public Set<PetProfile> getPetProfile() {
       return this.petProfile;
@@ -18,15 +23,16 @@ public abstract class UserRole {
       this.petProfile = petProfiles;
    }
 
-   public Account user;
+   public Account client;
 
    @OneToOne(optional = false)
-   public Account getUser() {
-      return this.user;
+   @JsonBackReference
+   public Account getClient() {
+      return this.client;
    }
 
-   public void setUser(Account user) {
-      this.user = user;
+   public void setClient(Account client) {
+      this.client = client;
    }
 
    private int id;

@@ -6,6 +6,13 @@ public class UploadImageDTO {
     private String imageType;
     private long size;
 
+    /**
+     *
+     * @param imageName
+     * @param imageDownloadUri
+     * @param imageType
+     * @param size
+     */
     public UploadImageDTO(String imageName, String imageDownloadUri, String imageType, long size) {
         this.imageName = imageName;
         this.imageDownloadUri = imageDownloadUri;
