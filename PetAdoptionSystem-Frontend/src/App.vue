@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <img src="./assets/covid_shelter_logo.png" width="500">
     <router-view></router-view>
   </div>
 </template>
