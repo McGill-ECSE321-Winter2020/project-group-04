@@ -3,7 +3,7 @@
 
 # Ignore Gradle build output directory
 PetAdoptionSystem-Backend/build/
-
+node_modules/
 .idea/
 *~
 
