@@ -1,5 +1,16 @@
 matrix:
   include:
+    #     Backend Build
+    - language: java
+      script:
+        - gradle build
+      deploy:
+        provider: heroku
+        api_key:
+          secure: XwsPr+AiHo4yreSBn8ns1ygdlO6W3GXsVfxE//pALWeX9Bxq1K2UoaiM1xISCyPBKsXsS3BJyswhomGBEWgC5b2D+I1KC8JnH0sN9EciMk7p3pVVbOvzGR7Xh97POyMzEVhJD1ltRY5Sivap0gbT/tfk2KBpERVBcQquACNLbiHrRUuQlbIzS07czblJ9OqoytODfMNEqhGtv3XzkCQQgOY2Z7Hh8OKKc8yesWnWvWDXetmNL1081EJybzYE0QLnTJUw000hM52ncbo7E/UoOUDZoM7n7XVaetjVmy1tiSoekIlA5GDyF4ORNkYHwWLrckVbOvBWJ0tPWmyir7nI6nZ433P8WFYVMfNU6DQsKdf46oJGZjcXd5mfv9V+oDbNMlGm58OQ+q/PC0NGfpg3WyXuZ07uribkhQ/4l0M4fwlq8StclcrflTCVtP+yjDYxwWkAp0L/ogROCfqdKOEkuRGWsHtNpjHXDYkIYoqPJ/Hywp4ijjS1nNgbB6zwtDLDvfrch4R4Hm3TOsvEBJdQEzQagxf0+cnh34Lgk4zeIF466UmAZzIV9M4rePDIGy5m6tKdXNNXDL7MeX4/29Ih8HNGQSKwojjO3jfPlXA2W0gOuzrubmI1EHODE3qRuoyho0cUYi9GhntjPaiq5A5L7T9eWafPTfml17lkGmtN3PE=
+        app: petadoptionsystem-backend-04-n
+        on: master
+
     #   Frontend Build
     - language: node_js
       node_js:
@@ -14,15 +25,4 @@ matrix:
         api_key:
           secure: hcN6Q8Q988I2t4px+9h404M6KG/NJmDe+VPH2+PM2arXtTLwEvjD1/h1RSERfajFKgYnAeIdPQiRMxPM6Z8u7/M97G4sCNCIW3/dbeQvtrRzzeBSQmkDSEIiUuWdcPT6ooxPY7HoHYMXIC4N8sXroAukj/TurWg1M331QI4yaCSz+3m1YhWYnsEpkZeFLLNx4k0AtadcZcu+lTAqNqMMeA+2WzIZ45aLa2TU0KWQ3e1wvPrjqSq8DJ5v+TWhkw3035kmqQ/KaJnjypdCQydGdeV2I2ZCvbRdn33536KoGY1GB0uouBy0ysbFmvmaseM9+VhvLtMs468JjnWWO65h0YHYk3dX+UYa7L+OFswh6X8D21h+fkoxPQBqwhH9G/bxcvdIrXWp5E89ACxJdNjlpuDok1f6ccyMWcH8oXHvA/SSLs6jaeVlKLvOCR9HAiQsGOYjFbkV413JSTw4XbWnHjAQbXpzlTHusww0UWyDnXqSG6eInfK3kdOrMD7k7+l3zfQS71/ZdUUbUxR8Fz4eQb/e+n4+g2a6h7WFjWNXVlFOM0SSaxvRTT3KOkj7gK4TQ/ZhBaNgXzdEwj2Hk7rKHUfALo54gStr7tx9K2W9Lx+33sgwvqSXMGSDgJG9EGTG8wvzy0KVX4n21DKJ/tlNzQ/F0NLFBaY3z+FXpiohmdo=
         app: petadoptionsystem-frontend-04
-        on: master
-
-    #     Backend Build
-    - language: java
-      script:
-        - gradle build
-      deploy:
-        provider: heroku
-        api_key:
-          secure: XwsPr+AiHo4yreSBn8ns1ygdlO6W3GXsVfxE//pALWeX9Bxq1K2UoaiM1xISCyPBKsXsS3BJyswhomGBEWgC5b2D+I1KC8JnH0sN9EciMk7p3pVVbOvzGR7Xh97POyMzEVhJD1ltRY5Sivap0gbT/tfk2KBpERVBcQquACNLbiHrRUuQlbIzS07czblJ9OqoytODfMNEqhGtv3XzkCQQgOY2Z7Hh8OKKc8yesWnWvWDXetmNL1081EJybzYE0QLnTJUw000hM52ncbo7E/UoOUDZoM7n7XVaetjVmy1tiSoekIlA5GDyF4ORNkYHwWLrckVbOvBWJ0tPWmyir7nI6nZ433P8WFYVMfNU6DQsKdf46oJGZjcXd5mfv9V+oDbNMlGm58OQ+q/PC0NGfpg3WyXuZ07uribkhQ/4l0M4fwlq8StclcrflTCVtP+yjDYxwWkAp0L/ogROCfqdKOEkuRGWsHtNpjHXDYkIYoqPJ/Hywp4ijjS1nNgbB6zwtDLDvfrch4R4Hm3TOsvEBJdQEzQagxf0+cnh34Lgk4zeIF466UmAZzIV9M4rePDIGy5m6tKdXNNXDL7MeX4/29Ih8HNGQSKwojjO3jfPlXA2W0gOuzrubmI1EHODE3qRuoyho0cUYi9GhntjPaiq5A5L7T9eWafPTfml17lkGmtN3PE=
-        app: petadoptionsystem-backend-04-n
         on: master
