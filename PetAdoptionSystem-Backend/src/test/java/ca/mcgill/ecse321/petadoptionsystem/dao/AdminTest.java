@@ -24,6 +24,7 @@ public class AdminTest {
     @Autowired
     private RegularUserRepository regularUserRepository;
 
+    @BeforeEach
     @AfterEach
     public void clearDataBase(){
         regularUserRepository.deleteAll();

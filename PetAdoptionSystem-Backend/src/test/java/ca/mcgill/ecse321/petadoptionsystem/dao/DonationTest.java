@@ -39,6 +39,7 @@ public class DonationTest {
     private Time postTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 
     @BeforeEach
+    @AfterEach
     public void clearDatabase(){
 
         donationRepository.deleteAll();
