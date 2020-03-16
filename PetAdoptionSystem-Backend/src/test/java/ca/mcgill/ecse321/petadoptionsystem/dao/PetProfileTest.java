@@ -1,4 +1,5 @@
 package ca.mcgill.ecse321.petadoptionsystem.dao;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -89,6 +90,7 @@ public class PetProfileTest {
 
     }
 
+    @BeforeEach
     @AfterEach
     public void clearDatabase() {
 
