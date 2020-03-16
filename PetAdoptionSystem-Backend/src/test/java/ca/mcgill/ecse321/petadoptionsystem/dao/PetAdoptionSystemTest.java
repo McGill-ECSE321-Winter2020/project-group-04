@@ -1,4 +1,5 @@
 package ca.mcgill.ecse321.petadoptionsystem.dao;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.mcgill.ecse321.petadoptionsystem.model.*;
@@ -29,6 +30,7 @@ public class PetAdoptionSystemTest {
     @Autowired
     private PetProfileRepository petProfileRepository;
 
+    @BeforeEach
     @AfterEach
     public void clearDataBase() {
 
