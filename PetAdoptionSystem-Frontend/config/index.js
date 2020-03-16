@@ -20,13 +20,16 @@ module.exports = {
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
     bundleAnalyzerReport: process.env.npm_config_report,
-    port: 8087
+    // host: 'petadoptionsystem-frontend-04.herokuapp.com',
+    port: 8087,
+    backendHost: 'petadoptionsystem-backend-04-n.herokuapp.com',
+    backendPort: 8080,
   },
   dev: {
     env: require('./dev.env'),
     host: '127.0.0.1',
     port: 8087,
-    backendHost: 'https://petadoptionsystem-backend-04-n.herokuapp.com',
+    backendHost: '127.0.0.1',
     backendPort: 8080,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',

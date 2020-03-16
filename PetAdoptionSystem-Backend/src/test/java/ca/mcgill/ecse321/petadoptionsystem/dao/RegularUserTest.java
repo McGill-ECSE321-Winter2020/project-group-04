@@ -4,6 +4,7 @@ import ca.mcgill.ecse321.petadoptionsystem.model.Account;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
 import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -61,6 +62,7 @@ public class RegularUserTest {
 
     }
 
+    @BeforeEach
     @AfterEach
     public void DeleteDataBase() {
 

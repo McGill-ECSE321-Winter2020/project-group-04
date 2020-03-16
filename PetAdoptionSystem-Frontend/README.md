@@ -1,6 +1,6 @@
 # petadoptionsystem-frontend
 
-> A vue.js frontend for the Pet Adoption System App
+> A vue.js frontend for our Pet Adoption System App
 
 ## Build Setup
 
