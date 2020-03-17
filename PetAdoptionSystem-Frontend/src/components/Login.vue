@@ -15,6 +15,11 @@
             </p>
             <a href="#"> Don't have an account? </a>
         </form>
+
+      <br>
+      <a href="Welcome">Back to the Home Page</a>
+      <br>
+
     </div>
 </template>
 
@@ -34,13 +39,13 @@ p{
 }
 .loginbox{
     width: 320px;
-    height: 420px;
-    background:#C0C0C0;
+    height: 380px;
+    background:#5F9EA7;
     color: #fff;
-    top: 50%;
-    left:50%;
-    position: absolute;
-    transform: translate(-50%, -50%);
+    top: 0%;
+    left: 0%;
+    position: relative;
+    transform: translate(150%, 0%);
     box-sizing: border-box;
     box-shadow: 0 0 20px 0 rgba(72, 94, 116, 0.7);
 
