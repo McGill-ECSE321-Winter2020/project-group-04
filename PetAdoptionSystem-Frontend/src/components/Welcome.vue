@@ -8,9 +8,8 @@
     <br><br><br>
 
     <ul>
-      <li><a href="http://127.0.0.1:8087/#/login">Login</a></li>
-      <li><a href="Create an Account">Create an Account</a></li>
-      <li><a href="http://127.0.0.1:8087/#/donate">Donate to Help Us Go Viral!</a></li>
+      <<li><a ><button OnClick="location.href='/#/login' ">Login</button></a></li>
+      <li><a ><button OnClick="location.href='/#/donate' ">Donate</button></a></li>
     </ul>
 
   </div>
@@ -54,6 +53,15 @@
 
   li a:hover {
     background-color: #002041;
+  }
+
+  button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    color: white;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
   }
 
 </style>
