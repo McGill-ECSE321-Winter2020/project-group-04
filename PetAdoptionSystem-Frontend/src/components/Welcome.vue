@@ -8,9 +8,9 @@
     <br><br><br>
 
     <ul>
-      <li><a href="Login">Login</a></li>
+      <li><a href="http://127.0.0.1:8087/#/login">Login</a></li>
       <li><a href="Create an Account">Create an Account</a></li>
-      <li><a href="Donate to Help Us Go Viral!">Donate to Help Us Go Viral!</a></li>
+      <li><a href="http://127.0.0.1:8087/#/donate">Donate to Help Us Go Viral!</a></li>
     </ul>
 
   </div>
