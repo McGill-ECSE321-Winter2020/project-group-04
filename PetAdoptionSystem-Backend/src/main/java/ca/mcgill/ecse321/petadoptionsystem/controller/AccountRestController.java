@@ -3,7 +3,9 @@ package ca.mcgill.ecse321.petadoptionsystem.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.mcgill.ecse321.petadoptionsystem.model.Admin;
 import ca.mcgill.ecse321.petadoptionsystem.model.PetAdoptionSystem;
+import ca.mcgill.ecse321.petadoptionsystem.model.RegularUser;
 import ca.mcgill.ecse321.petadoptionsystem.service.PetAdoptionSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,28 @@ public class AccountRestController {
 
     @Autowired
     private PetAdoptionSystemService petService;
+
+
+    /**
+     * Logs in the user with input email and password
+     *
+     * @param username
+     * @param password
+     * @return AccountDto or null if login failed
+     * @throws IllegalArgumentException
+     */
+    @PostMapping(value = {"/login", "/login/"})
+    public AccountDTO login(@RequestParam("username") String username,
+                           @RequestParam("password") String password) throws IllegalArgumentException {
+        Account user = accountService.login(username, password);
+        if (user.getUserRole() instanceof RegularUser) {
+            return convertToDTO(user);
+        } else if (user.getUserRole() instanceof Admin) {
+            return convertToDTO(user);
+        } else {
+            return null;
+        }
+    }
 
     /**
      *
