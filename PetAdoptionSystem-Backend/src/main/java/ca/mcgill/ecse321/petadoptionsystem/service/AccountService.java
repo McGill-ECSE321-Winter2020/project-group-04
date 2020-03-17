@@ -33,8 +33,8 @@ public class AccountService {
 
 
     /**
-     * This method logs in the user to its corresponding role
-     * It gets the person's role (ie subclass of Person) by finding it's email
+     * This method logs in the user
+     * It finds a user by username
      * It then compares the inputted password with the good password to login
      * @param username
      * @param password

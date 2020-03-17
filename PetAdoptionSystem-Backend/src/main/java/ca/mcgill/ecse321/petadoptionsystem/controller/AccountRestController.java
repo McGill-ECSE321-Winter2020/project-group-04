@@ -26,7 +26,7 @@ public class AccountRestController {
 
 
     /**
-     * Logs in the user with input email and password
+     * Logs in the user with input username and password
      *
      * @param username
      * @param password
