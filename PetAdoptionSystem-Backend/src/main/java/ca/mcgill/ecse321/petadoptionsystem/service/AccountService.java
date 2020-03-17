@@ -31,6 +31,28 @@ public class AccountService {
     @Autowired
     PetAdoptionSystemRepository petAdoptionSystemRepository;
 
+
+    /**
+     * This method logs in the user to its corresponding role
+     * It gets the person's role (ie subclass of Person) by finding it's email
+     * It then compares the inputted password with the good password to login
+     * @param username
+     * @param password
+     * @return the user or null
+     */
+    public Account login(String username, String password) {
+        if (username == null || username.length() == 0) {
+            throw new IllegalArgumentException("Username cannot be empty!");
+        } else if (password == null || password.length() == 0) {
+            throw new IllegalArgumentException("Password cannot be empty!");
+        }
+        Account acc = accountRepository.findAccountByUsername(username);
+        if (acc != null && acc.getPasswordHash().equals(password)) {
+            return acc;
+        }
+        return null;
+    }
+
     /**
      *
      * @param pas
@@ -254,4 +276,5 @@ public class AccountService {
         }
         return list;
     }
+
 }
