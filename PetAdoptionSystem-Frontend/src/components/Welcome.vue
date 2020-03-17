@@ -1,6 +1,5 @@
 <template>
   <div class="welcome">
-    <img src="./../assets/covid_shelter_logo.png" width="500">
     <h1>{{msg}}</h1>
     <br>
     <h5><i>Unfortunately, in Canada alone, thousands of pets are abandoned every year. <br>
@@ -10,7 +9,7 @@
 
     <ul>
       <li><a ><button OnClick="location.href='/#/login' ">Login</button></a></li>
-      <li><a href="Donate to Help Us Go Viral!">Donate to Help Us Go Viral!</a></li>
+      <li><a ><button OnClick="location.href='/#/donate' ">Donate</button></a></li>
     </ul>
 
   </div>
