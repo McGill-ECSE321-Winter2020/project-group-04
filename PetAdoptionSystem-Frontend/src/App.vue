@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-   <img src="./assets/covid_shelter_logo.png" width="500">
+<!--    <img src="./assets/covid_shelter_logo.png" width="500">-->
     <router-view></router-view>
   </div>
 </template>
@@ -11,7 +11,6 @@ export default {
 }
 </script>
 
-
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -21,5 +20,4 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-
 </style>
