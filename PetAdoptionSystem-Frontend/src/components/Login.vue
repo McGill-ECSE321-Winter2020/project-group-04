@@ -1,6 +1,6 @@
 <template>
     <div class="loginbox">
-        <h1>COVID </h1><br>
+        <h1>Login </h1><br>
         <form>
             <p>
             <input type="text" name="" placeholder="Enter Username">
@@ -49,6 +49,7 @@ p{
 </style>
 
 <script>
+
   export default {
    data(){
        return{
@@ -56,4 +57,6 @@ p{
        }
    }
   }
+
+
 </script>
