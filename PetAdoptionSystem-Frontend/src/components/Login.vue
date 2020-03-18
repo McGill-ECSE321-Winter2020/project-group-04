@@ -24,18 +24,17 @@
 </template>
 
 <style scoped>
-
-body{
-    margin: 0;
-    padding: 0;
-    /* background: url; can put background image here*/
+body {
+  margin: 0;
+  padding: 0;
+  /* background: url; can put background image here*/
 }
 
-h1{
-    color: black;
+h1 {
+  color: black;
 }
-p{
-    color:black;
+p {
+  color: black;
 }
 .loginbox{
     width: 320px;
@@ -50,81 +49,80 @@ p{
     box-shadow: 0 0 20px 0 rgba(72, 94, 116, 0.7);
 
 }
-
 </style>
 
 <script>
+import axios from "axios";
+import JQuery from "jquery";
+let $ = JQuery;
+var config = require("../../config");
 
-//    import axios from 'axios'
-//   var config = require('../../config')
-//   /* AXIOS object setup */
-//   var frontendUrl = 'https://' + config.dev.host + ':' + config.dev.port
-//   var backendUrl = 'https://' + config.dev.backendHost //+ ':' + config.dev.backendPort
-//   var AXIOS = axios.create({
-//     baseURL: backendUrl
-//   })
+var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
+var backendUrl =
+  "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
 
-   export default {
-   data(){
-       return{
+var AXIOS = axios.create({
+  baseURL: backendUrl,
+  headers: { "Access-Control-Allow-Origin": frontendUrl }
+});
 
-       }
-   }
-   }
-//   var checkInput = async (input) => {
-//     if (input.trim().search(/\d{9}/) == -1) {
-//       return 1; // Bad input
-//     } else {
-//       try {
-//         let response = await AXIOS.get(/students/ + input);
-//         if (response.data !== {}) {
-//           return 0; // Student records found
-//         } else {
-//           return 2; // No matching records
-//         }
-//       } catch (e) {
-//         return 3; // Error while making request
-//       }
-//     }
-//     return false;
-//   }
-  
-//      methods: {
-//       printOut: async function() {
-//         var result = await created();
-//         console.log(result);
-//       },
-//       getRandomMessage: function() {
-//         if (randomDisplay === 'puns') {
-//           return puns[Math.floor(Math.random() * puns.length)]
-//         } else if (randomDisplay === 'quotes') {
-//           return quotes[Math.floor(Math.random() * quotes.length)]
-//         }
-//       },
-//       goToDashboard: async function() {
-//         var input = document.getElementById("usr").value;
-//         var result = await checkInput(input);
-//         if (result == 0) {
-//           this.$router.push({
-//             name: 'Dashboard',
-//             params: {
-//               id: input
-//             }
-//           })
-//         } else {
-//           document.getElementById("usr").className = 'form-control form-control-lg is-invalid'
-//           document.getElementById("demo").style.color = 'red'
-//           if (result == 1) {
-//             document.getElementById("demo").innerHTML = "Please Enter A Valid Student ID";
-//           } else if (result == 2 || result == 3) {
-//             document.getElementById("demo").innerHTML = "There Are No Records For Student ID " + input;
-//           }
-//         };
-//         //var result = checkInput(input).then(ret);
-//         console.log("hey")
-//       },
-//     }
-//   }
-
-
+export default {
+  name: "login",
+  data() {
+    return {
+      username: "",
+      password: "",
+      errorLogin: "",
+      response: ""
+    };
+  },
+  methods: {
+    login() {
+      this.username = $("#username").val();
+      this.password = $("#password").val();
+      if (this.username == "") {
+        var errorMessage = "Username cannot be empty";
+        console.log(errorMessage);
+        this.errorLogin = errorMessage;
+        return;
+      }
+      if (this.password == "") {
+        var errorMessage = "Password cannot be empty";
+        console.log(errorMessage);
+        this.errorLogin = errorMessage;
+        return;
+      }
+      AXIOS.post(
+        "/login/",
+        $.param({ username: this.username, password: this.password })
+      )
+        .then(response => {
+          this.response = response.data;
+          this.errorLogin = "";
+          console.log(response);
+          if (this.response != "") {
+            localStorage.setItem("loggedIn", "User");
+            console.log(this.response.username);
+            this.$cookie.set("username", this.response.username, {
+              expires: "1h"
+            });
+            this.$router.push({
+              name: "Welcome", //needs to be changed to route to UserPage.
+              params: {
+                username: this.username
+              }
+            });
+          } else {
+            this.errorLogin = "Wrong username or password!";
+            console.log(this.errorLogin);
+          }
+        })
+        .catch(e => {
+          var errorMessage = e.response;
+          console.log(e);
+          this.errorLogin = errorMessage;
+        });
+    }
+  }
+};
 </script>

@@ -6,8 +6,36 @@
 </template>
 
 <script>
+import axios from 'axios'
+import JQuery from 'jquery'
+
+let $ = JQuery
+var config = require('../config')
+
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = config.dev.backendHost + ':' + config.dev.backendPort
+
+var AXIOS = axios.create({
+    baseURL: backendUrl,
+    headers: { 'Access-Control-Allow-Origin': frontendUrl }
+})
+
 export default {
-  name: 'app'
+  name: 'app',
+    computed: {
+        loggedIn() {
+            if (this.$cookie.get('username') != null) {
+                return true
+            }
+            return false
+        }
+    },
+    methods: {
+        logout () {
+            this.$cookie.delete('username')
+            window.location.href = "/"
+        }
+    }
 }
 </script>
 
