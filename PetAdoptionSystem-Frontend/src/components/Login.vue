@@ -3,13 +3,13 @@
         <h1>Login </h1><br>
         <form>
             <p>
-            <input type="text" name="" placeholder="Enter Username">
+            <input type="text" name="" id = "username" placeholder="Enter Username">
             </p><br>
             <p>
-            <input type="password" name="" placeholder="Enter Password">
+            <input type="password" name="" id="password" placeholder="Enter Password">
             </p>
             <p><br>
-            <button type="button" class="" id="login">
+            <button type="button" class="" id="login" @click="login()">
                     <font size="4"><b>Login</b></font>
             </button>
             </p>
