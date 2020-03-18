@@ -10,7 +10,7 @@
 
     <ul>
       <li><a ><button OnClick="location.href='/#/login' ">Login</button></a></li>
-      <li><a href="Donate to Help Us Go Viral!">Donate to Help Us Go Viral!</a></li>
+      <li><a ><button OnClick="location.href='/#/donate' ">Donate</button></a></li>
     </ul>
 
   </div>
