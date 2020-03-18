@@ -26,7 +26,7 @@ public class AccountRestController {
 
 
     /**
-     * Logs in the user with input email and password
+     * Logs in the user with input username and password
      *
      * @param username
      * @param password
@@ -37,13 +37,10 @@ public class AccountRestController {
     public AccountDTO login(@RequestParam("username") String username,
                            @RequestParam("password") String password) throws IllegalArgumentException {
         Account user = accountService.login(username, password);
-        if (user.getUserRole() instanceof RegularUser) {
+        if(user !=null){
             return convertToDTO(user);
-        } else if (user.getUserRole() instanceof Admin) {
-            return convertToDTO(user);
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**

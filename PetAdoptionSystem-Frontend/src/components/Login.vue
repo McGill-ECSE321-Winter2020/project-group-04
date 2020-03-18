@@ -3,13 +3,13 @@
         <h1>Login </h1><br>
         <form>
             <p>
-            <input type="text" name="" placeholder="Enter Username">
+            <input type="text" name="" id = "username" placeholder="Enter Username">
             </p><br>
             <p>
-            <input type="password" name="" placeholder="Enter Password">
+            <input type="password" name="" id="password" placeholder="Enter Password">
             </p>
             <p><br>
-            <button type="button" class="" id="login">
+            <button type="button" class="" id="login" @click="login()">
                     <font size="4"><b>Login</b></font>
             </button>
             </p>
@@ -24,18 +24,17 @@
 </template>
 
 <style scoped>
-
-body{
-    margin: 0;
-    padding: 0;
-    /* background: url; can put background image here*/
+body {
+  margin: 0;
+  padding: 0;
+  /* background: url; can put background image here*/
 }
 
-h1{
-    color: black;
+h1 {
+  color: black;
 }
-p{
-    color:black;
+p {
+  color: black;
 }
 .loginbox{
     width: 320px;
@@ -50,18 +49,80 @@ p{
     box-shadow: 0 0 20px 0 rgba(72, 94, 116, 0.7);
 
 }
-
 </style>
 
 <script>
+import axios from "axios";
+import JQuery from "jquery";
+let $ = JQuery;
+var config = require("../../config");
 
-  export default {
-   data(){
-       return{
+var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
+var backendUrl =
+  "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
 
-       }
-   }
+var AXIOS = axios.create({
+  baseURL: backendUrl,
+  headers: { "Access-Control-Allow-Origin": frontendUrl }
+});
+
+export default {
+  name: "login",
+  data() {
+    return {
+      username: "",
+      password: "",
+      errorLogin: "",
+      response: ""
+    };
+  },
+  methods: {
+    login() {
+      this.username = $("#username").val();
+      this.password = $("#password").val();
+      if (this.username == "") {
+        var errorMessage = "Username cannot be empty";
+        console.log(errorMessage);
+        this.errorLogin = errorMessage;
+        return;
+      }
+      if (this.password == "") {
+        var errorMessage = "Password cannot be empty";
+        console.log(errorMessage);
+        this.errorLogin = errorMessage;
+        return;
+      }
+      AXIOS.post(
+        "/login/",
+        $.param({ username: this.username, password: this.password })
+      )
+        .then(response => {
+          this.response = response.data;
+          this.errorLogin = "";
+          console.log(response);
+          if (this.response != "") {
+            localStorage.setItem("loggedIn", "User");
+            console.log(this.response.username);
+            this.$cookie.set("username", this.response.username, {
+              expires: "1h"
+            });
+            this.$router.push({
+              name: "Welcome", //needs to be changed to route to UserPage.
+              params: {
+                username: this.username
+              }
+            });
+          } else {
+            this.errorLogin = "Wrong username or password!";
+            console.log(this.errorLogin);
+          }
+        })
+        .catch(e => {
+          var errorMessage = e.response;
+          console.log(e);
+          this.errorLogin = errorMessage;
+        });
+    }
   }
-
-
+};
 </script>
