@@ -12,8 +12,15 @@
       <h5>
       Your Donation
       </h5>
+      <p>If you wish to do an anonymous donation, you can leave the Name and E-mail boxes empty.</p>
       <br>
-     <input type="number" placeholder="Amount">
+     <input type="String" placeholder="Name">
+      <br>
+      <br>
+      <input type="String" placeholder="E-mail">
+      <br>
+      <br>
+      <input type="number" placeholder="Amount">
       <br>
       <br>
       <button> Donate!</button>
