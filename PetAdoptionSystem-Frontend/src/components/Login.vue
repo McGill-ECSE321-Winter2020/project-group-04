@@ -1,26 +1,31 @@
 <template>
-    <div class="loginbox">
-        <h1>Login </h1><br>
-        <form>
-            <p>
-            <input type="text" name="" id = "username" placeholder="Enter Username">
-            </p><br>
-            <p>
-            <input type="password" name="" id="password" placeholder="Enter Password">
-            </p>
-            <p><br>
-            <button type="button" class="" id="login" @click="login()">
-                    <font size="4"><b>Login</b></font>
-            </button>
-            </p>
-            <a href="#"> Don't have an account? </a>
-        </form>
+  <div class="loginbox">
+    <h1>Login</h1>
+    <br />
+    <form>
+      <h2>{{errorLogin}}</h2>
+      <p>
+        <input type="text" name id="username" placeholder="Enter Username" />
+      </p>
+      <br />
+      <p>
+        <input type="password" name id="password" placeholder="Enter Password" />
+      </p>
+      <p>
+        <br />
+        <button type="button" class id="login" @click="login()">
+          <font size="4">
+            <b>Login</b>
+          </font>
+        </button>
+      </p>
+      <a href="#">Don't have an account?</a>
+    </form>
 
-      <br>
-      <a href="Welcome">Back to the Home Page</a>
-      <br>
-
-    </div>
+    <br />
+    <a href="Welcome">Back to the Home Page</a>
+    <br />
+  </div>
 </template>
 
 <style scoped>
@@ -29,25 +34,27 @@ body {
   padding: 0;
   /* background: url; can put background image here*/
 }
-
 h1 {
   color: black;
+}
+h2 {
+  color: red;
+  font-size: 100%;
 }
 p {
   color: black;
 }
-.loginbox{
-    width: 320px;
-    height: 380px;
-    background:#5F9EA7;
-    color: #fff;
-    top: 0%;
-    left: 0%;
-    position: relative;
-    transform: translate(150%, 0%);
-    box-sizing: border-box;
-    box-shadow: 0 0 20px 0 rgba(72, 94, 116, 0.7);
-
+.loginbox {
+  width: 320px;
+  height: 420px;
+  background: whitesmoke;
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  box-shadow: 0 0 20px 0 rgba(72, 94, 116, 0.7);
 }
 </style>
 
@@ -101,7 +108,7 @@ export default {
           this.errorLogin = "";
           console.log(response);
           if (this.response != "") {
-            localStorage.setItem("loggedIn", "User");
+            localStorage.setItem("loggedIn", this.response.username);
             console.log(this.response.username);
             this.$cookie.set("username", this.response.username, {
               expires: "1h"
@@ -113,7 +120,7 @@ export default {
               }
             });
           } else {
-            this.errorLogin = "Wrong username or password!";
+            this.errorLogin = "Wrong username and password!";
             console.log(this.errorLogin);
           }
         })

@@ -5,7 +5,7 @@
     <h5>
       <i>
         Unfortunately, in Canada alone, thousands of pets are abandoned every year.
-        <br />Out mission here at Covid Shelter is to foster lifelong connections between pets and owners.
+        <br />Our mission here at Covid Shelter is to foster lifelong connections between pets and owners.
         <br />So don't be shy! Come find your best friend and never fear isolation again!
       </i>
     </h5>
@@ -14,45 +14,20 @@
     <br />
 
     <ul>
-      <li><a ><button OnClick="location.href='/#/login' ">Login</button></a></li>
-      <li><a ><button OnClick="location.href='/#/donate' ">Donate</button></a></li>
+      <li>
+        <a>
+          <button onclick="location.href='/#/login' ">Login</button>
+        </a>
+      </li>
+      <li>
+        <a>
+          <button onclick="location.href='/#/donate' ">Donate</button>
+        </a>
+      </li>
     </ul>
   </div>
 </template>
 
-
-<script>
-export default {
-  name: "Welcome",
-  data() {
-    return {
-      msg: "Welcome to Covid Shelter",
-      systemId: null
-    };
-  }
-};
-import axios from "axios";
-var config = require("../../config");
-
-var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
-var backendUrl =
-  "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
-
-var AXIOS = axios.create({
-  baseURL: backendUrl,
-  headers: { "Access-Control-Allow-Origin": frontendUrl }
-});
-
-AXIOS.post(`/createSystem`)
-  .then(response => {
-    // JSON responses are automatically parsed.
-    this.systemId = response.data.systemID;
-    console.log(response.data.systemID);
-  })
-  .catch(e => {
-    this.errorSystem = e;
-  });
-</script>
 
 <style scoped>
 h1,
@@ -88,3 +63,40 @@ button {
   overflow: hidden;
 }
 </style>
+
+<script>
+import axios from "axios";
+import JQuery from "jquery";
+
+let $ = JQuery;
+var config = require("../../config");
+
+var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
+var backendUrl =
+  "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
+
+export default {
+  name: "Welcome",
+  data() {
+    return {
+      msg: "Welcome to Covid Shelter",
+      systemId: null
+    };
+  }
+};
+
+var AXIOS = axios.create({
+  baseURL: backendUrl,
+  headers: { "Access-Control-Allow-Origin": frontendUrl }
+});
+
+AXIOS.post(`/createSystem`)
+  .then(response => {
+    // JSON responses are automatically parsed.
+    this.systemId = response.data.systemID;
+    console.log(response.data.systemID);
+  })
+  .catch(e => {
+    this.errorSystem = e;
+  });
+</script>
