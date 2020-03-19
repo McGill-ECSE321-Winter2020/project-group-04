@@ -3,13 +3,16 @@
       <h1>Sign Up</h1><br>
         <form>
             <p>
-                <input type="text" name="" id = "username" placeholder="Enter Username">
+                <input type="text" name="" id= "username" placeholder="Enter Username">
+            </p><br>
+            <p>
+                <input type="text" name="" id="email" placeholder="Enter Email Address">
             </p><br>
             <p>
                 <input type="password" name="" id="password" placeholder="Enter Password">
             </p>
             <p><br>
-                <button type="button" class="" id="login" @click="login()">
+                <button type="button" class="" id="signup" @click="signup()">
                     <font size="4"><b>Login</b></font>
                 </button>
             </p>
