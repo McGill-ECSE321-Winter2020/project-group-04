@@ -1,1 +1,2 @@
-web: cd PetAdoptionSystem-Frontend && npm start
+
+web: npm start
